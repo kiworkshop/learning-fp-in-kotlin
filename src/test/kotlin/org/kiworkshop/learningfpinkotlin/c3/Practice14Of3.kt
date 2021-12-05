@@ -3,7 +3,7 @@ package org.kiworkshop.learningfpinkotlin.c3
 import io.kotest.core.spec.style.ShouldSpec
 import io.kotest.matchers.shouldBe
 
-class Practice4Of3 : ShouldSpec({
+class Practice14Of3 : ShouldSpec({
     context("음이 아닌 정수 n이 주어졌을 때") {
         should("n의 이진수를 구한다") {
             listOf(
@@ -16,15 +16,10 @@ class Practice4Of3 : ShouldSpec({
                 BinaryTestData(6, "110"),
                 BinaryTestData(7, "111"),
             ).forEach { (n, expected) ->
-                val result = BinaryUtils.toBinary(n)
+                val result = BinaryUtils.toBinaryImproved(n)
 
                 result shouldBe expected
             }
         }
     }
 })
-
-data class BinaryTestData(
-    val n: Int,
-    val expected: String,
-)
