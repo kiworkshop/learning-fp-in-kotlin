@@ -50,3 +50,37 @@ fun takeSequence(n: Int, sequence: Sequence<Int>): List<Int> = when {
     sequence.none() -> listOf()
     else -> listOf(sequence.iterator().next()) + takeSequence(n - 1, sequence)
 }
+
+// Exercise 3-8
+fun quicksort(list: List<Int>, low: Int, high: Int): List<Int> {
+    if (low == high) {
+        return listOf(list[low])
+    }
+
+    if (low > high || low < 0) {
+        return listOf()
+    }
+
+    val ml = list.toMutableList()
+    val p = partition(ml, low, high)
+    return quicksort(ml, low, p - 1) + listOf(ml[p]) + quicksort(ml, p + 1, high)
+}
+
+fun partition(list: MutableList<Int>, low: Int, high: Int): Int {
+    val pivot = list[high]
+    var i = low - 1
+    for (j in low..high) {
+        if (list[j] < pivot) {
+            i += 1
+            val temp = list[j]
+            list[j] = list[i]
+            list[i] = temp
+        }
+    }
+    i += 1
+    val temp = list[i]
+    list[i] = list[high]
+    list[high] = temp
+
+    return i
+}

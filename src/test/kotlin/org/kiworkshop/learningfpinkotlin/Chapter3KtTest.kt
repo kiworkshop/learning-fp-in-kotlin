@@ -52,7 +52,19 @@ class Chapter3KtTest : FunSpec({
     }
 
     test("Exercise 3-8") {
+        val l1 = mutableListOf(2, 4, 1, 5, 3)
+        partition(l1, 0, 4) shouldBe 2
+        l1 shouldBe listOf(2, 1, 3, 5, 4)
 
+        val l2 = mutableListOf(1, 2, 3)
+        partition(l2, 0, 2) shouldBe 2
+        l2 shouldBe listOf(1, 2, 3)
+
+        quicksort(listOf(2, 4, 1, 5, 3), 0, 4) shouldBe listOf(1, 2, 3, 4, 5)
+        quicksort(listOf(5, 4, 3, 2, 1), 0, 4) shouldBe listOf(1, 2, 3, 4, 5)
+        quicksort(listOf(1), 0, 0) shouldBe listOf(1)
+        quicksort(listOf(2, 1), 0, 1) shouldBe listOf(1, 2)
+        quicksort(listOf(1, 5, 2), 0, 2) shouldBe listOf(1, 2, 5)
     }
 
     test("Exercise 3-9") {
