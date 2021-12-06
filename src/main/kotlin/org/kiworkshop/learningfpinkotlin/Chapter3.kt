@@ -84,3 +84,12 @@ fun partition(list: MutableList<Int>, low: Int, high: Int): Int {
 
     return i
 }
+
+// Exercise 3-9
+fun gcd(m: Int, n: Int): Int {
+    return if (n == 0) {
+        m
+    } else {
+        gcd(n, m % n)
+    }
+}

@@ -68,7 +68,11 @@ class Chapter3KtTest : FunSpec({
     }
 
     test("Exercise 3-9") {
-
+        gcd(2, 4) shouldBe 2
+        gcd(4, 2) shouldBe 2
+        gcd(4, 8) shouldBe 4
+        gcd(8, 4) shouldBe 4
+        gcd(3, 5) shouldBe 1
     }
 
     test("Exercise 3-10") {
