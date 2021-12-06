@@ -108,3 +108,21 @@ fun factorialMemoization(n: Int): Int = when {
         memo[n]
     }
 }
+
+// Exercise 3-11
+//fun factorialFP(n: Int): Int {
+//    fun factorialFP(n: Int, result: Int): Int = when (n) {
+//        0 -> result
+//        1 -> result
+//        else -> factorialFP(n - 1, result * n)
+//    }
+//
+//    return factorialFP(n, 1)
+//}
+
+fun factorialFP(n: Int): Int = factorialFP(n, 1)
+fun factorialFP(n: Int, result: Int): Int = when (n) {
+    0 -> result
+    1 -> result
+    else -> factorialFP(n - 1, result * n)
+}

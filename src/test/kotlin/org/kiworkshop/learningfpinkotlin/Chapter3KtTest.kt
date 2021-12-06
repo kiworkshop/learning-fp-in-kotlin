@@ -83,7 +83,10 @@ class Chapter3KtTest : FunSpec({
     }
 
     test("Exercise 3-11") {
-
+        factorialFP(0) shouldBe 1
+        factorialFP(1) shouldBe 1
+        factorialFP(2) shouldBe 2
+        factorialFP(10) shouldBe (10 * 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1)
     }
 
     test("Exercise 3-12") {
