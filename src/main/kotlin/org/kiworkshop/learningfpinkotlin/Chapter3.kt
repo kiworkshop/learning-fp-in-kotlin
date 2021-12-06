@@ -141,3 +141,15 @@ tailrec fun powerTail(x: Double, n: Int, result: Double): Double = when {
     n <= 0 -> result
     else -> powerTail(x, n - 1, result * x)
 }
+
+// Exercise 3-14
+tailrec fun toBinaryTailrec(n: Int, acc: String = ""): String = when {
+    n <= 0 -> acc
+    else -> toBinaryTailrec(n / 2, (n % 2).toString() + acc)
+}
+
+// Exercise 3-15
+tailrec fun replicateTailrec(n: Int, element: Int, acc: List<Int> = listOf()): List<Int> = when {
+    n <= 0 -> acc
+    else -> replicateTailrec(n - 1, element, acc + listOf(element))
+}

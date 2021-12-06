@@ -1,7 +1,6 @@
 package org.kiworkshop.learningfpinkotlin
 
 import io.kotest.core.spec.style.FunSpec
-import io.kotest.matchers.should
 import io.kotest.matchers.shouldBe
 
 class Chapter3KtTest : FunSpec({
@@ -104,11 +103,19 @@ class Chapter3KtTest : FunSpec({
     }
 
     test("Exercise 3-14") {
-
+        toBinaryTailrec(1) shouldBe "1"
+        toBinaryTailrec(2) shouldBe "10"
+        toBinaryTailrec(3) shouldBe "11"
+        toBinaryTailrec(4) shouldBe "100"
+        toBinaryTailrec(5) shouldBe "101"
+        toBinaryTailrec(6) shouldBe "110"
     }
 
     test("Exercise 3-15") {
-
+        replicateTailrec(3, 5) shouldBe listOf(5, 5, 5)
+        replicateTailrec(0, 2) shouldBe listOf()
+        replicateTailrec(1, 3) shouldBe listOf(3)
+        replicateTailrec(4, 0) shouldBe listOf(0, 0, 0, 0)
     }
 
     test("Exercise 3-16") {
