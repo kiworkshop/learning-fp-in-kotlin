@@ -2,6 +2,7 @@ package org.kiworkshop.learningfpinkotlin
 
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
+import java.math.BigDecimal
 
 class Chapter3KtTest : FunSpec({
 
@@ -123,18 +124,34 @@ class Chapter3KtTest : FunSpec({
         elemTailrec(7, listOf(0, 3, 5)) shouldBe false
     }
 
+    fun sqrtDivideByTwoCmd(n: Double): Double {
+        var result = kotlin.math.sqrt(n) / 2
+        while (result >= 1) {
+            result = kotlin.math.sqrt(result) / 2
+        }
+        return result
+    }
+
     test("Exercise 3-17") {
-        sqrt(3.0) shouldBe kotlin.math.sqrt(3.0) / 2
-        sqrt(4.0) shouldBe 0.5
-        sqrt(5.0) shouldBe kotlin.math.sqrt(kotlin.math.sqrt(5.0) / 2) / 2
-        sqrt(2.2) shouldBe kotlin.math.sqrt(2.2) / 2
+        sqrtDivideByTwo(3.0) shouldBe kotlin.math.sqrt(3.0) / 2
+        sqrtDivideByTwo(4.0) shouldBe 0.5
+        sqrtDivideByTwo(5.0) shouldBe kotlin.math.sqrt(kotlin.math.sqrt(5.0) / 2) / 2
+        sqrtDivideByTwo(2.2) shouldBe kotlin.math.sqrt(2.2) / 2
+        sqrtDivideByTwo(1E9) shouldBe sqrtDivideByTwoCmd(1E9)
+        divideByTwo(2.1) shouldBe kotlin.math.sqrt(1.05) / 2
     }
 
     test("Exercise 3-18") {
-
+        trampoline(sqrtDivideByTwoTram(3.0)) shouldBe kotlin.math.sqrt(3.0) / 2
+        trampoline(sqrtDivideByTwoTram(4.0)) shouldBe 0.5
+        trampoline(sqrtDivideByTwoTram(5.0)) shouldBe kotlin.math.sqrt(kotlin.math.sqrt(5.0) / 2) / 2
+        trampoline(sqrtDivideByTwoTram(2.2)) shouldBe kotlin.math.sqrt(2.2) / 2
+        trampoline(sqrtDivideByTwoTram(1E9)) shouldBe sqrtDivideByTwoCmd(1E9)
+        trampoline(divideByTwoTram(2.1)) shouldBe kotlin.math.sqrt(1.05) / 2
     }
 
     test("Exercise 3-19") {
-
+        trampoline(factorialTram(BigDecimal.valueOf(0))) shouldBe BigDecimal.ONE
+        trampoline(factorialTram(BigDecimal.valueOf(10))) shouldBe BigDecimal.valueOf(3628800)
     }
 })

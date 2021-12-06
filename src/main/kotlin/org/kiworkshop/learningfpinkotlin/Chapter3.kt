@@ -1,5 +1,7 @@
 package org.kiworkshop.learningfpinkotlin
 
+import java.math.BigDecimal
+
 // Exercise 3-2
 fun power(x: Double, n: Int): Double = when {
     n <= 0 -> 1.0
@@ -161,11 +163,29 @@ tailrec fun elemTailrec(num: Int, list: List<Int>, result: Boolean = false): Boo
 }
 
 // Exercise 3-17
-fun sqrt(n: Double): Double = divide(kotlin.math.sqrt(n))
-fun divide(rt: Double): Double {
+fun sqrtDivideByTwo(n: Double): Double = divideByTwo(kotlin.math.sqrt(n))
+fun divideByTwo(rt: Double): Double {
     val divided = rt / 2
     return when {
         divided < 1 -> divided
-        else -> sqrt(divided)
+        else -> sqrtDivideByTwo(divided)
     }
+}
+
+// Exercise 3-18
+fun sqrtDivideByTwoTram(n: Double): Bounce<Double> = divideByTwoTram(kotlin.math.sqrt(n))
+fun divideByTwoTram(rt: Double): Bounce<Double> {
+    val divided = rt / 2
+    return when {
+        divided < 1 -> Done(divided)
+        else -> More { sqrtDivideByTwoTram(divided) }
+    }
+}
+
+// Exercise 3-19
+fun factorialTram(n: BigDecimal): Bounce<BigDecimal> = factorialTram(n, BigDecimal.ONE)
+tailrec fun factorialTram(n: BigDecimal, result: BigDecimal): Bounce<BigDecimal> = when (n) {
+    BigDecimal.ZERO -> Done(result)
+    BigDecimal.ONE -> Done(result)
+    else -> More { factorialTram(n.minus(BigDecimal.ONE), result * n) }
 }
