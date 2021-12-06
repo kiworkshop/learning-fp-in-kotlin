@@ -2,7 +2,7 @@ package org.kiworkshop.learningfpinkotlin.chapter3
 
 import io.kotest.core.spec.style.FreeSpec
 
-class Practice1Of3 : FreeSpec({
+class Practice1 : FreeSpec({
     "재귀로 구현한 피보나치 문제를 수학적 귀납법으로 증명해 보자." {
         """
             명제: fib(n)은 n번째 피보나치 수를 반환한다.
