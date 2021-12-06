@@ -119,7 +119,8 @@ class Chapter3KtTest : FunSpec({
     }
 
     test("Exercise 3-16") {
-
+        elemTailrec(3, listOf(1, 5, 3, 2)) shouldBe true
+        elemTailrec(7, listOf(0, 3, 5)) shouldBe false
     }
 
     test("Exercise 3-17") {

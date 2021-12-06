@@ -153,3 +153,9 @@ tailrec fun replicateTailrec(n: Int, element: Int, acc: List<Int> = listOf()): L
     n <= 0 -> acc
     else -> replicateTailrec(n - 1, element, acc + listOf(element))
 }
+
+// Exercise 3-16
+tailrec fun elemTailrec(num: Int, list: List<Int>, result: Boolean = false): Boolean = when {
+    list.isEmpty() -> result
+    else -> elemTailrec(num, list.drop(1), result || num == list.first())
+}
