@@ -9,9 +9,9 @@ import org.kiworkshop.learningfpinkotlin.trampoline
 import java.math.BigInteger
 
 class Practice19 : FreeSpec() {
-    private fun factorialTrampoline(n: Int, acc: BigInteger): Bounce<BigInteger> {
-        if (n <= 0) return Done(acc)
-        return More { factorialTrampoline(n - 1, acc * n.toBigInteger()) }
+    private fun factorialTrampoline(n: Int, acc: BigInteger): Bounce<BigInteger> = when {
+        n <= 0 -> Done(acc)
+        else -> More { factorialTrampoline(n - 1, acc * n.toBigInteger()) }
     }
 
     private fun factorialTrampoline(n: Int): Bounce<BigInteger> = factorialTrampoline(n, 1.toBigInteger())
