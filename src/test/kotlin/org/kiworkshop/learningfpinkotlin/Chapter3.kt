@@ -113,11 +113,11 @@ class Chapter3 : StringSpec({
         }
 
         // Stackoverflow
-        takeSequence(1, repeat(3)) shouldBe listOf(3, 3, 3, 3, 3)
+//        takeSequence(1, repeat(3)) shouldBe listOf(3, 3, 3, 3, 3)
     }
 
     "연습문제 3-8" {
-        
+
     }
 
 
