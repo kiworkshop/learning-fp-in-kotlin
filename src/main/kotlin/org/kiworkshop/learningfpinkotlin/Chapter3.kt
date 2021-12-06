@@ -9,7 +9,10 @@ fun power(x: Double, n: Int): Double = when {
 // Exercise 3-3
 fun factorial(n: Int): Int = when {
     n <= 0 -> 1
-    else -> n * factorial(n - 1)
+    else -> {
+        println("factorial($n)")
+        n * factorial(n - 1)
+    }
 }
 
 // Exercise 3-4
@@ -91,5 +94,17 @@ fun gcd(m: Int, n: Int): Int {
         m
     } else {
         gcd(n, m % n)
+    }
+}
+
+// Exercise 3-10
+val memo = MutableList<Int>(100) { -1 }
+fun factorialMemoization(n: Int): Int = when {
+    n <= 0 -> 1
+    memo[n] != -1 -> memo[n]
+    else -> {
+        println("factorialMemoization($n)")
+        memo[n] = n * factorialMemoization(n - 1)
+        memo[n]
     }
 }

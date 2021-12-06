@@ -14,10 +14,11 @@ class Chapter3KtTest : FunSpec({
     }
 
     test("Exercise 3-3") {
-        factorial(0) shouldBe 1
-        factorial(1) shouldBe 1
-        factorial(2) shouldBe 2
-        factorial(3) shouldBe 6
+//        factorial(0) shouldBe 1
+//        factorial(1) shouldBe 1
+//        factorial(2) shouldBe 2
+//        factorial(3) shouldBe 6
+        factorial(10) shouldBe (10 * 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1)
         factorial(10) shouldBe (10 * 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1)
     }
 
@@ -76,7 +77,9 @@ class Chapter3KtTest : FunSpec({
     }
 
     test("Exercise 3-10") {
-
+        factorialMemoization(10) shouldBe (10 * 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1)
+        memo[10] shouldBe (10 * 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1)
+        factorialMemoization(10) shouldBe (10 * 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1)
     }
 
     test("Exercise 3-11") {
