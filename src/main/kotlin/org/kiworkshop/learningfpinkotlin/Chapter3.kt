@@ -126,3 +126,18 @@ fun factorialFP(n: Int, result: Int): Int = when (n) {
     1 -> result
     else -> factorialFP(n - 1, result * n)
 }
+
+// Exercise 3-12
+fun factorialFPTail(n: Int): Int = factorialFPTail(n, 1)
+tailrec fun factorialFPTail(n: Int, result: Int): Int = when (n) {
+    0 -> result
+    1 -> result
+    else -> factorialFPTail(n - 1, result * n)
+}
+
+// Exercise 3-13
+fun powerTail(x: Double, n: Int): Double = powerTail(x, n, 1.0)
+tailrec fun powerTail(x: Double, n: Int, result: Double): Double = when {
+    n <= 0 -> result
+    else -> powerTail(x, n - 1, result * x)
+}

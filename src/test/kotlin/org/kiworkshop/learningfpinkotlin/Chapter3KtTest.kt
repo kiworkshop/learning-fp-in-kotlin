@@ -90,11 +90,17 @@ class Chapter3KtTest : FunSpec({
     }
 
     test("Exercise 3-12") {
-
+        factorialFPTail(0) shouldBe 1
+        factorialFPTail(1) shouldBe 1
+        factorialFPTail(2) shouldBe 2
+        factorialFPTail(10) shouldBe (10 * 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1)
     }
 
     test("Exercise 3-13") {
-
+        powerTail(3.0, 0) shouldBe 1.0
+        powerTail(3.0, 4) shouldBe 81.0
+        powerTail(2.4, 2) shouldBe 5.76
+        powerTail(2.0, 8) shouldBe 256.0
     }
 
     test("Exercise 3-14") {
