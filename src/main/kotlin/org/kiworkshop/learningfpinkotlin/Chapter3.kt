@@ -159,3 +159,13 @@ tailrec fun elemTailrec(num: Int, list: List<Int>, result: Boolean = false): Boo
     list.isEmpty() -> result
     else -> elemTailrec(num, list.drop(1), result || num == list.first())
 }
+
+// Exercise 3-17
+fun sqrt(n: Double): Double = divide(kotlin.math.sqrt(n))
+fun divide(rt: Double): Double {
+    val divided = rt / 2
+    return when {
+        divided < 1 -> divided
+        else -> sqrt(divided)
+    }
+}

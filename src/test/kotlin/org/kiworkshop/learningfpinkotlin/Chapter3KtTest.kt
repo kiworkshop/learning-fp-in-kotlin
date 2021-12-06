@@ -124,7 +124,10 @@ class Chapter3KtTest : FunSpec({
     }
 
     test("Exercise 3-17") {
-
+        sqrt(3.0) shouldBe kotlin.math.sqrt(3.0) / 2
+        sqrt(4.0) shouldBe 0.5
+        sqrt(5.0) shouldBe kotlin.math.sqrt(kotlin.math.sqrt(5.0) / 2) / 2
+        sqrt(2.2) shouldBe kotlin.math.sqrt(2.2) / 2
     }
 
     test("Exercise 3-18") {
