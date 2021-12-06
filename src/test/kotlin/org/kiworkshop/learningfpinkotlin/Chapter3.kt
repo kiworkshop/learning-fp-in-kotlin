@@ -81,7 +81,6 @@ class Chapter3 : StringSpec({
         elem(7, listOf(6)) shouldBe false
     }
 
-
     "연습문제 3-7" {
         // 풀지 못함.. overflow..
         operator fun <T> Sequence<T>.plus(other: () -> Sequence<T>) = object : Sequence<T> {
@@ -117,8 +116,5 @@ class Chapter3 : StringSpec({
     }
 
     "연습문제 3-8" {
-
     }
-
-
 })
