@@ -2,6 +2,7 @@ package org.kiworkshop.learningfpinkotlin
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import java.math.BigDecimal
 
 class Chapter3 : StringSpec({
     "연습문제 3-2" {
@@ -219,17 +220,54 @@ class Chapter3 : StringSpec({
     }
 
     "연습문제 3-17" {
-//        tailrec fun sqrtRecursion(n: Int, acc: Int = 0) = when {
-//            n < 1 -> acc
-//            else -> sqrtRecursion(n / 2, )
-//        }
-//
-//        sqrtRecursion(2, 0)
+        sqrt(2.0) shouldBe 0.5
+        sqrt(5.0) shouldBe 0.625
+        divideBy(10.0) shouldBe 0.625
+        divideBy(5.0) shouldBe 0.625
     }
 
     "연습문제 3-18" {
+        trampoline(sqrtTrampoline(2.0)) shouldBe 0.5
+        trampoline(sqrtTrampoline(5.0)) shouldBe 0.625
+        trampoline(dividedByTrampoline(10.0)) shouldBe 0.625
+        trampoline(dividedByTrampoline(5.0)) shouldBe 0.625
     }
 
     "연습문제 3-19" {
+        fun factorialTrampoline(
+            n: BigDecimal,
+            first: BigDecimal = BigDecimal.ONE,
+            second: BigDecimal = BigDecimal.ONE
+        ): Bounce<BigDecimal> = when (n) {
+            BigDecimal.ZERO -> Done(first)
+            BigDecimal.ONE -> Done(second)
+            else -> More { factorialTrampoline(n.subtract(BigDecimal.ONE), second, n * second) }
+        }
+
+        trampoline(factorialTrampoline(BigDecimal.valueOf(5))) shouldBe BigDecimal.valueOf(120)
+        trampoline(factorialTrampoline(BigDecimal.valueOf(10000)))
     }
 })
+
+fun sqrt(n: Double): Double = when {
+    n < 1 -> n
+    else -> {
+        println("divideBy(kotlin.math.sqrt(n))")
+        divideBy(kotlin.math.sqrt(n))
+    }
+}
+
+fun divideBy(n: Double, divide: Int = 2): Double = when {
+    n < 1 -> n
+    else -> sqrt(n / divide)
+}
+
+fun sqrtTrampoline(n: Double): Bounce<Double> = when {
+    n < 1 -> Done(n)
+    else -> More { dividedByTrampoline(kotlin.math.sqrt(n)) }
+}
+
+fun dividedByTrampoline(n: Double): Bounce<Double> = when {
+    n < 1 -> Done(n)
+    else -> More { sqrtTrampoline(n / 2) }
+}
