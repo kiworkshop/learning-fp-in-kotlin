@@ -201,4 +201,35 @@ class Chapter3 : StringSpec({
         replicate(4, 5) shouldBe listOf(5, 5, 5, 5)
         replicate(1, 6) shouldBe listOf(6)
     }
+
+    "연습문제 3-16" {
+        tailrec fun elem(num: Int, list: List<Int>, acc: Boolean = false): Boolean = when {
+            acc -> acc
+            list.isEmpty() -> false
+            else -> {
+                println("elem($num, ${list.tail()}, $num == ${list.head()})")
+                elem(num, list.tail(), num == list.head())
+            }
+        }
+
+        elem(5, listOf(1, 2, 3)) shouldBe false
+        elem(5, listOf(1, 2, 3, 5, 6)) shouldBe true
+        elem(6, listOf(6)) shouldBe true
+        elem(7, listOf(6)) shouldBe false
+    }
+
+    "연습문제 3-17" {
+//        tailrec fun sqrtRecursion(n: Int, acc: Int = 0) = when {
+//            n < 1 -> acc
+//            else -> sqrtRecursion(n / 2, )
+//        }
+//
+//        sqrtRecursion(2, 0)
+    }
+
+    "연습문제 3-18" {
+    }
+
+    "연습문제 3-19" {
+    }
 })
