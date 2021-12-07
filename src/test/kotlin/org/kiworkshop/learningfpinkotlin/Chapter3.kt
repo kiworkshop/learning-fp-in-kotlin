@@ -117,4 +117,88 @@ class Chapter3 : StringSpec({
 
     "연습문제 3-8" {
     }
+
+    "연습문제 3-9" {
+        fun gcd(m: Int, n: Int): Int = when (n) {
+            0 -> m
+            else -> gcd(n, m % n)
+        }
+
+        gcd(4, 5) shouldBe 1
+        gcd(16, 20) shouldBe 4
+    }
+
+    "연습문제 3-10" {
+        var memo = Array(100, { -1 })
+        fun factorial(n: Int): Int = when {
+            n == 0 -> 1
+            memo[n] != -1 -> memo[n]
+            else -> {
+                println("factorial($n)")
+                memo[n] = factorial(n - 1) * n
+                memo[n]
+            }
+        }
+        factorial(5) shouldBe 120
+        factorial(1) shouldBe 1
+        factorial(0) shouldBe 1
+        factorial(3) shouldBe 6
+    }
+
+    "연습문제 3-11 / 연습문제 3-12" {
+        tailrec fun factorialFP(n: Int, first: Int, second: Int): Int = when (n) {
+            0 -> first
+            1 -> second
+            else -> factorialFP(n - 1, second, n * second)
+        }
+
+        fun factorialFP(n: Int) = factorialFP(n, 1, 1)
+
+        factorialFP(5) shouldBe 120
+        factorialFP(1) shouldBe 1
+        factorialFP(0) shouldBe 1
+        factorialFP(3) shouldBe 6
+    }
+
+    "연습문제 3-13" {
+        tailrec fun powerFP(x: Double, n: Int, first: Double): Double = when (n) {
+            0 -> first
+            else -> powerFP(x, n - 1, first * x)
+        }
+
+        fun powerFP(x: Double, n: Int) = powerFP(x, n, 1.0)
+
+        powerFP(2.0, 4) shouldBe 16.0
+        powerFP(10.0, 2) shouldBe 100.0
+        powerFP(2.0, 10) shouldBe 1024.0
+        powerFP(3.0, 5) shouldBe 243.0
+    }
+
+    "연습문제 3-14" {
+        tailrec fun toBinaryFP(n: Int, acc: String = ""): String = when (n) {
+            0 -> acc
+            else -> {
+                println("toBinaryFP($n / 2, $acc + ${n % 2})")
+                toBinaryFP(n / 2, "${n % 2}" + acc)
+            }
+        }
+        toBinaryFP(10) shouldBe "1010"
+        toBinaryFP(11) shouldBe "1011"
+        toBinaryFP(15) shouldBe "1111"
+    }
+
+    "연습문제 3-15" {
+        // replicate(3, 5) [5, 5, 5]
+        fun replicate(n: Int, element: Int, acc: List<Int> = listOf()): List<Int> = when {
+            n == 0 -> acc
+            else -> {
+                println("replicate($n-1, $element, $acc + $element)")
+                replicate(n - 1, element, acc + element)
+            }
+        }
+
+        replicate(3, 5) shouldBe listOf(5, 5, 5)
+        replicate(4, 5) shouldBe listOf(5, 5, 5, 5)
+        replicate(1, 6) shouldBe listOf(6)
+    }
 })
