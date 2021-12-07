@@ -54,3 +54,17 @@ infix fun <F, G, R> ((F) -> R).compose(g: (G) -> F): (G) -> R = { gInput: G -> t
 
 fun <P1, P2, R> ((P1, P2) -> R).curried(): (P1) -> (P2) -> R =
     { p1 -> { p2 -> this(p1, p2) } }
+
+operator fun <T> Sequence<T>.plus(other: () -> Sequence<T>) = object : Sequence<T> {
+    private val thisIterator: Iterator<T> by lazy { this@plus.iterator() }
+    private val otherIterator: Iterator<T> by lazy { other().iterator() }
+    override fun iterator() = object : Iterator<T> {
+        override fun next(): T =
+            if (thisIterator.hasNext())
+                thisIterator.next()
+            else
+                otherIterator.next()
+
+        override fun hasNext(): Boolean = thisIterator.hasNext() || otherIterator.hasNext()
+    }
+}
