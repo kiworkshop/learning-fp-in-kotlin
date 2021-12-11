@@ -45,3 +45,17 @@ tailrec fun <T> Array<out T>.toMyFunList(index: Int = this.size - 1, acc: MyFunL
     index < 0 -> acc
     else -> this.toMyFunList(index - 1, acc.addHead(this[index]))
 }
+
+// O(n)
+tailrec fun <T> MyFunList<T>.filter(acc: MyFunList<T> = Nil, pred: (T) -> Boolean): MyFunList<T> = when (this) {
+    Nil -> acc.reverse()
+    is Cons -> if (pred(head)) tail.filter(acc.addHead(head), pred) else tail.filter(acc, pred)
+}
+
+tailrec fun <T> MyFunList<T>.drop(n: Int): MyFunList<T> = when (n) {
+    0 -> this
+    else -> when (this) {
+        Nil -> throw NoSuchElementException()
+        is Cons -> tail.drop(n - 1)
+    }
+}
