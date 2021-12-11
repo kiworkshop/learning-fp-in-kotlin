@@ -74,11 +74,27 @@ class Chapter4 : StringSpec({
     }
 
     "Exercise 4-3" {
+        fun max(a: Int) = { b: Int -> if (a > b) a else b }
 
+        val partial = max(7)
+        partial(3) shouldBe 7
+
+        max(3)(7) shouldBe 7
+        max(7)(3) shouldBe 7
     }
 
     "Exercise 4-4" {
+        fun <P1, P2, R> ((P1, P2) -> R).curried(): (P1) -> (P2) -> R =
+            { p1 -> { p2 -> this(p1, p2) } }
 
+        fun <P1, P2, R> ((P1) -> (P2) -> R).uncurried(): (P1, P2) -> R =
+            { p1, p2 -> this(p1)(p2) }
+
+        val min = { a: Int, b:Int -> if (a > b) b else a }.curried()
+        min(3)(7) shouldBe 3
+        min(7)(3) shouldBe 3
+
+        min.uncurried()(3, 7) shouldBe 3
     }
 
     "Exercise 4-5" {
