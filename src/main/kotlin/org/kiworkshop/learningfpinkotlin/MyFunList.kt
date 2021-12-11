@@ -35,8 +35,8 @@ fun <T> MyFunList<T>.getHead(): T = when (this) {
     is Cons -> head
 }
 
-fun <T> MyFunListOf(vararg elements: T): MyFunList<T> = elements.toMyFunList()
-fun <T> EmptyMyFunList(): MyFunList<T> = Nil
+fun <T> myFunListOf(vararg elements: T): MyFunList<T> = elements.toMyFunList()
+fun <T> emptyMyFunList(): MyFunList<T> = Nil
 
 // copyRange 함수를 이용하면 매번 새로운 Array를 생성하면서 함수형스럽게? 작성할 수 있다. 하지만 매번 객체 생성 비용이 추가된다.
 // 따라서 인덱스를 사용하는 꼬리 재귀 형태로 함수를 작성했다.
