@@ -79,3 +79,8 @@ tailrec fun <T> MyFunList<T>.take(n: Int, acc: MyFunList<T> = Nil): MyFunList<T>
         is Cons -> tail.take(n - 1, acc.addHead(head))
     }
 }
+
+tailrec fun <T> MyFunList<T>.takeWhile(acc: MyFunList<T> = Nil, p: (T) -> Boolean): MyFunList<T> = when (this) {
+    Nil -> acc.reverse()
+    is Cons -> if (p(head)) tail.takeWhile(acc.addHead(head), p) else acc.reverse()
+}
