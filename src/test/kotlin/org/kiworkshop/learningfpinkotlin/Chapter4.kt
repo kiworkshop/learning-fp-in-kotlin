@@ -44,12 +44,33 @@ class Chapter4 : StringSpec({
 
         isEven.invokeOrElse(3, "isn't even") shouldBe "isn't even"
 
-        isEven.orElse(isOdd,100) shouldBe isEven
-        isEven.orElse(isOdd,3) shouldBe isOdd
+        isEven.orElse(isOdd, 100) shouldBe isEven
+        isEven.orElse(isOdd, 3) shouldBe isOdd
     }
 
     "Exercise 4-2" {
-        
+        fun <P1, P2, P3, R> ((P1, P2, P3) -> R).partial1(p1: P1): (P2, P3) -> R {
+            return { p2, p3 -> this(p1, p2, p3) }
+        }
+
+        fun <P1, P2, P3, R> ((P1, P2, P3) -> R).partial2(p2: P2): (P1, P3) -> R {
+            return { p1, p3 -> this(p1, p2, p3) }
+        }
+
+        fun <P1, P2, P3, R> ((P1, P2, P3) -> R).partial3(p3: P3): (P1, P2) -> R {
+            return { p1, p2 -> this(p1, p2, p3) }
+        }
+
+        val func = { a: String, b: String, c: String -> "$a $b $c" }
+
+        val paf1 = func.partial1("I")
+        paf1("am", "Ironman") shouldBe "I am Ironman"
+
+        val paf2 = func.partial2("am")
+        paf2("I", "Ironman") shouldBe "I am Ironman"
+
+        val paf3 = func.partial3("Ironman")
+        paf3("I", "am") shouldBe "I am Ironman"
     }
 
     "Exercise 4-3" {
