@@ -6,7 +6,6 @@ import io.kotest.matchers.types.shouldBeSameInstanceAs
 import org.kiworkshop.learningfpinkotlin.MyFunList
 import org.kiworkshop.learningfpinkotlin.dropWhile
 import org.kiworkshop.learningfpinkotlin.emptyMyFunList
-import org.kiworkshop.learningfpinkotlin.getHead
 import org.kiworkshop.learningfpinkotlin.getTail
 import org.kiworkshop.learningfpinkotlin.myFunListOf
 
@@ -28,8 +27,8 @@ class Practice5 : FreeSpec() {
             emptyList.dropWhile { false } shouldBe emptyMyFunList()
             emptyList.dropWhile { true } shouldBe emptyMyFunList()
 
-            val listLessThan2 = originalList.dropWhile { it < 2 }
-            listLessThan2 shouldBe myFunListOf(2, 3)
+            val listGreaterThanOrEqual2 = originalList.dropWhile { it < 2 }
+            listGreaterThanOrEqual2 shouldBe myFunListOf(2, 3)
 
             // 아무것도 drop 안되는 케이스
             originalList.dropWhile { it > 100 } shouldBe myFunListOf(1, 2, 3)
@@ -41,10 +40,10 @@ class Practice5 : FreeSpec() {
             checkImmutability(originalList)
 
             // 새로운 리스트를 반환할 때 리스트를 생성하지 않는다.
-            listLessThan2 shouldBeSameInstanceAs originalList.getTail()
+            listGreaterThanOrEqual2 shouldBeSameInstanceAs originalList.getTail()
 
-            val listLessThan3 = originalList.dropWhile { it < 3 }
-            listLessThan3 shouldBeSameInstanceAs originalList.getTail().getTail()
+            val listGreaterThanOrEqual3 = originalList.dropWhile { it < 3 }
+            listGreaterThanOrEqual3 shouldBeSameInstanceAs originalList.getTail().getTail()
         }
     }
 }
