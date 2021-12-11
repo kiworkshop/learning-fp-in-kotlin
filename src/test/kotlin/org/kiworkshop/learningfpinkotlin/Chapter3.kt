@@ -117,6 +117,15 @@ class Chapter3 : StringSpec({
     }
 
     "연습문제 3-8" {
+        fun quicksort(list: List<Int>): List<Int> = when {
+            list.size <= 1 -> list
+            else -> {
+                val pivot: Int = list[list.size / 2]
+                val part1 = list.partition { pivot > it }
+                val part2 = part1.second.partition { pivot == it }
+                quicksort(part1.first) + part2.first + quicksort(part2.second)
+            }
+        }
     }
 
     "연습문제 3-9" {
@@ -219,19 +228,19 @@ class Chapter3 : StringSpec({
         elem(7, listOf(6)) shouldBe false
     }
 
-    "연습문제 3-17" {
-        sqrt(2.0) shouldBe 0.5
-        sqrt(5.0) shouldBe 0.625
-        divideBy(10.0) shouldBe 0.625
-        divideBy(5.0) shouldBe 0.625
-    }
-
-    "연습문제 3-18" {
-        trampoline(sqrtTrampoline(2.0)) shouldBe 0.5
-        trampoline(sqrtTrampoline(5.0)) shouldBe 0.625
-        trampoline(dividedByTrampoline(10.0)) shouldBe 0.625
-        trampoline(dividedByTrampoline(5.0)) shouldBe 0.625
-    }
+//    "연습문제 3-17" {
+//        sqrt(2.0) shouldBe 0.5
+//        sqrt(5.0) shouldBe 0.625
+//        divideBy(10.0) shouldBe 0.625
+//        divideBy(5.0) shouldBe 0.625
+//    }
+//
+//    "연습문제 3-18" {
+//        trampoline(sqrtTrampoline(2.0)) shouldBe 0.5
+//        trampoline(sqrtTrampoline(5.0)) shouldBe 0.625
+//        trampoline(dividedByTrampoline(10.0)) shouldBe 0.625
+//        trampoline(dividedByTrampoline(5.0)) shouldBe 0.625
+//    }
 
     "연습문제 3-19" {
         fun factorialTrampoline(
@@ -252,14 +261,17 @@ class Chapter3 : StringSpec({
 fun sqrt(n: Double): Double = when {
     n < 1 -> n
     else -> {
-        println("divideBy(kotlin.math.sqrt(n))")
+        println("divideBy(kotlin.math.sqrt($n))")
         divideBy(kotlin.math.sqrt(n))
     }
 }
 
 fun divideBy(n: Double, divide: Int = 2): Double = when {
     n < 1 -> n
-    else -> sqrt(n / divide)
+    else -> {
+        println("sqrt($n / divide)")
+        sqrt(n / divide)
+    }
 }
 
 fun sqrtTrampoline(n: Double): Bounce<Double> = when {
