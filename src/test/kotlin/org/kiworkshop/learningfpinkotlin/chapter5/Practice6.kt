@@ -4,18 +4,13 @@ import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import org.kiworkshop.learningfpinkotlin.MyFunList
-import org.kiworkshop.learningfpinkotlin.drop
 import org.kiworkshop.learningfpinkotlin.emptyMyFunList
-import org.kiworkshop.learningfpinkotlin.getHead
-import org.kiworkshop.learningfpinkotlin.getTail
 import org.kiworkshop.learningfpinkotlin.myFunListOf
 import org.kiworkshop.learningfpinkotlin.take
 
 class Practice6 : FreeSpec() {
     private fun checkImmutability(originalList: MyFunList<Int>) {
-        originalList.getHead() shouldBe 1
-        originalList.getTail().getHead() shouldBe 2
-        originalList.getTail().getTail().getHead() shouldBe 3
+        originalList shouldBe myFunListOf(1, 2, 3)
     }
 
     init {
@@ -27,12 +22,9 @@ class Practice6 : FreeSpec() {
 
             shouldThrow<NoSuchElementException> { emptyList.take(1) }
 
-            originalList.take(1).getHead() shouldBe 1
-            originalList.take(2).getHead() shouldBe 1
-            originalList.take(2).getTail().getHead() shouldBe 2
-            originalList.take(3).getHead() shouldBe 1
-            originalList.take(3).getTail().getHead() shouldBe 2
-            originalList.take(3).getTail().getTail().getHead() shouldBe 3
+            originalList.take(1) shouldBe myFunListOf(1)
+            originalList.take(2) shouldBe myFunListOf(1, 2)
+            originalList.take(3) shouldBe myFunListOf(1, 2, 3)
 
             // 원본 리스트가 바뀌지 않는다.
             checkImmutability(originalList)
