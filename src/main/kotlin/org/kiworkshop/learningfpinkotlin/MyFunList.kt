@@ -65,6 +65,13 @@ tailrec fun <T> MyFunList<T>.dropWhile(p: (T) -> Boolean): MyFunList<T> = when (
     is Cons -> if (p(head)) tail.dropWhile(p) else this
 }
 
+/*
+tailrec fun <T> MyFunList<T>.take(n: Int, acc: MyFunList<T> = Nil): MyFunList<T> = when (n) {
+    0 -> acc.reverse()
+    else -> tail.take(n - 1, acc.addHead(getHead()))
+}
+도 가능하다.
+ */
 tailrec fun <T> MyFunList<T>.take(n: Int, acc: MyFunList<T> = Nil): MyFunList<T> = when (n) {
     0 -> acc.reverse()
     else -> when (this) {
