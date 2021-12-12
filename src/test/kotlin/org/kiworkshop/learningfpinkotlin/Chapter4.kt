@@ -50,11 +50,35 @@ class Chapter4 : StringSpec({
         power(maximum(listOf(1, 2, 3))) shouldBe 9
     }
 
-//    "연습문제 4-6" {
-//        infix fun <F, G, R> ((F) -> R).compose(g: (G) -> F): (G) -> R {
-//            return { gInput: G -> this(g(gInput)) }
-//        }
-//
-//        val composed = maximum compose power
-//    }
+    "연습문제 4-6" {
+        // LIST<INT> INT?  
+        infix fun <F, G, R> ((F) -> R).compose(g: (G) -> F): (G) -> R {
+            return { gInput: G -> this(g(gInput)) }
+        }
+
+        val composed = power compose maximum
+
+        composed(listOf(1, 2, 3)) shouldBe 9
+        composed(listOf(1)) shouldBe 1
+        composed(listOf(5, 6, 4)) shouldBe 36
+    }
+
+    "연습문제 4-7" {
+        tailrec fun <P1> takeWhile(func: (P1) -> Boolean, list: List<P1>, acc: List<P1> = listOf()): List<P1> = when {
+            list.isEmpty() -> acc
+            else -> {
+                val head = list.head()
+                val takeList = if (func(head)) acc + listOf(head) else acc
+                takeWhile(func, list.tail(), takeList)
+            }
+        }
+
+        val condition = { x: Int -> x < 3 }
+        takeWhile(condition, listOf(1, 2, 3)) shouldBe listOf(1, 2)
+        takeWhile(condition, listOf(4, 5, 6)) shouldBe listOf()
+        takeWhile(condition, listOf(2, 6)) shouldBe listOf(2)
+    }
+
+    "연습문제 4-8" {
+    }
 })
