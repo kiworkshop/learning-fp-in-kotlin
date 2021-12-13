@@ -90,7 +90,7 @@ class Chapter4 : StringSpec({
         fun <P1, P2, R> ((P1) -> (P2) -> R).uncurried(): (P1, P2) -> R =
             { p1, p2 -> this(p1)(p2) }
 
-        val min = { a: Int, b:Int -> if (a > b) b else a }.curried()
+        val min = { a: Int, b: Int -> if (a > b) b else a }.curried()
         min(3)(7) shouldBe 3
         min(7)(3) shouldBe 3
 
@@ -98,11 +98,22 @@ class Chapter4 : StringSpec({
     }
 
     "Exercise 4-5" {
+        val max = { l: List<Int> -> l.maxOrNull() }
+        val power = { i: Int? -> i!! * i }
 
+        power(max(listOf(1, 3, 6, 4, 2, 5))) shouldBe 36
     }
 
     "Exercise 4-6" {
+        val max = { l: List<Int> -> l.maxOrNull() }
+        val power = { i: Int? -> i!! * i }
 
+        infix fun <F, G, R> ((F?) -> R).compose(g: (G) -> F?): (G) -> R {
+            return { gInput: G -> this(g(gInput)) }
+        }
+
+        val composed = power compose max
+        composed(listOf(1, 3, 6, 4, 2, 5)) shouldBe 36
     }
 
     "Exercise 4-7" {
