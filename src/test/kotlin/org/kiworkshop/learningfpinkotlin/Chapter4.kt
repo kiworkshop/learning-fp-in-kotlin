@@ -117,10 +117,34 @@ class Chapter4 : StringSpec({
     }
 
     "Exercise 4-7" {
+        tailrec fun <P> takewhile(
+            condition: (P) -> Boolean,
+            list: List<P>,
+            acc: List<P> = listOf()
+        ): List<P> = when {
+            list.isEmpty() -> acc
+            condition(list.first()) -> takewhile(condition, list.drop(1), acc + list.first())
+            else -> takewhile(condition, list.drop(1), acc)
+        }
 
+        takewhile({ n: Int -> n < 3 }, listOf(1, 2, 3, 4, 5)) shouldBe listOf(1, 2)
+        takewhile({ n: Int -> n < 3 }, listOf(4, 3, 1, 2, 5)) shouldBe listOf(1, 2)
     }
 
     "Exercise 4-8" {
-
+        tailrec fun <P> takewhile(
+            condition: (P) -> Boolean,
+            iter: Iterator<P>,
+            acc: List<P> = listOf()
+        ): List<P> = when {
+            !iter.hasNext() -> acc
+            else -> {
+                val head = iter.next()
+                when {
+                    condition(head) -> takewhile(condition, iter, acc + head)
+                    else -> takewhile(condition, iter, acc)
+                }
+            }
+        }
     }
 })
