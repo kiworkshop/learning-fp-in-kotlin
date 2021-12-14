@@ -7,6 +7,9 @@ fun String.tail(): String = drop(1)
 fun <T> List<T>.head(): T = first()
 fun <T> List<T>.tail(): List<T> = drop(1)
 
+fun <T> Sequence<T>.head() = first()
+fun <T> Sequence<T>.tail() = drop(1)
+
 // trampoline
 sealed class Bounce<A>
 data class Done<A>(val result: A) : Bounce<A>()
