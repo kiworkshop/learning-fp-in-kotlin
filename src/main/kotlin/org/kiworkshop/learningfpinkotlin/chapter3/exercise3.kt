@@ -1,6 +1,8 @@
 package org.kiworkshop.learningfpinkotlin.chapter3
 
-import org.kiworkshop.learningfpinkotlin.*
+import org.kiworkshop.learningfpinkotlin.head
+import org.kiworkshop.learningfpinkotlin.plus
+import org.kiworkshop.learningfpinkotlin.tail
 import java.math.BigDecimal
 import kotlin.math.sqrt
 
@@ -90,7 +92,7 @@ fun takeSequence(n: Int, sequence: Sequence<Int>): List<Int> = when {
     else -> sequence.take(n).toList()
 }
 
-private fun repeat(n: Int): Sequence<Int> = sequenceOf(n) + { repeat(n) }
+fun repeat(n: Int): Sequence<Int> = sequenceOf(n) + { repeat(n) }
 
 /*
 * 연습문제 3-8
