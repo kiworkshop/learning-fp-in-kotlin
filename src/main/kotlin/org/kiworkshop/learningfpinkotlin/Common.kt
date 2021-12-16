@@ -33,15 +33,18 @@ class PartialFunction<in P, out R>(
 
     fun isDefinedAt(p: P): Boolean = condition(p)
 
-    fun invokeOrElse(p: P, default: @UnsafeVariance R): R = if (condition(p)) f(p) else default
+    fun invokeOrElse(p: P, default: @UnsafeVariance R): R = when {
+        condition(p) -> f(p)
+        else -> default
+    }
+
     fun orElse(that: PartialFunction<@UnsafeVariance P, @UnsafeVariance R>): PartialFunction<P, R> =
         PartialFunction(
-            condition = { p -> this.condition(p) || that.condition(p) },
-            f = { p ->
+            { this.condition(it) || that.condition(it) },
+            {
                 when {
-                    this.condition(p) -> this.f(p)
-                    that.condition(p) -> that.f(p)
-                    else -> throw IllegalArgumentException("$p isn't supported.")
+                    this.condition(it) -> this.f(it)
+                    else -> that.f(it)
                 }
             }
         )
