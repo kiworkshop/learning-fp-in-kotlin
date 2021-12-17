@@ -151,3 +151,17 @@ tailrec fun <T, R> MyFunList<T>.zip(other: MyFunList<R>, acc: MyFunList<Pair<T, 
         this === Nil || other === Nil -> acc.reverse()
         else -> getTail().zip(other.getTail(), acc.addHead(getHead() to other.getHead()))
     }
+
+tailrec fun <T1, T2, R> MyFunList<T1>.zipWith(
+    f: (T1, T2) -> R,
+    list: MyFunList<T2>,
+    acc: MyFunList<R> = Nil
+): MyFunList<R> =
+    when {
+        this === Nil || list === Nil -> acc.reverse()
+        else -> getTail().zipWith(f, list.getTail(), acc.addHead(f(getHead(), list.getHead())))
+    }
+
+fun <T, R> MyFunList<T>.associate(f: (T) -> Pair<T, R>): Map<T, R> = foldLeft(mapOf()) { acc, element ->
+    acc + f(element)
+}
