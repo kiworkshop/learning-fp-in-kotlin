@@ -135,3 +135,13 @@ fun <T> MyFunList<T>.filterFoldLeft(pred: (T) -> Boolean) = this.foldLeft(Nil) {
     println("acc = ${acc}")
     if (pred(element)) acc.appendTail(element) else acc
 }
+
+fun <T, R> MyFunList<T>.foldRight(acc: R, f: (T, R) -> R): R = when (this) {
+    Nil -> acc
+    is Cons -> f(head, tail.foldRight(acc, f))
+}
+
+fun <T> MyFunList<T>.reverseByFoldRight(): MyFunList<T> = foldRight(Nil) { element, acc: MyFunList<T> ->
+    acc.appendTail(element)
+}
+
