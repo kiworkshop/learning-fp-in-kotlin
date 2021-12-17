@@ -146,5 +146,11 @@ fun <T> MyFunList<T>.reverseByFoldRight(): MyFunList<T> = foldRight(Nil) { eleme
 }
 
 fun <T> MyFunList<T>.filterByFoldRight(f: (T) -> Boolean): MyFunList<T> = foldRight(Nil) { element, acc: MyFunList<T> ->
-    if(f(element)) acc.addHead(element) else acc
+    if (f(element)) acc.addHead(element) else acc
 }
+
+tailrec fun <T, R> MyFunList<T>.zip(other: MyFunList<R>, acc: MyFunList<Pair<T, R>> = Nil): MyFunList<Pair<T, R>> =
+    when {
+        this === Nil || other === Nil -> acc
+        else -> getTail().zip(other.getTail(), acc.appendTail(getHead() to other.getHead()))
+    }
