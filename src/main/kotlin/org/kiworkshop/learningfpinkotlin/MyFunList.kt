@@ -145,3 +145,6 @@ fun <T> MyFunList<T>.reverseByFoldRight(): MyFunList<T> = foldRight(Nil) { eleme
     acc.appendTail(element)
 }
 
+fun <T> MyFunList<T>.filterByFoldRight(f: (T) -> Boolean): MyFunList<T> = foldRight(Nil) { element, acc: MyFunList<T> ->
+    if(f(element)) acc.addHead(element) else acc
+}
