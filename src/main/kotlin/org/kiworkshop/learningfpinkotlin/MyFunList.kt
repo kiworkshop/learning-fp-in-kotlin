@@ -130,9 +130,6 @@ fun MyFunList<Int>.maximumByFoldLeft() = this.foldLeft(0) { acc, element ->
 }
 
 fun <T> MyFunList<T>.filterByFoldLeft(pred: (T) -> Boolean) = this.foldLeft(Nil) { acc: MyFunList<T>, element ->
-    println("element = ${element}")
-    println("pred = ${pred(element)}")
-    println("acc = ${acc}")
     if (pred(element)) acc.appendTail(element) else acc
 }
 
