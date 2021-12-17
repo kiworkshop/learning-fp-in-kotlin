@@ -2,9 +2,7 @@ package org.kiworkshop.learningfpinkotlin.chapter5
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import org.kiworkshop.learningfpinkotlin.appendTail
 import org.kiworkshop.learningfpinkotlin.emptyMyFunList
-import org.kiworkshop.learningfpinkotlin.filterFoldLeft
 import org.kiworkshop.learningfpinkotlin.myFunListOf
 import org.kiworkshop.learningfpinkotlin.reverseByFoldRight
 

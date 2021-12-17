@@ -129,7 +129,7 @@ fun MyFunList<Int>.maximumByFoldLeft() = this.foldLeft(0) { acc, element ->
     max(acc, element)
 }
 
-fun <T> MyFunList<T>.filterFoldLeft(pred: (T) -> Boolean) = this.foldLeft(Nil) { acc: MyFunList<T>, element ->
+fun <T> MyFunList<T>.filterByFoldLeft(pred: (T) -> Boolean) = this.foldLeft(Nil) { acc: MyFunList<T>, element ->
     println("element = ${element}")
     println("pred = ${pred(element)}")
     println("acc = ${acc}")

@@ -4,9 +4,7 @@ import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import org.kiworkshop.learningfpinkotlin.emptyMyFunList
 import org.kiworkshop.learningfpinkotlin.filterByFoldRight
-import org.kiworkshop.learningfpinkotlin.filterFoldLeft
 import org.kiworkshop.learningfpinkotlin.myFunListOf
-import org.kiworkshop.learningfpinkotlin.reverseByFoldRight
 
 class Practice12 : FreeSpec() {
 
