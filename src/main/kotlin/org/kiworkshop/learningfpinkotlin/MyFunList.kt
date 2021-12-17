@@ -165,3 +165,9 @@ tailrec fun <T1, T2, R> MyFunList<T1>.zipWith(
 fun <T, R> MyFunList<T>.associate(f: (T) -> Pair<T, R>): Map<T, R> = foldLeft(mapOf()) { acc, element ->
     acc + f(element)
 }
+
+fun <T, K> MyFunList<T>.groupBy(f: (T) -> K) : Map<K, MyFunList<T>> = foldLeft(mutableMapOf()) { acc, element ->
+    val key = f(element)
+    acc[key] = acc.getOrDefault(key, Nil).appendTail(element)
+    acc
+}
