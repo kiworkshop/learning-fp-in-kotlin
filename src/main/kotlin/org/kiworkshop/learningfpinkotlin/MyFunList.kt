@@ -2,6 +2,7 @@ package org.kiworkshop.learningfpinkotlin
 
 import org.kiworkshop.learningfpinkotlin.MyFunList.Cons
 import org.kiworkshop.learningfpinkotlin.MyFunList.Nil
+import kotlin.math.max
 
 sealed class MyFunList<out T> {
     object Nil : MyFunList<Nothing>()
@@ -108,3 +109,23 @@ tailrec fun <T, R> MyFunList<T>.indexedMap(
     Nil -> acc.reverse()
     is Cons -> tail.indexedMap(index + 1, acc.addHead(f(index, head)), f)
 }
+
+tailrec fun <T, R> MyFunList<T>.foldLeft(acc: R, f: (R, T) -> R): R = when (this) {
+    Nil -> acc
+    is Cons -> tail.foldLeft(f(acc, head), f)
+}
+
+fun MyFunList<Int>.sum(): Int = this.foldLeft(0) { a, b -> a + b }
+
+fun toUpper(list: MyFunList<Char>): MyFunList<Char> = list.foldLeft(Nil) { acc: MyFunList<Char>, char ->
+    acc.appendTail(char.uppercaseChar())
+}
+
+fun <T, R> MyFunList<T>.mapByFoldLef(f: (T) -> R): MyFunList<R> = this.foldLeft(Nil) { acc: MyFunList<R>, element ->
+    acc.appendTail(f(element))
+}
+
+fun MyFunList<Int>.maximumByFoldLeft() = this.foldLeft(0) { acc, element ->
+    max(acc, element)
+}
+
