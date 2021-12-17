@@ -148,6 +148,6 @@ fun <T> MyFunList<T>.filterByFoldRight(f: (T) -> Boolean): MyFunList<T> = foldRi
 
 tailrec fun <T, R> MyFunList<T>.zip(other: MyFunList<R>, acc: MyFunList<Pair<T, R>> = Nil): MyFunList<Pair<T, R>> =
     when {
-        this === Nil || other === Nil -> acc
-        else -> getTail().zip(other.getTail(), acc.appendTail(getHead() to other.getHead()))
+        this === Nil || other === Nil -> acc.reverse()
+        else -> getTail().zip(other.getTail(), acc.addHead(getHead() to other.getHead()))
     }
