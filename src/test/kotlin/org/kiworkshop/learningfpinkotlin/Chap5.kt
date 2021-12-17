@@ -195,7 +195,7 @@ class Chap5 : StringSpec({
         testBigIntList(
             bigIntList = (1..10000000).toList(),
             assertImperativeWay = { millis: Long -> millis.shouldBeLessThanOrEqual(1) },
-            assertFunctionalWay = { millis: Long -> millis.shouldBeGreaterThan(100) },
+            assertFunctionalWay = { millis: Long -> millis.shouldBeGreaterThan(50) },
             assertRealFunctionalWay = { millis: Long -> millis.shouldBeLessThan(10) },
         )
 
@@ -203,7 +203,7 @@ class Chap5 : StringSpec({
         testBigIntList(
             bigIntList = (10000000 downTo 1).toList(),
             assertImperativeWay = { millis: Long -> millis.shouldBeLessThanOrEqual(1) },
-            assertFunctionalWay = { millis: Long -> millis.shouldBeGreaterThan(100) }, // 왜 functionalWay만 100ms가 넘지?
+            assertFunctionalWay = { millis: Long -> millis.shouldBeGreaterThan(50) }, // 왜 functionalWay만 100ms가 넘지?
             assertRealFunctionalWay = { millis: Long -> millis.shouldBeLessThanOrEqual(1) },
         )
     }
