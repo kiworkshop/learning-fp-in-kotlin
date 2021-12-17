@@ -84,3 +84,27 @@ tailrec fun <T> MyFunList<T>.takeWhile(acc: MyFunList<T> = Nil, p: (T) -> Boolea
     Nil -> acc.reverse()
     is Cons -> if (p(head)) tail.takeWhile(acc.addHead(head), p) else acc.reverse()
 }
+
+fun add3(list: MyFunList<Int>): MyFunList<Int> = when (list) {
+    Nil -> Nil
+    is Cons -> Cons(list.head + 3, add3(list.tail))
+}
+
+fun product3(list: MyFunList<Double>): MyFunList<Double> = when (list) {
+    Nil -> Nil
+    is Cons -> Cons(list.head * 3, product3(list.tail))
+}
+
+tailrec fun <T, R> MyFunList<T>.map(acc: MyFunList<R> = Nil, f: (T) -> R): MyFunList<R> = when (this) {
+    Nil -> acc.reverse()
+    is Cons -> tail.map(acc.addHead(f(head)), f)
+}
+
+tailrec fun <T, R> MyFunList<T>.indexedMap(
+    index: Int = 0,
+    acc: MyFunList<R> = Nil,
+    f: (Int, T) -> R
+): MyFunList<R> = when (this) {
+    Nil -> acc.reverse()
+    is Cons -> tail.indexedMap(index + 1, acc.addHead(f(index, head)), f)
+}
