@@ -14,7 +14,7 @@ fun <T> MyFunList<T>.addHead(head: T): MyFunList<T> = Cons(head, this)
 
 // O(n)
 tailrec fun <T> MyFunList<T>.appendTail(value: T, acc: MyFunList<T> = Nil): MyFunList<T> = when (this) {
-    Nil -> Cons(value, acc)
+    Nil -> Cons(value, acc).reverse()
     is Cons -> tail.appendTail(value, acc.addHead(head))
 }
 
@@ -129,3 +129,9 @@ fun MyFunList<Int>.maximumByFoldLeft() = this.foldLeft(0) { acc, element ->
     max(acc, element)
 }
 
+fun <T> MyFunList<T>.filterFoldLeft(pred: (T) -> Boolean) = this.foldLeft(Nil) { acc: MyFunList<T>, element ->
+    println("element = ${element}")
+    println("pred = ${pred(element)}")
+    println("acc = ${acc}")
+    if (pred(element)) acc.appendTail(element) else acc
+}
