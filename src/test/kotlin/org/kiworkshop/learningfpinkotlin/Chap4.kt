@@ -57,9 +57,8 @@ class Chap4 : StringSpec({
     }
 
     "Example 4-4" {
-        fun min(p1: Int, p2: Int) = kotlin.math.min(p1, p2)
-
-        val curriedMin: (Int) -> (Int) -> Int = ::min.curried()
+        fun <P1, P2, R> ((P1, P2) -> R).curried(): (P1) -> (P2) -> R = { p1: P1 -> { p2: P2 -> this(p1, p2) } }
+        val curriedMin = { n1: Int, n2: Int -> if (n1 > n2) n2 else n1 }.curried()
 
         curriedMin(1)(2) shouldBe 1
     }
