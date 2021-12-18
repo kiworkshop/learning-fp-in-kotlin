@@ -166,8 +166,29 @@ fun <T, R> MyFunList<T>.associate(f: (T) -> Pair<T, R>): Map<T, R> = foldLeft(ma
     acc + f(element)
 }
 
-fun <T, K> MyFunList<T>.groupBy(f: (T) -> K) : Map<K, MyFunList<T>> = foldLeft(mutableMapOf()) { acc, element ->
+fun <T, K> MyFunList<T>.groupBy(f: (T) -> K): Map<K, MyFunList<T>> = foldLeft(mutableMapOf()) { acc, element ->
     val key = f(element)
     acc[key] = acc.getOrDefault(key, Nil).appendTail(element)
     acc
 }
+
+fun imperativeWay(intList: List<Int>): Int {
+    for (value in intList) {
+        val doubleValue = value.toLong() * value.toLong()
+        if (doubleValue < 10) {
+            return doubleValue.toInt()
+        }
+    }
+    throw NoSuchElementException("There is no value")
+}
+
+fun functionWay(intList: List<Int>): Int = intList
+    .map { it * it }
+    .filter { it < 10 }
+    .first()
+
+fun realFunctionWay(intList: List<Int>): Int = intList
+    .asSequence()
+    .map{ it * it}
+    .filter { it < 10 }
+    .first()
