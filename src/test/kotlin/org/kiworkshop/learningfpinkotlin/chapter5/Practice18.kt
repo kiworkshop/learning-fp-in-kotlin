@@ -13,7 +13,7 @@ class Practice18 : FreeSpec() {
             myFunStreamOf(1, 2, 3).product() shouldBe 6
             myFunStreamOf(1).product() shouldBe 1
             myFunStreamOf(1, -1, 0).product() shouldBe 0
-            emptyMyFunStream().product() shouldBe 1 // 이상하데 어떻게 처리해야 할까
+            emptyMyFunStream<Int>().product() shouldBe 1 // 이상하데 어떻게 처리해야 할까
         }
     }
 }

@@ -29,7 +29,7 @@ sealed class MyFunStream<out T> {
 }
 
 fun <T> myFunStreamOf(vararg elements: T) = elements.toMyFunStream()
-fun emptyMyFunStream() = Nil
+fun <T> emptyMyFunStream() = Nil as MyFunStream<T>
 
 tailrec fun <T> Array<out T>.toMyFunStream(
     index: Int = this.size - 1,
