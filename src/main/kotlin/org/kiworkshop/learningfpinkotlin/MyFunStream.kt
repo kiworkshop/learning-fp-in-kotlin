@@ -60,6 +60,13 @@ tailrec fun <T> MyFunStream<T>.appendTail(value: T, acc: MyFunStream<T> = Nil): 
     is Cons -> getTail().appendTail(value, acc.addHeadWithoutEval(head))
 }
 
+tailrec fun <T> MyFunStream<T>.appendTailWithoutEval(valueFn: () -> T, acc: MyFunStream<T> = Nil): MyFunStream<T> =
+    when (this) {
+        Nil -> Cons(valueFn) { acc }.reverse()
+        is Cons -> getTail().appendTailWithoutEval(valueFn, acc.addHeadWithoutEval(head))
+    }
+
+
 fun <T> MyFunStream<T>.reverse(acc: MyFunStream<T> = Nil): MyFunStream<T> = when (this) {
     Nil -> acc
     is Cons -> getTail().reverse(acc.addHeadWithoutEval(head))
@@ -104,4 +111,23 @@ fun <T> MyFunStream<T>.filter(p: (T) -> Boolean): MyFunStream<T> = when (this) {
 fun <T, R> MyFunStream<T>.map(f: (T) -> R): MyFunStream<R> = when (this) {
     Nil -> Nil
     is Cons -> Cons({ f(getHead()) }, { getTail().map(f) })
+}
+
+fun <T> generateMyFunStream(seed: T, generate: (T) -> T): MyFunStream<T> =
+    Cons({ seed }, { generateMyFunStream(generate(seed), generate) })
+
+tailrec fun <T> MyFunStream<T>.forEach(f: (T) -> Unit): Unit = when (this) {
+    Nil -> Unit
+    is Cons -> {
+        f(getHead())
+        getTail().forEach(f)
+    }
+}
+
+tailrec fun <T> MyFunStream<T>.take(n: Int, acc: MyFunStream<T> = Nil): MyFunStream<T> = when (this) {
+    Nil -> throw NoSuchElementException()
+    is Cons -> {
+        if (n == 0) acc
+        else getTail().take(n - 1, acc.appendTailWithoutEval(head))
+    }
 }
