@@ -51,9 +51,7 @@ class Chap4 : StringSpec({
     }
 
     "Example 4-3" {
-        fun max(p1: Int): (Int) -> Int = { p2 ->
-            kotlin.math.max(p1, p2)
-        }
+        fun max(n1: Int) = { n2: Int -> if (n1 > n2) n1 else n2 }
 
         max(1)(2) shouldBe 2
     }
