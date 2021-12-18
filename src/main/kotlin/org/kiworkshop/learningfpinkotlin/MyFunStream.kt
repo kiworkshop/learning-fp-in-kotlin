@@ -16,6 +16,15 @@ sealed class MyFunStream<out T> {
         override fun hashCode(): Int {
             return 31 * head.hashCode() * tail.hashCode()
         }
+
+        override fun toString(): String {
+            val evalTail = getTail()
+            val evalHead = getHead()
+            if (evalTail === Nil) {
+                return evalHead.toString()
+            }
+            return evalHead.toString() + ", " + evalTail.toString()
+        }
     }
 }
 
@@ -33,7 +42,7 @@ tailrec fun <T> Array<out T>.toMyFunStream(
 fun <T> MyFunStream<T>.getHead(): T = when (this) {
     Nil -> throw NoSuchElementException()
     is Cons -> {
-        println("getHead Eval")
+        println("getHead Eval ${head()}")
         head()
     }
 }
@@ -64,4 +73,30 @@ tailrec fun MyFunStream<Int>.sum(acc: Int = 0): Int = when (this) {
 tailrec fun MyFunStream<Int>.product(acc: Int = 1): Int = when (this) {
     Nil -> acc
     is Cons -> getTail().product(acc * getHead())
+}
+
+fun <T> MyFunStream<T>.findSatisfiedValue(p: (T) -> Boolean): MyFunStream<T> = when (this) {
+    Nil -> Nil
+    is Cons -> {
+        val evaluatedHead = getHead()
+        if (p(evaluatedHead)) {
+            Cons({ evaluatedHead }, this.tail)
+        } else {
+            getTail().findSatisfiedValue(p)
+        }
+    }
+}
+
+fun <T> MyFunStream<T>.filter(p: (T) -> Boolean): MyFunStream<T> = when (this) {
+    Nil -> Nil
+    is Cons -> {
+        val firstSatisfiedValue = this.findSatisfiedValue(p)
+        if (firstSatisfiedValue === Nil) Nil
+        else
+            Cons({
+                firstSatisfiedValue.getHead()
+            }, {
+                firstSatisfiedValue.getTail().filter(p)
+            })
+    }
 }
