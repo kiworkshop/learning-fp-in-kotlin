@@ -12,7 +12,7 @@ class Practice18 : FreeSpec() {
         "FunList에서 작성했던 appendTail 함수를 FunStream에도 추가하자."{
             myFunStreamOf(1, 2).appendTail(3) shouldBe myFunStreamOf(1, 2, 3)
             myFunStreamOf(2, 1).appendTail(3).appendTail(5) shouldBe myFunStreamOf(2, 1, 3, 5)
-            emptyMyFunStream<Int>().appendTail(1) shouldBe myFunStreamOf(1)
+            emptyMyFunStream().appendTail(1) shouldBe myFunStreamOf(1)
         }
     }
 }

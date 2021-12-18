@@ -13,7 +13,7 @@ class Practice17 : FreeSpec() {
             myFunStreamOf(1, 2, 3).sum() shouldBe 6
             myFunStreamOf(1).sum() shouldBe 1
             myFunStreamOf(1, -1, 0).sum() shouldBe 0
-            emptyMyFunStream<Int>().sum() shouldBe 0
+            emptyMyFunStream().sum() shouldBe 0
         }
     }
 }
