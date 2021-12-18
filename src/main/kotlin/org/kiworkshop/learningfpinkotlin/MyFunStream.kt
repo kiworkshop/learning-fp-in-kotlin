@@ -100,3 +100,8 @@ fun <T> MyFunStream<T>.filter(p: (T) -> Boolean): MyFunStream<T> = when (this) {
             })
     }
 }
+
+fun <T, R> MyFunStream<T>.map(f: (T) -> R): MyFunStream<R> = when (this) {
+    Nil -> Nil
+    is Cons -> Cons({ f(getHead()) }, { getTail().map(f) })
+}
