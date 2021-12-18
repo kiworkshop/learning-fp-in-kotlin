@@ -31,16 +31,19 @@ class Chap4 : StringSpec({
     }
 
     "Example 4-2" {
-        fun <P1, P2, P3, R> ((P1, P2, P3) -> R).partial1(p1: P1): (P2, P3) -> R =
-            { p2, p3 -> this(p1, p2, p3) }
+        fun <P1, P2, P3, R> ((P1, P2, P3) -> R).partial1(p1: P1): (P2, P3) -> R {
+            return { p2, p3 -> this(p1, p2, p3) }
+        }
 
-        fun <P1, P2, P3, R> ((P1, P2, P3) -> R).partial2(p2: P2): (P1, P3) -> R =
-            { p1, p3 -> this(p1, p2, p3) }
+        fun <P1, P2, P3, R> ((P1, P2, P3) -> R).partial2(p2: P2): (P1, P3) -> R {
+            return { p1, p3 -> this(p1, p2, p3) }
+        }
 
-        fun <P1, P2, P3, R> ((P1, P2, P3) -> R).partial3(p3: P3): (P1, P2) -> R =
-            { p1, p2 -> this(p1, p2, p3) }
+        fun <P1, P2, P3, R> ((P1, P2, P3) -> R).partial3(p3: P3): (P1, P2) -> R {
+            return { p1, p2 -> this(p1, p2, p3) }
+        }
 
-        val f: (String, String, String) -> String = { p1, p2, p3 -> "$p1, $p2, $p3" }
+        val f = { p1: String, p2: String, p3: String -> listOf(p1, p2, p3).joinToString(", ") }
 
         f.partial1("alpha")("beta", "gamma") shouldBe "alpha, beta, gamma"
         f.partial2("alpha")("beta", "gamma") shouldBe "beta, alpha, gamma"
