@@ -35,3 +35,8 @@ tailrec fun MyFunStream<Int>.sum(acc: Int = 0): Int = when (this) {
     Nil -> acc
     is Cons -> getTail().sum(acc + getHead())
 }
+
+tailrec fun MyFunStream<Int>.product(acc: Int = 1): Int = when (this) {
+    Nil -> acc
+    is Cons -> getTail().product(acc * getHead())
+}
