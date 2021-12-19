@@ -189,6 +189,13 @@ fun functionWay(intList: List<Int>): Int = intList
 
 fun realFunctionWay(intList: List<Int>): Int = intList
     .asSequence()
-    .map{ it * it}
+    .map { it * it }
     .filter { it < 10 }
     .first()
+
+tailrec fun <T> MyFunList<T>.toString(acc: String): String = when (this) {
+    Nil -> "[${acc.drop(2)}]"
+    is Cons -> tail.toString("$acc, $head")
+}
+
+fun <T> MyFunList<T>.toStringByFoldLeft(): String = "[${foldLeft("") {acc, element -> "$acc, $element"}.drop(2)}]"
