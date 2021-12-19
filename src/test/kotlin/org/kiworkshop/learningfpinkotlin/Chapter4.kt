@@ -123,12 +123,12 @@ class Chapter4 : StringSpec({
             acc: List<P> = listOf()
         ): List<P> = when {
             list.isEmpty() -> acc
-            condition(list.first()) -> takewhile(condition, list.drop(1), acc + list.first())
-            else -> takewhile(condition, list.drop(1), acc)
+            !condition(list.first()) -> acc
+            else -> takewhile(condition, list.drop(1), acc + list.first())
         }
 
         takewhile({ n: Int -> n < 3 }, listOf(1, 2, 3, 4, 5)) shouldBe listOf(1, 2)
-        takewhile({ n: Int -> n < 3 }, listOf(4, 3, 1, 2, 5)) shouldBe listOf(1, 2)
+        takewhile({ n: Int -> n < 3 }, listOf(4, 3, 1, 2, 5)) shouldBe listOf()
     }
 
     "Exercise 4-8" {
@@ -141,8 +141,8 @@ class Chapter4 : StringSpec({
             else -> {
                 val head = iter.next()
                 when {
-                    condition(head) -> takewhile(condition, iter, acc + head)
-                    else -> takewhile(condition, iter, acc)
+                    !condition(head) -> acc
+                    else -> takewhile(condition, iter, acc + head)
                 }
             }
         }
