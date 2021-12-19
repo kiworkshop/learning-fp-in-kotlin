@@ -5,6 +5,7 @@ plugins {
     id(Libs.Plugins.ktlint) version Libs.Versions.ktlint
     id(Libs.Plugins.ktlintIdea) version Libs.Versions.ktlint
     id(Libs.Plugins.jacocoBadge) version Libs.Versions.jacocoBadge
+    id("org.jetbrains.kotlinx.kover") version "0.4.4"
 }
 
 group = "org.kiworkshop.learningfpinkotlin"
@@ -16,6 +17,7 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib", Libs.Versions.kotlin))
+    implementation("org.jetbrains.kotlinx:kover:0.4.4")
 
     testImplementation(Libs.Test.kotest)
     testImplementation(Libs.Test.kotestAssertionsCore)
@@ -57,6 +59,15 @@ tasks.withType<JacocoCoverageVerification> {
                 minimum = "0.0".toBigDecimal()
             }
         }
+    }
+}
+
+tasks.test {
+    extensions.configure(kotlinx.kover.api.KoverTaskExtension::class) {
+        isEnabled = true
+        binaryReportFile.set(file("$buildDir/custom/result.bin"))
+        includes = listOf("com\\.example\\..*")
+        excludes = listOf("com\\.example\\.subpackage\\..*")
     }
 }
 
