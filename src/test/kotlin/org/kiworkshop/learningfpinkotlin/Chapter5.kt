@@ -63,24 +63,36 @@ class Chapter5 : StringSpec({
 
     "5-4" {
         tailrec fun <T> FunList<T>.drop(n: Int): FunList<T> = when (this) {
-            Nil -> throw NoSuchElementException()
-            is Cons -> when (n) {
-                0 -> this
-                1 -> tail
+            Nil -> this
+            is Cons -> when {
+                n < 0 -> throw IllegalArgumentException()
+                n == 0 -> this
                 else -> tail.drop(n - 1)
             }
         }
 
-        shouldThrow<NoSuchElementException> { Nil.drop(0) }
         Nil.appendTail(1).appendTail(2).appendTail(3)
             .drop(1) shouldBe Cons(2, Cons(3, Nil))
         Nil.appendTail(1).appendTail(2).appendTail(3)
             .drop(2) shouldBe Cons(3, Nil)
         Nil.appendTail(1).appendTail(2).appendTail(3)
             .drop(3) shouldBe Nil
-        shouldThrow<NoSuchElementException> {
-            Nil.appendTail(1).appendTail(2).appendTail(3)
-                .drop(4) shouldBe Nil
+        Nil.appendTail(1).appendTail(2).appendTail(3)
+            .drop(4) shouldBe Nil
+    }
+
+    "5-5" {
+        tailrec fun <T> FunList<T>.dropWhile(p: (T) -> Boolean): FunList<T> = when (this) {
+            Nil -> this
+            is Cons -> when {
+                !p(head) -> this
+                else -> tail.dropWhile(p)
+            }
         }
+
+        Nil.appendTail(1).appendTail(2).appendTail(3)
+            .dropWhile { it < 2 } shouldBe Cons(2, Cons(3, Nil))
+        Nil.appendTail(1).appendTail(2).appendTail(3)
+            .dropWhile { it < 100 } shouldBe Nil
     }
 })
