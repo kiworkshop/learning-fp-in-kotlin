@@ -68,7 +68,7 @@ class Chapter4 : StringSpec({
             list.isEmpty() -> acc
             else -> {
                 val head = list.head()
-                val takeList = if (func(head)) acc + listOf(head) else acc
+                val takeList = if (func(head)) acc + head else acc
                 takeWhile(func, list.tail(), takeList)
             }
         }
@@ -80,5 +80,19 @@ class Chapter4 : StringSpec({
     }
 
     "연습문제 4-8" {
+        tailrec fun <P> takewhile(
+            condition: (P) -> Boolean,
+            iter: Iterator<P>,
+            acc: List<P> = listOf()
+        ): List<P> = when {
+            !iter.hasNext() -> acc
+            else -> {
+                val head = iter.next()
+                when {
+                    condition(head) -> takewhile(condition, iter, acc + head)
+                    else -> takewhile(condition, iter, acc)
+                }
+            }
+        }
     }
 })
