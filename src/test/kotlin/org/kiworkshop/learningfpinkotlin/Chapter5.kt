@@ -112,4 +112,21 @@ class Chapter5 : StringSpec({
         Nil.appendTail(1).appendTail(2).appendTail(3)
             .take(4) shouldBe Cons(1, Cons(2, Cons(3, Nil)))
     }
+
+    "5-7" {
+        tailrec fun <T> FunList<T>.takeWhile(acc: FunList<T> = Nil, p: (T) -> Boolean): FunList<T> = when (this) {
+            Nil -> acc.reverse()
+            is Cons -> when {
+                !p(head) -> acc.reverse()
+                else -> tail.takeWhile(acc.addHead(head), p)
+            }
+        }
+
+        Nil.appendTail(1).appendTail(2).appendTail(3)
+            .takeWhile { it < 1 } shouldBe Nil
+        Nil.appendTail(1).appendTail(2).appendTail(3)
+            .takeWhile { it < 3 } shouldBe Cons(1, Cons(2, Nil))
+        Nil.appendTail(1).appendTail(2).appendTail(3)
+            .takeWhile { it < 100 } shouldBe Cons(1, Cons(2, Cons(3, Nil)))
+    }
 })
