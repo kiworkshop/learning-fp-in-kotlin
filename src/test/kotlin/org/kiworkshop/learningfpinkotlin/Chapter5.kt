@@ -22,6 +22,25 @@ class Chapter5 : StringSpec({
     "연습문제 5-3" {
         getIntList().getHead() shouldBe 1
     }
+
+    "연습문제 5-4" {
+        getIntList().drop(2).getHead() shouldBe 3
+    }
+
+    "연습문제 5-5" {
+        getIntList().dropWhile { it > 2 }.getHead() shouldBe 3
+    }
+
+    "연습문제 5-6" {
+        val results = getIntList().take(2)
+        results.getHead() shouldBe 1
+        results.getTail().getHead() shouldBe 2
+    }
+
+    "연습문제 5-7" {
+        (getIntList().takeWhile { it > 2 }).getHead() shouldBe 3
+        (getIntList().takeWhile { it > 5 }) shouldBe FunnyList.Nil
+    }
 })
 
 fun getIntList(): FunnyList<Int> =
