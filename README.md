@@ -1,6 +1,6 @@
-![LINE](https://img.shields.io/badge/line--coverage-15.74%25-red.svg)
-![BRANCH](https://img.shields.io/badge/branch--coverage-18.10%25-red.svg)
-![COMPLEXITY](https://img.shields.io/badge/complexity-11.25-yellow.svg)
+![LINE](https://img.shields.io/badge/line--coverage-16.56%25-red.svg)
+![BRANCH](https://img.shields.io/badge/branch--coverage-12.03%25-red.svg)
+![COMPLEXITY](https://img.shields.io/badge/complexity-9.04-brightgreen.svg)
 
 # [『코틀린으로 배우는 함수형 프로그래밍』](https://blog.insightbook.co.kr/2019/12/12/코틀린으로-배우는-함수형-프로그래밍/)
 
