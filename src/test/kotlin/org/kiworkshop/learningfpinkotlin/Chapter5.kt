@@ -95,4 +95,21 @@ class Chapter5 : StringSpec({
         Nil.appendTail(1).appendTail(2).appendTail(3)
             .dropWhile { it < 100 } shouldBe Nil
     }
+
+    "5-6" {
+        tailrec fun <T> FunList<T>.take(n: Int, acc: FunList<T> = Nil): FunList<T> = when (this) {
+            Nil -> acc.reverse()
+            is Cons -> when (n) {
+                0 -> acc.reverse()
+                else -> tail.take(n - 1, acc.addHead(head))
+            }
+        }
+
+        Nil.appendTail(1).appendTail(2).appendTail(3)
+            .take(0) shouldBe Nil
+        Nil.appendTail(1).appendTail(2).appendTail(3)
+            .take(2) shouldBe Cons(1, Cons(2, Nil))
+        Nil.appendTail(1).appendTail(2).appendTail(3)
+            .take(4) shouldBe Cons(1, Cons(2, Cons(3, Nil)))
+    }
 })
