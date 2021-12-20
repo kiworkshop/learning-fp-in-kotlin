@@ -71,3 +71,23 @@ fun <T, R> FunStream<T>.map(f: (T) -> R): FunStream<R> = when (this) {
     FunStream.Nil -> FunStream.Nil
     is FunStream.Cons -> FunStream.Cons({ f(head()) }, { tail().map(f) })
 }
+
+// Code 5-42
+fun <T> generateFunStream(seed: T, generate: (T) -> T): FunStream<T> =
+    FunStream.Cons({ seed }, { generateFunStream(generate(seed), generate) })
+
+// Code 5-44
+tailrec fun <T> FunStream<T>.forEach(f: (T) -> Unit): Unit = when (this) {
+    FunStream.Nil -> Unit
+    is FunStream.Cons -> {
+        f(head())
+        tail().forEach(f)
+    }
+}
+
+// Exercise 5-22
+fun <T> FunStream<T>.take(n: Int): FunStream<T> = when {
+    this === FunStream.Nil -> FunStream.Nil
+    n <= 0 -> FunStream.Nil
+    else -> FunStream.Cons({ this.getHead() }, { this.getTail().take(n - 1) })
+}

@@ -170,4 +170,12 @@ class Chapter5 : StringSpec({
         funStreamOf<Int>().map { it * it } shouldBe FunStream.Nil
         funStreamOf(1, 2, 3, 4, 5).map { it * it } shouldBe funStreamOf(1, 4, 9, 16, 25)
     }
+
+    "5-22" {
+        val infiniteVal = generateFunStream(3) { it }
+
+        infiniteVal.take(0) shouldBe FunStream.Nil
+        infiniteVal.take(5) shouldBe funStreamOf(3, 3, 3, 3, 3)
+        funStreamOf(1, 2, 3).take(5) shouldBe funStreamOf(1, 2, 3)
+    }
 })
