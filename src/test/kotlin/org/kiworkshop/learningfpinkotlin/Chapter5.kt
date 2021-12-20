@@ -84,4 +84,29 @@ class Chapter5 : StringSpec({
         funListOf(1, 2, 3, 4, 5).filterByFoldRight { it % 2 == 0 } shouldBe funListOf(2, 4)
         funListOf(1, 2, 3, 4, 5).filterByFoldRight { it > 5 } shouldBe Nil
     }
+
+    "5-13" {
+        funListOf<Char>().zip(funListOf(1, 2)) shouldBe Nil
+        funListOf('a', 'b', 'c', 'd', 'e').zip(funListOf(1, 2, 3)) shouldBe funListOf(
+            Pair('a', 1),
+            Pair('b', 2),
+            Pair('c', 3)
+        )
+    }
+
+    "5-14" {
+        funListOf(1, 2, 3).associate { Pair(it, "v$it") } shouldBe mapOf(
+            1 to "v1",
+            2 to "v2",
+            3 to "v3"
+        )
+    }
+
+    "5-15" {
+        funListOf(1, 2, 3).groupBy { "k$it" } shouldBe mapOf(
+            "k1" to funListOf(1),
+            "k2" to funListOf(2),
+            "k3" to funListOf(3)
+        )
+    }
 })

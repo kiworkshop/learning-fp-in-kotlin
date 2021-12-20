@@ -119,3 +119,23 @@ fun <T> FunList<T>.reverseByFoldRight(): FunList<T> = this.foldRight(Nil) { x, a
 fun <T> FunList<T>.filterByFoldRight(p: (T) -> Boolean): FunList<T> = this.foldRight(Nil) { x, acc: FunList<T> ->
     if (p(x)) acc.addHead(x) else acc
 }
+
+tailrec fun <T, R> FunList<T>.zip(other: FunList<R>, acc: FunList<Pair<T, R>> = Nil): FunList<Pair<T, R>> = when {
+    this === Nil || other === Nil -> acc.reverse()
+    else -> this.getTail().zip(other.getTail(), acc.addHead(Pair(this.getHead(), other.getHead())))
+}
+
+tailrec fun <T1, T2, R> FunList<T1>.zipWith(f: (T1, T2) -> R, list: FunList<T2>, acc: FunList<R> = Nil): FunList<R> = when {
+    this === Nil || list === Nil -> acc.reverse()
+    else -> getTail().zipWith(f, list.getTail(), acc.addHead(f(getHead(), list.getHead())))
+}
+
+fun <T, R> FunList<T>.associate(f: (T) -> Pair<T, R>): Map<T, R> = when {
+    this === Nil -> mapOf()
+    else -> mapOf(f(getHead())) + getTail().associate(f)
+}
+
+fun <T, K> FunList<T>.groupBy(f: (T) -> K): Map<K, FunList<T>> = when {
+    this === Nil -> mapOf()
+    else -> mapOf(f(getHead()) to funListOf(getHead())) + getTail().groupBy(f)
+}
