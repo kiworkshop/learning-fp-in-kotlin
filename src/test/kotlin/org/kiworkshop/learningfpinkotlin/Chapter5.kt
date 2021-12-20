@@ -41,6 +41,27 @@ class Chapter5 : StringSpec({
         (getIntList().takeWhile { it > 2 }).getHead() shouldBe 3
         (getIntList().takeWhile { it > 5 }) shouldBe FunnyList.Nil
     }
+
+    "연습문제 5-8" {
+        println(getIntList().indexedMap(2) { index, value -> index + value })
+    }
+
+    "연습문제 5-9" {
+        getIntList().maximumByFoldLeft() shouldBe 5
+        funnyListOf(10, 5).maximumByFoldLeft() shouldBe 10
+    }
+
+    "연습문제 5-10" {
+        println(getIntList().filterByFoldLeft { it > 2 })
+    }
+
+    "연습문제 5-11" {
+        funnyListOf(1, 3, 10).reverseByFoldRight().getHead() shouldBe 1
+    }
+
+    "연습문제 5-12" {
+        (funnyListOf(1, 3, 10).filterByFoldRight { it > 3 }).getHead() shouldBe 10
+    }
 })
 
 fun getIntList(): FunnyList<Int> =
