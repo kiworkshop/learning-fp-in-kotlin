@@ -59,7 +59,56 @@ class Chapter5 : StringSpec({
 
         assertThatIsExpectedList(intList.takeWhile { it % 2 == 0 }, listOf(2, 4))
     }
+
+    "Code 5-16" {
+        val intList = FunList.Cons(1, FunList.Cons(2, FunList.Cons(3, FunList.Nil)))
+        val doubleList = FunList.Cons(1.0, FunList.Cons(2.0, FunList.Cons(3.0, FunList.Nil)))
+
+        assertThatIsExpectedList(add3(intList), listOf(4, 5, 6))
+        assertThatIsExpectedList(product3(doubleList), listOf(3.0, 6.0, 9.0))
+        assertThatIsExpectedList(intList.map { it + 3 }, listOf(4, 5, 6))
+        assertThatIsExpectedList(intList.map { it * 3 }, listOf(3.0, 6.0, 9.0))
+    }
+
+    "Example 5-8" {
+        val intList = FunList.Cons(1, FunList.Cons(2, FunList.Cons(3, FunList.Nil)))
+
+        assertThatIsExpectedList(intList.indexedMap { index, value -> value * index }, listOf(1, 4, 9))
+    }
 })
+
+fun add3(list: FunList<Int>): FunList<Int> = when (list) {
+    FunList.Nil -> list
+    is FunList.Cons -> FunList.Cons(list.head + 3, add3(list.tail))
+}
+
+fun product3(list: FunList<Double>): FunList<Double> = when (list) {
+    FunList.Nil -> FunList.Nil
+    is FunList.Cons -> FunList.Cons(list.head.times(3), product3(list.tail))
+}
+
+tailrec fun <T, R> FunList<T>.map(acc: FunList<R> = FunList.Nil, f: (T) -> R): FunList<R> = when (this) {
+    FunList.Nil -> acc.reverse()
+    is FunList.Cons -> tail.map(acc.addHead(f(head)), f)
+}
+
+tailrec fun <T, R> FunList<T>.indexedMap(index: Int = 0, acc: FunList<R> = FunList.Nil, f: (Int, T) -> R): FunList<R> =
+    when (this) {
+        FunList.Nil -> acc.reverse()
+        is FunList.Cons -> tail.indexedMap(index.plus(1), acc.addHead(f(index.plus(1), head)), f)
+    }
+
+fun imperativeMap(numList: List<Int>): List<Int> {
+    val newList = mutableListOf<Int>()
+    for (num in numList) {
+        newList.add(num + 2)
+    }
+    return newList
+}
+
+fun functionalMap(numList: List<Int>): List<Int> {
+    return numList.map { it + 2 }
+}
 
 // TODO : acc 변수 없이 구현할 것 
 /**
