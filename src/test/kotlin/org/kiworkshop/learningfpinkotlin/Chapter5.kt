@@ -73,4 +73,15 @@ class Chapter5 : StringSpec({
         funListOf(1, 2, 3, 4, 5).filterByFoldLeft { it % 2 == 0 } shouldBe funListOf(2, 4)
         funListOf(1, 2, 3, 4, 5).filterByFoldLeft { it > 5 } shouldBe Nil
     }
+
+    "5-11" {
+        funListOf<Int>().reverseByFoldRight() shouldBe Nil
+        funListOf(1, 2, 3, 4, 5).reverseByFoldRight() shouldBe funListOf(5, 4, 3, 2, 1)
+    }
+
+    "5-12" {
+        funListOf<Int>().filterByFoldRight { it % 2 == 0 } shouldBe Nil
+        funListOf(1, 2, 3, 4, 5).filterByFoldRight { it % 2 == 0 } shouldBe funListOf(2, 4)
+        funListOf(1, 2, 3, 4, 5).filterByFoldRight { it > 5 } shouldBe Nil
+    }
 })

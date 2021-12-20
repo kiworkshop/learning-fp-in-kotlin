@@ -102,6 +102,20 @@ fun FunList<Int>.maximumByFoldLeft(acc: Int = this.getHead()): Int = this.foldLe
     if (acc < x) x else acc
 }
 
-fun <T> FunList<T>.filterByFoldLeft(acc: FunList<T> = Nil, p: (T) -> Boolean): FunList<T> = this.foldLeft(acc) {
-    acc: FunList<T>, x -> if (p(x)) acc.appendTail(x) else acc
+fun <T> FunList<T>.filterByFoldLeft(acc: FunList<T> = Nil, p: (T) -> Boolean): FunList<T> =
+    this.foldLeft(acc) { acc: FunList<T>, x ->
+        if (p(x)) acc.appendTail(x) else acc
+    }
+
+fun <T, R> FunList<T>.foldRight(acc: R, f: (T, R) -> R): R = when (this) {
+    Nil -> acc
+    is Cons -> f(head, tail.foldRight(acc, f))
+}
+
+fun <T> FunList<T>.reverseByFoldRight(): FunList<T> = this.foldRight(Nil) { x, acc: FunList<T> ->
+    acc.appendTail(x)
+}
+
+fun <T> FunList<T>.filterByFoldRight(p: (T) -> Boolean): FunList<T> = this.foldRight(Nil) { x, acc: FunList<T> ->
+    if (p(x)) acc.addHead(x) else acc
 }
