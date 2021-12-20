@@ -17,12 +17,12 @@ class PartialFunction<P, R>(
     fun invokeOrElse(p: P, default: R): R = if (condition(p)) f(p) else default
 
     fun orElse(that: PartialFunction<P, R>): PartialFunction<P, R> = PartialFunction(
-        condition = { p: P -> condition(p) || that.condition(p) },
-        f = { p: P ->
+        condition = { condition(it) || that.condition(it) },
+        f = {
             when {
-                condition(p) -> f(p)
-                that.condition(p) -> that.f(p)
-                else -> throw IllegalArgumentException("$p isn't supported")
+                condition(it) -> f(it)
+                that.condition(it) -> that.f(it)
+                else -> throw IllegalArgumentException("$it isn't supported")
             }
         }
     )
