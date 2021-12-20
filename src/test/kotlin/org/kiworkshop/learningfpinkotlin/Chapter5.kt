@@ -109,4 +109,40 @@ class Chapter5 : StringSpec({
             "k3" to funListOf(3)
         )
     }
+
+    "5-16" {
+        fun imperativeWay(intList: List<Int>): Int {
+            for (value in intList) {
+                val doubleValue = value * value
+                if (doubleValue < 10) {
+                    return doubleValue
+                }
+            }
+            throw NoSuchElementException("There is no value")
+        }
+
+        fun functionalWay(intList: List<Int>): Int = intList.map { it * it }.filter { it < 10 }.first()
+        fun functionalWay2(intList: List<Int>): Int = intList.map { it * it }.first { it < 10 }
+
+        fun realFunctionalWay(intList: List<Int>): Int = intList.asSequence().map { it * it }.filter { it < 10 }.first()
+
+//        val bigIntList = (1..10_000_000).toList()
+        val bigIntList = (10_000_000 downTo 1).toList()
+
+        var start = System.currentTimeMillis()
+        imperativeWay(bigIntList)
+        println("${System.currentTimeMillis() - start} ms")
+
+        start = System.currentTimeMillis()
+        functionalWay(bigIntList)
+        println("${System.currentTimeMillis() - start} ms")
+
+        start = System.currentTimeMillis()
+        functionalWay2(bigIntList)
+        println("${System.currentTimeMillis() - start} ms")
+
+        start = System.currentTimeMillis()
+        realFunctionalWay(bigIntList)
+        println("${System.currentTimeMillis() - start} ms")
+    }
 })
