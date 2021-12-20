@@ -37,6 +37,7 @@ class Chapter5 : StringSpec({
             .dropWhile { it < 2 } shouldBe Cons(2, Cons(3, Nil))
         Nil.appendTail(1).appendTail(2).appendTail(3)
             .dropWhile { it < 100 } shouldBe Nil
+        funListOf<Int>().dropWhile { it < 5 } shouldBe Nil
     }
 
     "5-6" {
@@ -55,5 +56,10 @@ class Chapter5 : StringSpec({
             .takeWhile { it < 3 } shouldBe Cons(1, Cons(2, Nil))
         Nil.appendTail(1).appendTail(2).appendTail(3)
             .takeWhile { it < 100 } shouldBe Cons(1, Cons(2, Cons(3, Nil)))
+    }
+
+    "5-8" {
+        funListOf<Int>().indexedMap { i, e -> i * e } shouldBe Nil
+        funListOf(1, 2, 3, 4, 5).indexedMap { i, e -> i * e } shouldBe funListOf(0, 2, 6, 12, 20)
     }
 })
