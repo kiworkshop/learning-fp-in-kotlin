@@ -99,7 +99,6 @@ class Chap4 : StringSpec({
     }
 
     "Example 4-6" {
-        // solution 1
         infix fun <F, G, H, R> ((F, G) -> R).compose(h: (H) -> F): (H, G) -> R =
             { hInput: H, gInput: G -> this(h(hInput), gInput) }
 
@@ -107,31 +106,20 @@ class Chap4 : StringSpec({
 
         composed(listOf(1, 2, 3, 4, 5), 2) shouldBe 25
         composed(listOf(), 2) shouldBe null
-
-        // solution 2
-        val square: (Int?) -> Int? = { power(it, 2) }
-
-        val composed2 = square compose ::max
-        composed2(listOf(1, 2, 3, 4, 5)) shouldBe 25
-        composed2(listOf()) shouldBe null
-
-        // solution 3
-        val getMaxAndPower = ::power.curried() compose ::max
-        getMaxAndPower(listOf(1, 2, 3, 4, 5))(2) shouldBe 25
-        getMaxAndPower(listOf())(2) shouldBe null
     }
 
     "Example 4-7" {
-        fun <T> takeWhile(list: List<T>, condition: (T) -> Boolean): List<T> {
-            tailrec fun takeWhile(rest: List<T>, acc: List<T>): List<T> = when {
-                rest.isEmpty() -> acc
-                else -> takeWhile(
-                    rest.tail(),
-                    acc + rest.head().let { if (condition(it)) listOf(it) else listOf() }
-                )
+        fun <P> takeWhile(list: List<P>, func: (P) -> Boolean): List<P> {
+            tailrec fun <P> takeWhileTail(list: List<P>, func: (P) -> Boolean, acc: List<P>): List<P> = when {
+                list.isEmpty() -> acc
+                else -> {
+                    if (func(list.head()))
+                        takeWhileTail(list.tail(), func, acc + list.head())
+                    else
+                        takeWhileTail(list.tail(), func, acc + emptyList())
+                }
             }
-
-            return takeWhile(list, listOf())
+            return takeWhileTail(list, func, listOf())
         }
 
         takeWhile(listOf(1, 2, 3, 4, 5)) { it < 3 }.shouldContainExactly(1, 2)
