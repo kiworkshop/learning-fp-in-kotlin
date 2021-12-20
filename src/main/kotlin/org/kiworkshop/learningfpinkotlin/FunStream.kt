@@ -59,3 +59,15 @@ fun <T> FunStream<T>.appendTail(value: T): FunStream<T> = when (this) {
     FunStream.Nil -> FunStream.Cons({ value }, { FunStream.Nil })
     is FunStream.Cons -> FunStream.Cons(head, { tail().appendTail(value) })
 }
+
+// Exercise 5-20
+fun <T> FunStream<T>.filter(p: (T) -> Boolean): FunStream<T> = when (this) {
+    FunStream.Nil -> this
+    is FunStream.Cons -> if (p(head())) FunStream.Cons(head, { tail().filter(p) }) else tail().filter(p)
+}
+
+// Exercise 5-21
+fun <T, R> FunStream<T>.map(f: (T) -> R): FunStream<R> = when (this) {
+    FunStream.Nil -> FunStream.Nil
+    is FunStream.Cons -> FunStream.Cons({ f(head()) }, { tail().map(f) })
+}

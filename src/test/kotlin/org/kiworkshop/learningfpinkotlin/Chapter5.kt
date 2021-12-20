@@ -157,6 +157,17 @@ class Chapter5 : StringSpec({
     }
 
     "5-19" {
-        (funStreamOf<Int>().appendTail(1).appendTail(2) == funStreamOf(1, 2)) shouldBe true
+        funStreamOf<Int>().appendTail(1).appendTail(2) shouldBe funStreamOf(1, 2)
+    }
+
+    "5-20" {
+        funStreamOf<Int>().filter { it % 2 == 0 } shouldBe FunStream.Nil
+        funStreamOf(1, 2, 3, 4, 5).filter { it % 2 == 0 } shouldBe funStreamOf(2, 4)
+        funStreamOf(1, 2, 3).filter { it > 100 } shouldBe FunStream.Nil
+    }
+
+    "5-21" {
+        funStreamOf<Int>().map { it * it } shouldBe FunStream.Nil
+        funStreamOf(1, 2, 3, 4, 5).map { it * it } shouldBe funStreamOf(1, 4, 9, 16, 25)
     }
 })
