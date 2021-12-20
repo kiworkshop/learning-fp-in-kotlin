@@ -66,6 +66,54 @@ class Chapter5 : StringSpec({
     "연습문제 5-13" {
         funnyListOf(1, 2, 3).zip(funnyListOf(4, 5, 6)).getHead().toString() shouldBe "(1, 4)"
     }
+
+    // 5-14, 5-15 ㅠㅠ
+    "연습문제 5-16" {
+        val bigIntList = (10000000 downTo 1).toList()
+        val start = System.currentTimeMillis()
+        imperativeWay(bigIntList)
+        println("Imperative Way ${System.currentTimeMillis() - start} ms")
+
+        val fStart = System.currentTimeMillis()
+        functionalWay(bigIntList)
+        println("functionalWay ${System.currentTimeMillis() - fStart} ms")
+
+        val rfStart = System.currentTimeMillis()
+        realFunctionalWay(bigIntList)
+        println("Real functionalWay ${System.currentTimeMillis() - rfStart} ms")
+    }
+
+    "연습문제 5-17" {
+        funnyStreamOf(1, 2, 3).sum() shouldBe 6
+        funnyStreamOf(1, 2, 3, 4, 5).sum() shouldBe 15
+    }
+
+    "연습문제 5-18" {
+        funnyStreamOf(1, 2, 3).product() shouldBe 6
+        funnyStreamOf(2, 3, 4).product() shouldBe 24
+    }
+
+    "연습문제 5-19" {
+        FunnyStream.Nil.appendTail(1).getHead() shouldBe 1
+        funnyStreamOf(1).appendTail(2).getTail().getHead() shouldBe 2
+    }
+
+    "연습문제 5-20" {
+        val result = funnyStreamOf(1, 2, 3, 4).filter { it in 2..3 }
+        result.getHead() shouldBe 2
+        result.getTail().getHead() shouldBe 3
+    }
+
+    "연습문제 5-21" {
+        val result = funnyStreamOf(1, 2, 3, 4, 5).map { it * 2 }
+        result.getHead() shouldBe 2
+        result.getTail().getHead() shouldBe 4
+    }
+
+    "연습문제 5-22" {
+        funnyStreamOf(1, 2, 3).take(1).getHead() shouldBe 1
+        funnyStreamOf(1, 2, 3).take(1).getTail() shouldBe FunnyStream.Nil
+    }
 })
 
 fun getIntList(): FunnyList<Int> =
@@ -76,3 +124,18 @@ fun getIntList(): FunnyList<Int> =
             FunnyList.Cons(3, FunnyList.Cons(4, FunnyList.Cons(5, FunnyList.Nil)))
         )
     )
+
+fun imperativeWay(intList: List<Int>): Int {
+    for (value in intList) {
+        val doubleValue = value * value
+        if (doubleValue < 10) {
+            return doubleValue
+        }
+    }
+    throw NoSuchElementException("There is no value")
+}
+
+fun functionalWay(intList: List<Int>): Int =
+    intList.map { n -> n * n }.first { n -> n < 10 }
+
+fun realFunctionalWay(intList: List<Int>): Int = intList.asSequence().map { n -> n * n }.first { n -> n < 10 }
