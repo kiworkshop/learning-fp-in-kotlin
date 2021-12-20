@@ -62,4 +62,15 @@ class Chapter5 : StringSpec({
         funListOf<Int>().indexedMap { i, e -> i * e } shouldBe Nil
         funListOf(1, 2, 3, 4, 5).indexedMap { i, e -> i * e } shouldBe funListOf(0, 2, 6, 12, 20)
     }
+
+    "5-9" {
+        shouldThrow<NoSuchElementException> { funListOf<Int>().maximumByFoldLeft() }
+        funListOf(3, -6, 5, 2, 4).maximumByFoldLeft() shouldBe 5
+    }
+
+    "5-10" {
+        funListOf<Int>().filterByFoldLeft { it % 2 == 0 } shouldBe Nil
+        funListOf(1, 2, 3, 4, 5).filterByFoldLeft { it % 2 == 0 } shouldBe funListOf(2, 4)
+        funListOf(1, 2, 3, 4, 5).filterByFoldLeft { it > 5 } shouldBe Nil
+    }
 })

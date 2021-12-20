@@ -92,3 +92,16 @@ tailrec fun <T, R> FunList<T>.indexedMap(index: Int = 0, acc: FunList<R> = Nil, 
         Nil -> acc.reverse()
         is Cons -> tail.indexedMap(index + 1, acc.addHead(f(index, head)), f)
     }
+
+tailrec fun <T, R> FunList<T>.foldLeft(acc: R, f: (R, T) -> R): R = when (this) {
+    Nil -> acc
+    is Cons -> tail.foldLeft(f(acc, head), f)
+}
+
+fun FunList<Int>.maximumByFoldLeft(acc: Int = this.getHead()): Int = this.foldLeft(acc) { acc: Int, x ->
+    if (acc < x) x else acc
+}
+
+fun <T> FunList<T>.filterByFoldLeft(acc: FunList<T> = Nil, p: (T) -> Boolean): FunList<T> = this.foldLeft(acc) {
+    acc: FunList<T>, x -> if (p(x)) acc.appendTail(x) else acc
+}
