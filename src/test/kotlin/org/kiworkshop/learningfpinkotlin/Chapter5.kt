@@ -62,6 +62,10 @@ class Chapter5 : StringSpec({
     "연습문제 5-12" {
         (funnyListOf(1, 3, 10).filterByFoldRight { it > 3 }).getHead() shouldBe 10
     }
+
+    "연습문제 5-13" {
+        funnyListOf(1, 2, 3).zip(funnyListOf(4, 5, 6)).getHead().toString() shouldBe "(1, 4)"
+    }
 })
 
 fun getIntList(): FunnyList<Int> =

@@ -138,3 +138,20 @@ private fun <T> Array<out T>.toFunnyList(): FunnyList<T> = when {
     this.isEmpty() -> FunnyList.Nil
     else -> FunnyList.Cons(this[0], this.copyOfRange(1, this.size).toFunnyList())
 }
+
+tailrec fun <T, R> FunnyList<T>.zip(
+    other: FunnyList<R>,
+    acc: FunnyList<Pair<T, R>> = FunnyList.Nil
+): FunnyList<Pair<T, R>> = when {
+    this === FunnyList.Nil || other === FunnyList.Nil -> acc.reverse()
+    else -> getTail().zip(other.getTail(), acc.addHead(Pair(getHead(), other.getHead())))
+}
+
+tailrec fun <T1, T2, R> FunnyList<T1>.zipWith(
+    f: (T1, T2) -> R,
+    list: FunnyList<T2>,
+    acc: FunnyList<R> = FunnyList.Nil
+): FunnyList<R> = when {
+    this === FunnyList.Nil || list === FunnyList.Nil -> acc.reverse()
+    else -> getTail().zipWith(f, list.getTail(), acc.addHead(f(getHead(), list.getHead())))
+}
