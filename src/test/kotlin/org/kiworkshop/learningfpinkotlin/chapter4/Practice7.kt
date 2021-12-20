@@ -7,10 +7,10 @@ import org.kiworkshop.learningfpinkotlin.head
 import org.kiworkshop.learningfpinkotlin.tail
 
 class Practice7 : FreeSpec() {
-    private tailrec fun <T> takeWhile(predicate: (T) -> Boolean, list: List<T>, acc: List<T> = emptyList()): List<T> =
+    private tailrec fun <T> takeWhile(list: List<T>, acc: List<T> = emptyList(), predicate: (T) -> Boolean): List<T> =
         when {
             list.isEmpty() -> acc
-            predicate(list.head()) -> takeWhile(predicate, list.tail(), acc + list.head())
+            predicate(list.head()) -> takeWhile(list.tail(), acc + list.head(), predicate)
             else -> acc
         }
 
@@ -18,9 +18,10 @@ class Practice7 : FreeSpec() {
         """리스트의 값을 조건 함수에 적용했을 때, 결과값이 참인 값의 리스트를 반환하는 takeWhile 함수를 꼬리 재귀로 작성해 보자.
            예를 들어 입력 리스트가 1, 2, 3, 4, 5로 구성되어 있을 때, 조건 함수가 3보다 작은 값이면 1과 2로 구성된 리스트를 반환한다. 
         """{
-            takeWhile({ a: Int -> a < 3 }, listOf(1, 2, 3, 4, 5)) shouldContainInOrder listOf(1, 2)
-            takeWhile({ a: Int -> a >= 3 }, listOf(1, 2, 3, 4, 5)) shouldHaveSize 0
-            takeWhile({ a: Int -> a % 2 != 0 }, listOf(1, 2, 3, 4, 5)) shouldContainInOrder listOf(1)
+            takeWhile(listOf(1, 2, 3, 4, 5)) { it < 3 } shouldContainInOrder listOf(1, 2)
+            takeWhile(listOf(4, 3, 2, 1)) { it < 3 } shouldHaveSize 0
+            takeWhile(listOf(1, 2, 3, 4, 5)) { a: Int -> a >= 3 } shouldHaveSize 0
+            takeWhile(listOf(1, 2, 3, 4, 5)) { a: Int -> a % 2 != 0 } shouldContainInOrder listOf(1)
         }
     }
 }
