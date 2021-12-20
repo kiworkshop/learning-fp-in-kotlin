@@ -145,4 +145,18 @@ class Chapter5 : StringSpec({
         realFunctionalWay(bigIntList)
         println("${System.currentTimeMillis() - start} ms")
     }
+
+    "5-17" {
+        funStreamOf<Int>().sum() shouldBe 0
+        funStreamOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10).sum() shouldBe 55
+    }
+
+    "5-18" {
+        funStreamOf<Int>().product() shouldBe 1
+        funStreamOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10).product() shouldBe 3_628_800
+    }
+
+    "5-19" {
+        (funStreamOf<Int>().appendTail(1).appendTail(2) == funStreamOf(1, 2)) shouldBe true
+    }
 })
