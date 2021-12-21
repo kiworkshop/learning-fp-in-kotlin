@@ -12,6 +12,7 @@ class Practice10 : FreeSpec() {
         "filter 함수를 foldLeft 함수를 사용해서 다시 작성해보자."{
             myFunListOf(1, 2, 3).filterByFoldLeft { it % 2 == 0 } shouldBe myFunListOf(2)
             myFunListOf(1, 2, 3, 4).filterByFoldLeft { it % 2 != 0 } shouldBe myFunListOf(1, 3)
+            myFunListOf(1, 2, 3, 4, 5).filterByFoldLeft { it % 2 != 0 } shouldBe myFunListOf(1, 3, 5)
             emptyMyFunList<Int>().filterByFoldLeft { it % 2 == 0 } shouldBe emptyMyFunList()
             myFunListOf(1, 2, 3, 4, 5, 6, 7).filterByFoldLeft { it < 5 } shouldBe myFunListOf(1, 2, 3, 4)
         }
