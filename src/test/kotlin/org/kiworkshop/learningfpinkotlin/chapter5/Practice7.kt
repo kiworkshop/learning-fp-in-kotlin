@@ -9,7 +9,7 @@ import org.kiworkshop.learningfpinkotlin.takeWhile
 
 class Practice7 : FreeSpec() {
     private fun checkImmutability(originalList: MyFunList<Int>) {
-        originalList shouldBe myFunListOf(1, 2, 3)
+        originalList shouldBe myFunListOf(1, 2, 3, 2)
     }
 
     init {
@@ -18,7 +18,7 @@ class Practice7 : FreeSpec() {
            리스트의 앞에서부터 함수 p를 만족하는 값들의 리스트를 반환한다(모든 값이 함수 p를 만족하지 않는다면 원본 List를 반환). -> 문제가 이상하다. 빈 List를 반환하는 것이 맞지 않나?
            이때 원본 리스트가 바뀌지 않아야 하고, 새로운 리스트를 반환할 때마다 리스트를 생성하지 않아야 한다.
         """{
-            val originalList = myFunListOf(1, 2, 3)
+            val originalList = myFunListOf(1, 2, 3, 2)
             val emptyList = emptyMyFunList<Int>()
 
             emptyList.takeWhile { false } shouldBe emptyMyFunList()
@@ -33,7 +33,7 @@ class Practice7 : FreeSpec() {
             originalList.takeWhile { it > 100 } shouldBe emptyMyFunList()
 
             // 모두 take되는 케이스
-            originalList.takeWhile { true } shouldBe myFunListOf(1, 2, 3)
+            originalList.takeWhile { true } shouldBe myFunListOf(1, 2, 3, 2)
 
             // 원본 리스트가 바뀌지 않는다.
             checkImmutability(originalList)
