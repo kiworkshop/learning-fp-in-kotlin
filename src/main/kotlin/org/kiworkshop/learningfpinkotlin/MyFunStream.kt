@@ -131,3 +131,11 @@ tailrec fun <T> MyFunStream<T>.take(n: Int, acc: MyFunStream<T> = Nil): MyFunStr
         else getTail().take(n - 1, acc.appendTailWithoutEval(head))
     }
 }
+
+fun <T> MyFunStream<T>.take2(n: Int): MyFunStream<T> {
+    if (n == 0) return Nil
+    return when (this) {
+        Nil -> throw NoSuchElementException()
+        is Cons -> Cons(head) { getTail().take2(n - 1) }
+    }
+}
