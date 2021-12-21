@@ -130,8 +130,8 @@ fun MyFunList<Int>.maximumByFoldLeft() = this.foldLeft(0) { acc, element ->
 }
 
 fun <T> MyFunList<T>.filterByFoldLeft(pred: (T) -> Boolean) = this.foldLeft(Nil) { acc: MyFunList<T>, element ->
-    if (pred(element)) acc.appendTail(element) else acc
-}
+    if (pred(element)) acc.addHead(element) else acc
+}.reverse()
 
 fun <T, R> MyFunList<T>.foldRight(acc: R, f: (T, R) -> R): R = when (this) {
     Nil -> acc
@@ -139,8 +139,8 @@ fun <T, R> MyFunList<T>.foldRight(acc: R, f: (T, R) -> R): R = when (this) {
 }
 
 fun <T> MyFunList<T>.reverseByFoldRight(): MyFunList<T> = foldRight(Nil) { element, acc: MyFunList<T> ->
-    acc.appendTail(element)
-}
+    acc.addHead(element)
+}.reverse()
 
 fun <T> MyFunList<T>.filterByFoldRight(f: (T) -> Boolean): MyFunList<T> = foldRight(Nil) { element, acc: MyFunList<T> ->
     if (f(element)) acc.addHead(element) else acc
@@ -166,11 +166,13 @@ fun <T, R> MyFunList<T>.associate(f: (T) -> Pair<T, R>): Map<T, R> = foldLeft(ma
     acc + f(element)
 }
 
-fun <T, K> MyFunList<T>.groupBy(f: (T) -> K): Map<K, MyFunList<T>> = foldLeft(mutableMapOf()) { acc, element ->
-    val key = f(element)
-    acc[key] = acc.getOrDefault(key, Nil).appendTail(element)
-    acc
-}
+fun <T, K> MyFunList<T>.groupBy(f: (T) -> K): Map<K, MyFunList<T>> =
+    foldLeft<T, MutableMap<K, MyFunList<T>>>(mutableMapOf()) { acc, element ->
+        val key = f(element)
+        acc[key] = acc.getOrDefault(key, Nil).addHead(element)
+        acc
+    }.map { it.key to it.value.reverse() }
+        .toMap()
 
 fun imperativeWay(intList: List<Int>): Int {
     for (value in intList) {
