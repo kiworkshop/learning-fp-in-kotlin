@@ -5,7 +5,24 @@ import org.kiworkshop.learningfpinkotlin.FunStream.Nil
 
 sealed class FunStream<out T> {
     object Nil : FunStream<Nothing>()
-    data class Cons<out T>(val head: () -> T, val tail: () -> FunStream<T>) : FunStream<T>()
+    data class Cons<out T>(val head: () -> T, val tail: () -> FunStream<T>) : FunStream<T>() {
+        override fun equals(other: Any?): Boolean =
+            if (other is Cons<*>) {
+                if (head() == other.head()) {
+                    tail() == other.tail()
+                } else {
+                    false
+                }
+            } else {
+                false
+            }
+
+        override fun hashCode(): Int {
+            var result = head.hashCode()
+            result = 31 * result + tail.hashCode()
+            return result
+        }
+    }
 }
 
 fun <T> FunStream<T>.getHead(): T = when (this) {
