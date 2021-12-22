@@ -8,6 +8,7 @@ import org.kiworkshop.learningfpinkotlin.addHead
 import org.kiworkshop.learningfpinkotlin.appendTail
 import org.kiworkshop.learningfpinkotlin.foldLeft
 import org.kiworkshop.learningfpinkotlin.foldRight
+import org.kiworkshop.learningfpinkotlin.funListOf
 import org.kiworkshop.learningfpinkotlin.getHead
 import org.kiworkshop.learningfpinkotlin.getTail
 import org.kiworkshop.learningfpinkotlin.reverse
@@ -43,15 +44,15 @@ tailrec fun <T> FunList<T>.drop(n: Int): FunList<T> = when (n) {
 }
 
 /*
-* 연습문제 5-5
+* 연습문제 5-5 * drop할게 없으면 원본을 반환
 * */
 tailrec fun <T> FunList<T>.dropWhile(p: (T) -> Boolean): FunList<T> = when (this) {
-    FunList.Nil -> throw NoSuchElementException()
+    FunList.Nil -> this
     is FunList.Cons ->
         if (!p(head))
-            tail.dropWhile(p)
-        else
             this
+        else
+            tail.dropWhile(p)
 }
 
 /*
@@ -91,16 +92,21 @@ tailrec fun <T, R> FunList<T>.indexedMap(index: Int = 0, acc: FunList<R> = Nil, 
 fun FunList<Int>.maximumByFoldLeft(): Int = this.foldLeft(0) { acc, x -> max(acc, x) }
 
 /*
-* 연습문제 5-10
+* 연습문제 5-10 * O(n)으로 가능
 * */
 fun <T> FunList<T>.filterByFoldLeft(p: (T) -> Boolean): FunList<T> =
-    this.foldLeft(Nil) { acc: FunList<T>, x -> if (p(x)) acc.appendTail(x) else acc }
+    this.foldLeft(Nil) { acc: FunList<T>, x ->
+        if
+                (p(x)) acc.addHead(x)
+        else
+            acc
+    }.reverse()
 
 /*
 * 연습문제 5-11
 * */
 fun <T> FunList<T>.reverseByFoldRight(): FunList<T> =
-    this.foldRight(Nil) { x, acc: FunList<T> -> acc.appendTail(x) }
+    this.foldRight(Nil) { x, acc: FunList<T> -> acc.addHead(x) }.reverse()
 
 /*
 * 연습문제 5-12
@@ -117,49 +123,61 @@ tailrec fun <T, R> FunList<T>.zip(other: FunList<R>, acc: FunList<Pair<T, R>> = 
         else -> getTail().zip(other.getTail(), acc.addHead(getHead() to other.getHead()))
     }
 
+
 /*
 * 연습문제 5-14
 * */
-fun <T, R> FunList<T>.associate(f: (T) -> Pair<T, R>): Map<T, R> = when (this) {
-    FunList.Nil -> emptyMap()
-    is FunList.Cons -> mapOf(f(head))
-}
+fun <T, R> FunList<T>.associate(f: (T) -> Pair<T, R>): Map<T, R> =
+    foldLeft(mapOf()) { acc, x -> acc.plus(f(x)) }
+
 
 /*
 * 연습문제 5-15
 * */
-fun <T, K> FunList<T>.groupBy(f: (T) -> K): Map<K, FunList<T>> = when (this) {
-    FunList.Nil -> emptyMap()
-    is FunList.Cons -> mapOf(f(head) to this)
-}
+fun <T, K> FunList<T>.groupBy(f: (T) -> K): Map<K, FunList<T>> =
+    foldLeft(mapOf()) { acc, x ->
+        var value: FunList<T> = funListOf()
+        if (acc.containsKey(f(x)))
+            value = acc[f(x)] ?: funListOf()
+        acc.plus(f(x) to value.appendTail(x))
+    }
 
 /*
 * 연습문제 5-16
 * */
-fun imperativeWay(intList: List<Int>): Int {
+fun imperativeWay(intList: List<Long>): Long {
     for (value in intList) {
         val doubleValue = value * value
-        if (doubleValue > 10)
+        if (doubleValue < 10)
             return doubleValue
     }
     throw NoSuchElementException("There is no value")
 }
 
-fun functionalWay(intList: List<Int>): Int =
+fun functionalWay(intList: List<Long>): Long =
     intList
         .map { n -> n * n }
         .filter { n -> n < 10 }
         .first()
 
 fun main() {
-    val bigIntList = (10000000 downTo 1).toList()
+    val bigIntList = (10000000L downTo 1L).toList()
     var start = System.currentTimeMillis()
     imperativeWay(bigIntList)
-    println("${System.currentTimeMillis() - start} ms") // "0ms" 출력
+    println("${System.currentTimeMillis() - start} ms") // "44ms" 출력
 
     start = System.currentTimeMillis()
     functionalWay(bigIntList)
-    println("${System.currentTimeMillis() - start} ms") // "519ms" 출력
+    println("${System.currentTimeMillis() - start} ms") // "332ms" 출력
+
+    val bigIntList2 = (1L..10000000L).toList()
+    start = System.currentTimeMillis()
+    imperativeWay(bigIntList2)
+    println("${System.currentTimeMillis() - start} ms") // "0ms" 출력
+
+    start = System.currentTimeMillis()
+    functionalWay(bigIntList2)
+    println("${System.currentTimeMillis() - start} ms") // "310ms" 출력
 
 }
 
@@ -224,14 +242,6 @@ tailrec fun <T> FunStream<T>.toString(acc: String): String = when (this) {
             this.getTail().toString("$acc, ${head()}")
 }
 
-tailrec fun <T> FunStream<T>.toString1(acc: String = ""): String = when (this) {
-    FunStream.Nil -> "[$acc]"
-    is FunStream.Cons ->
-        if (acc.isEmpty())
-            this.getTail().toString1("$head")
-        else
-            this.getTail().toString1("$acc, $head")
-}
 
 /*
 * 연습문제 5-24
@@ -239,6 +249,4 @@ tailrec fun <T> FunStream<T>.toString1(acc: String = ""): String = when (this) {
 tailrec fun getNumSqrtSum(n: Int, acc: Double): Int = when {
     acc > 1000 -> n
     else -> getNumSqrtSum(n + 1, acc + sqrt((n + 1).toDouble()))
-
-
 }

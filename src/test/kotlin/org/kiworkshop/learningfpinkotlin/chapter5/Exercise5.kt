@@ -14,7 +14,8 @@ class Exercise5 : AnnotationSpec() {
 
     @Test
     fun `test5-5  주어진 리스트에서 앞에서 부터 p를 만족하기 전까지 drop하고, 나머지를 반환`() {
-        funListOf(1, 2, 3, 4, 5, 6).dropWhile { it >= 4 } shouldBe funListOf(4, 5, 6)
+        funListOf(1, 2, 3, 4, 5, 6).dropWhile { it < 4 } shouldBe funListOf(4, 5, 6)
+        funListOf(1, 2, 3, 4, 5, 6).dropWhile { it < 1 } shouldBe funListOf(1, 2, 3, 4, 5, 6)
     }
 
     @Test
@@ -62,18 +63,52 @@ class Exercise5 : AnnotationSpec() {
         )
     }
 
+    data class Book(
+        val name: String,
+        val price: Int
+    )
+
+    enum class Type {
+        A, B
+    }
+
     @Test
     fun `test5-14  리스트의 값을 입력받은 조합함수에 의해 맵을 생성하는 함수 구현`() {
-        funListOf(1, 2, 3).associate { t -> t to "$t 개" } shouldBe mapOf(
-            1 to "1 개"
+        funListOf(
+            Book("name1", 1000),
+            Book("name2", 1500),
+            Book("name1", 2000)
+        ).associate { it to it.price } shouldBe mapOf(
+            Book("name1", 1000) to 1000,
+            Book("name2", 1500) to 1500,
+            Book("name1", 2000) to 2000
         )
+        funListOf(1, 2, 3, 4, 5).associate { it to it * 10 } shouldBe mapOf(1 to 10, 2 to 20, 3 to 30, 4 to 40, 5 to 50)
     }
 
     @Test
     fun `test5-15  FunList의 값들을 입력받은 키 생성 함수를 기준으로 맵을 생성`() {
-        funListOf(1, 2, 3).groupBy { "NUMBER" } shouldBe mapOf(
-            "NUMBER" to funListOf(1, 2, 3)
+        funListOf(
+            Book("name1", 1000),
+            Book("name2", 1500),
+            Book("name1", 2000)
+        ).groupBy { it ->
+            when {
+                it.price < 2000 -> Type.A
+                else -> Type.B
+            }
+        } shouldBe mapOf(
+            Type.A to funListOf(
+                Book("name1", 1000),
+                Book("name2", 1500)
+            ),
+            Type.B to funListOf(
+                Book("name1", 2000)
+            )
         )
+        funListOf(1, 2, 3).groupBy { it } shouldBe mapOf(1 to funListOf(1), 2 to funListOf(2), 3 to funListOf(3))
+        funListOf(1, 2, 3, 4, 5, 6).groupBy { it % 2 == 0 } shouldBe
+                mapOf(false to funListOf(1, 3, 5), true to funListOf(2, 4, 6))
     }
 
     @Test
