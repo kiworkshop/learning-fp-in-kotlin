@@ -2,7 +2,7 @@ package org.kiworkshop.learningfpinkotlin.chapter6
 
 import io.kotest.core.spec.style.FreeSpec
 import org.kiworkshop.learningfpinkotlin.Tree.EmptyTree
-import org.kiworkshop.learningfpinkotlin.Tree.ParentNode
+import org.kiworkshop.learningfpinkotlin.Tree.Node
 
 class Practice1 : FreeSpec() {
     init {
@@ -21,19 +21,19 @@ class Practice1 : FreeSpec() {
                3   4    7
                   5  2
              */
-            val tree = ParentNode(
+            val tree = Node(
                 1,
-                ParentNode(
+                Node(
                     2,
-                    ParentNode(3, EmptyTree, EmptyTree),
-                    ParentNode(
+                    Node(3, EmptyTree, EmptyTree),
+                    Node(
                         4,
-                        ParentNode(5, EmptyTree, EmptyTree), ParentNode(2, EmptyTree, EmptyTree)
+                        Node(5, EmptyTree, EmptyTree), Node(2, EmptyTree, EmptyTree)
                     ),
                 ),
-                ParentNode(
+                Node(
                     9,
-                    EmptyTree, ParentNode(7, EmptyTree, EmptyTree)
+                    EmptyTree, Node(7, EmptyTree, EmptyTree)
                 )
             )
         }

@@ -3,7 +3,7 @@ package org.kiworkshop.learningfpinkotlin.chapter6
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import org.kiworkshop.learningfpinkotlin.Tree.EmptyTree
-import org.kiworkshop.learningfpinkotlin.Tree.ParentNode
+import org.kiworkshop.learningfpinkotlin.Tree.Node
 import org.kiworkshop.learningfpinkotlin.insert
 
 class Practice2 : FreeSpec() {
@@ -21,18 +21,18 @@ class Practice2 : FreeSpec() {
                 .insert(3)
                 .insert(2)
                 .insert(5)
-                .insert(1) as ParentNode
+                .insert(1) as Node
 
             tree.value shouldBe 3
 
-            (tree.left as ParentNode).value shouldBe 2
-            ((tree.left as ParentNode).left as ParentNode).value shouldBe 1
-            ((tree.left as ParentNode).left as ParentNode).left shouldBe EmptyTree
-            ((tree.left as ParentNode).left as ParentNode).right shouldBe EmptyTree
+            (tree.left as Node).value shouldBe 2
+            ((tree.left as Node).left as Node).value shouldBe 1
+            ((tree.left as Node).left as Node).left shouldBe EmptyTree
+            ((tree.left as Node).left as Node).right shouldBe EmptyTree
 
-            (tree.right as ParentNode).value shouldBe 5
-            (tree.right as ParentNode).left shouldBe EmptyTree
-            (tree.right as ParentNode).right shouldBe EmptyTree
+            (tree.right as Node).value shouldBe 5
+            (tree.right as Node).left shouldBe EmptyTree
+            (tree.right as Node).right shouldBe EmptyTree
         }
     }
 }
