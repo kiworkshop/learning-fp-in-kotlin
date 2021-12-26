@@ -76,3 +76,11 @@ fun Tree<Int>.insertTailrec(elem: Int): Tree<Int> {
 
     return makeTree(makePathList(elem), Tree.leafNode(elem))
 }
+
+fun Tree<Int>.contains(elem: Int): Boolean = when (this) {
+    EmptyTree -> false
+    is Node ->
+        if (elem == value) true
+        else if (elem < value) left.contains(elem)
+        else right.contains(elem)
+}
