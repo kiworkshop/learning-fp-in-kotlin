@@ -36,7 +36,7 @@ class Chapter5 : StringSpec({
         Nil.appendTail(1).appendTail(2).appendTail(3)
             .dropWhile { it < 2 } shouldBe Cons(2, Cons(3, Nil))
         Nil.appendTail(1).appendTail(2).appendTail(3)
-            .dropWhile { it < 100 } shouldBe Nil
+            .dropWhile { true } shouldBe Nil
         funListOf<Int>().dropWhile { it < 5 } shouldBe Nil
     }
 
@@ -55,7 +55,9 @@ class Chapter5 : StringSpec({
         Nil.appendTail(1).appendTail(2).appendTail(3)
             .takeWhile { it < 3 } shouldBe Cons(1, Cons(2, Nil))
         Nil.appendTail(1).appendTail(2).appendTail(3)
-            .takeWhile { it < 100 } shouldBe Cons(1, Cons(2, Cons(3, Nil)))
+            .takeWhile { true } shouldBe Cons(1, Cons(2, Cons(3, Nil)))
+        Nil.appendTail(1).appendTail(2).appendTail(3)
+            .takeWhile { false } shouldBe Nil
     }
 
     "5-8" {
@@ -103,9 +105,9 @@ class Chapter5 : StringSpec({
     }
 
     "5-15" {
-        funListOf(1, 2, 3).groupBy { "k$it" } shouldBe mapOf(
-            "k1" to funListOf(1),
-            "k2" to funListOf(2),
+        funListOf(1, 1, 2, 1, 3, 2).groupBy { "k$it" } shouldBe mapOf(
+            "k1" to funListOf(1, 1, 1),
+            "k2" to funListOf(2, 2),
             "k3" to funListOf(3)
         )
     }
@@ -114,6 +116,7 @@ class Chapter5 : StringSpec({
         fun imperativeWay(intList: List<Int>): Int {
             for (value in intList) {
                 val doubleValue = value * value
+                println(doubleValue)
                 if (doubleValue < 10) {
                     return doubleValue
                 }
@@ -127,7 +130,7 @@ class Chapter5 : StringSpec({
         fun realFunctionalWay(intList: List<Int>): Int = intList.asSequence().map { it * it }.filter { it < 10 }.first()
 
 //        val bigIntList = (1..10_000_000).toList()
-        val bigIntList = (10_000_000 downTo 1).toList()
+        val bigIntList = (10_000_000 downTo 1).toList() // OVERFLOW!
 
         var start = System.currentTimeMillis()
         imperativeWay(bigIntList)

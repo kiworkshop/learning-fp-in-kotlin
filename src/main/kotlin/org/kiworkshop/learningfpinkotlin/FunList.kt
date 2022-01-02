@@ -133,7 +133,8 @@ fun FunList<Int>.maximumByFoldLeft(): Int = this.foldLeft(getHead()) { acc, x ->
 // Exercise 5-10
 fun <T> FunList<T>.filterByFoldLeft(p: (T) -> Boolean): FunList<T> =
     this.foldLeft(FunList.Nil) { acc: FunList<T>, x ->
-        if (p(x)) acc.appendTail(x) else acc
+//        if (p(x)) acc.appendTail(x) else acc
+        if (p(x)) acc.addHead(x) else acc.reverse()
     }
 
 // Code 5-25
@@ -178,6 +179,7 @@ fun <T, R> FunList<T>.associate(f: (T) -> Pair<T, R>): Map<T, R> = when {
 }
 
 // Exercise 5-15
+// TODO: Fix
 fun <T, K> FunList<T>.groupBy(f: (T) -> K): Map<K, FunList<T>> = when {
     this === FunList.Nil -> mapOf()
     else -> mapOf(f(getHead()) to funListOf(getHead())) + getTail().groupBy(f)
