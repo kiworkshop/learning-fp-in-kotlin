@@ -2,7 +2,7 @@ package org.kiworkshop.learningfpinkotlin
 
 // Code 5-1
 sealed class FunList<out T> {
-    object Nil : FunList<Nothing>()
+    object Nil : FunList<kotlin.Nothing>()
     data class Cons<out T>(val head: T, val tail: FunList<T>) : FunList<T>()
 }
 

@@ -2,7 +2,7 @@ package org.kiworkshop.learningfpinkotlin
 
 // Code 5-38
 sealed class FunStream<out T> {
-    object Nil : FunStream<Nothing>()
+    object Nil : FunStream<kotlin.Nothing>()
     data class Cons<out T>(val head: () -> T, val tail: () -> FunStream<T>) : FunStream<T>() {
         // Code 5-40
         override fun equals(other: Any?): Boolean =
