@@ -2,6 +2,7 @@ package org.kiworkshop.learningfpinkotlin.practice
 
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.matchers.shouldBe
+import org.junit.jupiter.api.assertThrows
 
 class Chapter6 : StringSpec({
     "Example 6-1" {
@@ -9,12 +10,12 @@ class Chapter6 : StringSpec({
     }
     "Example 6-2" {
         val tree = Tree.Empty
-        tree.insert(3) shouldBe Tree.Node(3)
+        tree.insertTailrec(3) shouldBe Tree.Node(3)
 
         val left = Tree.Node<Int>(5)
         val tree1 = Tree.Node(0, left)
         val expectedTree = Tree.Node(0, Tree.Node(5, Tree.Node(4)), Tree.Empty)
-        tree1.insert(4) shouldBe expectedTree
+        tree1.insertTailrec(4) shouldBe expectedTree
     }
     "Example 6-2 (1)" {
         val left = Tree.Node<Int>(5)
@@ -23,7 +24,33 @@ class Chapter6 : StringSpec({
         val left1 = Tree.Node<Int>(5, Tree.Node(3))
         val expectedTree = Tree.Node(0, left1, right)
 
-        tree.insert(3) shouldBe expectedTree
+        tree.insertTailrec(3) shouldBe expectedTree
+    }
+    "Example 6-3" {
+        var count = 0
+        fun stackOverFlowError() {
+            val tree = Tree.Empty
+            println("$count times to calculate")
+            for (i in 1..100_000) {
+                tree.insert(i)
+                count++
+            }
+            stackOverFlowError()
+        }
+        assertThrows<StackOverflowError> { stackOverFlowError() }
+    }
+    "Example 6-4" {
+        var count = 0
+        fun stackOverFlowError() {
+            val tree = Tree.Empty
+            println("$count times to calculate")
+            for (i in 1..100_000) {
+                tree.insertTailrec(i)
+                count++
+            }
+            stackOverFlowError()
+        }
+        assertThrows<StackOverflowError> { stackOverFlowError() }
     }
 })
 
@@ -48,9 +75,20 @@ sealed class Tree<out T> {
 // 왼쪽 하위 노드의 값은 오른쪽 하위 노드의 값보다 항상 작아야함
 // 단 값을 비교하기 위해서는 T가 항상 comparable 속성을 가지고 있어야함
 fun Tree<Int>.insert(elem: Int): Tree<Int> = when (this) {
-    is Tree.Empty -> Tree.Node(elem)
+    Tree.Empty -> Tree.Node(elem)
     is Tree.Node -> {
-        if (right == Tree.Empty && left.compareTo(elem) < 1) copy(right = right.insert(elem))
+        if (left.compareTo(elem) < 0) copy(right = right.insert(elem))
         else copy(left = left.insert(elem))
     }
+}
+
+fun Tree<Int>.insertTailrec(elem: Int): Tree<Int> {
+    tailrec fun Tree<Int>.insert(elem: Int, acc: Tree<Int> = Tree.Empty): Tree<Int> = when (this) {
+        Tree.Empty -> acc
+        is Tree.Node -> {
+            if (left.compareTo(elem) < 0) copy(right = right.insert(elem, acc))
+            else copy(left = left.insert(elem, acc))
+        }
+    }
+    return insert(elem, Tree.Node(elem))
 }
