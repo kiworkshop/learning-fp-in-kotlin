@@ -97,7 +97,7 @@ fun FunList<Int>.maximumByFoldLeft(): Int = this.foldLeft(0) { acc, x -> max(acc
 fun <T> FunList<T>.filterByFoldLeft(p: (T) -> Boolean): FunList<T> =
     this.foldLeft(Nil) { acc: FunList<T>, x ->
         if
-                (p(x)) acc.addHead(x)
+        (p(x)) acc.addHead(x)
         else
             acc
     }.reverse()
@@ -123,13 +123,11 @@ tailrec fun <T, R> FunList<T>.zip(other: FunList<R>, acc: FunList<Pair<T, R>> = 
         else -> getTail().zip(other.getTail(), acc.addHead(getHead() to other.getHead()))
     }
 
-
 /*
 * 연습문제 5-14
 * */
 fun <T, R> FunList<T>.associate(f: (T) -> Pair<T, R>): Map<T, R> =
     foldLeft(mapOf()) { acc, x -> acc.plus(f(x)) }
-
 
 /*
 * 연습문제 5-15
@@ -178,7 +176,6 @@ fun main() {
     start = System.currentTimeMillis()
     functionalWay(bigIntList2)
     println("${System.currentTimeMillis() - start} ms") // "310ms" 출력
-
 }
 
 /*
@@ -241,7 +238,6 @@ tailrec fun <T> FunStream<T>.toString(acc: String): String = when (this) {
         else
             this.getTail().toString("$acc, ${head()}")
 }
-
 
 /*
 * 연습문제 5-24

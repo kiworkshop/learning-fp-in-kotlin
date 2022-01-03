@@ -22,7 +22,6 @@ fun main() {
     println(trailedReplicate(3, 4, emptyList()))
     println(trailedElem(1, false, listOf(0, 0, 2, 3, 4)))
     println(trampoline(trampFactorial(5, BigDecimal(5))))
-
 }
 
 /*

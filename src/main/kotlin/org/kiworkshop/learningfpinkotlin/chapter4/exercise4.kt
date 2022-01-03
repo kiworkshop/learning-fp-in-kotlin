@@ -98,5 +98,3 @@ tailrec fun <P> takeWhileSeq(func: (P) -> Boolean, list: Sequence<P>, acc: Seque
         !func(list.head()) -> acc
         else -> takeWhileSeq(func, list.tail(), acc + list.head())
     }
-
-
