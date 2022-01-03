@@ -2,6 +2,7 @@ package org.kiworkshop.learningfpinkotlin.chapter7
 
 import io.kotest.core.spec.style.AnnotationSpec
 import io.kotest.matchers.shouldBe
+import org.kiworkshop.learningfpinkotlin.chapter4.compose
 import org.kiworkshop.learningfpinkotlin.chapter7.FunList.Cons
 import org.kiworkshop.learningfpinkotlin.chapter7.FunList.Nil
 import org.kiworkshop.learningfpinkotlin.chapter7.FunList.Nil.first
@@ -24,4 +25,12 @@ class Exercise7 : AnnotationSpec() {
         funList2.size() shouldBe 0
     }
 
+    @Test
+    fun `test7-2 FunList가 펑터의 법칙을 만족하는지 확인`() {
+        val funList: FunList<Int> = Cons(1, Cons(2, Cons(3, Nil)))
+        //펑터 제1 법칙
+        funList.fmap { identity(it) } shouldBe identity(funList)
+        //펑터 제2 법칙
+        funList.fmap(f compose g) shouldBe funList.fmap(g).fmap(f)
+    }
 }
