@@ -50,7 +50,6 @@ tailrec fun Tree<Int>.insertTailrec(elem: Int): Tree<Int> = when (this) {
     }
 }
 
-
 /*
 * 연습문제 6-5
 * */

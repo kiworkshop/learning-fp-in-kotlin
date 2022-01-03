@@ -2,7 +2,6 @@ package org.kiworkshop.learningfpinkotlin.chapter7
 
 import org.kiworkshop.learningfpinkotlin.chapter4.compose
 
-
 /*
 * 연습문제 7-1
 * */
@@ -62,9 +61,9 @@ object NothingCounter : MaybeCounter<Nothing>() {
 
 fun main() {
     println("펑터 제1 법칙 검증")
-    println(JustCounter(5, 0).fmap { identity(it) })    //JustCounter(5, 1)
-    println(identity(JustCounter(5, 0)))                //JustCounter(5, 0)
+    println(JustCounter(5, 0).fmap { identity(it) }) // JustCounter(5, 1)
+    println(identity(JustCounter(5, 0))) // JustCounter(5, 0)
     println("펑터 제2 법칙 검증")
-    println(JustCounter(5, 0).fmap(f compose g))      //JustCounter(11, 1)
-    println(JustCounter(5, 0).fmap(g).fmap(f))          //JustCounter(11, 2)
+    println(JustCounter(5, 0).fmap(f compose g)) // JustCounter(11, 1)
+    println(JustCounter(5, 0).fmap(g).fmap(f)) // JustCounter(11, 2)
 }

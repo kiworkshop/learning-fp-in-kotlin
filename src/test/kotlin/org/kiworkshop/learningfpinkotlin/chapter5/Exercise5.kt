@@ -108,7 +108,7 @@ class Exercise5 : AnnotationSpec() {
         )
         funListOf(1, 2, 3).groupBy { it } shouldBe mapOf(1 to funListOf(1), 2 to funListOf(2), 3 to funListOf(3))
         funListOf(1, 2, 3, 4, 5, 6).groupBy { it % 2 == 0 } shouldBe
-                mapOf(false to funListOf(1, 3, 5), true to funListOf(2, 4, 6))
+            mapOf(false to funListOf(1, 3, 5), true to funListOf(2, 4, 6))
     }
 
     @Test
