@@ -4,7 +4,7 @@ import org.kiworkshop.learningfpinkotlin.MyFunStream.Cons
 import org.kiworkshop.learningfpinkotlin.MyFunStream.Nil
 
 sealed class MyFunStream<out T> {
-    object Nil : MyFunStream<Nothing>()
+    object Nil : MyFunStream<kotlin.Nothing>()
     data class Cons<out T>(val head: () -> T, val tail: () -> MyFunStream<T>) : MyFunStream<T>() {
         override fun equals(other: Any?): Boolean =
             if (other is Cons<*>) {

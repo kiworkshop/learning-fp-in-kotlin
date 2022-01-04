@@ -5,7 +5,7 @@ import org.kiworkshop.learningfpinkotlin.MyFunList.Nil
 import kotlin.math.max
 
 sealed class MyFunList<out T> {
-    object Nil : MyFunList<Nothing>()
+    object Nil : MyFunList<kotlin.Nothing>()
     data class Cons<out T>(val head: T, val tail: MyFunList<T>) : MyFunList<T>()
 }
 

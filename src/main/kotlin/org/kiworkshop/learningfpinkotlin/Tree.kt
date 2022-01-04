@@ -5,7 +5,7 @@ import org.kiworkshop.learningfpinkotlin.Tree.Node
 import kotlin.time.ExperimentalTime
 
 sealed class Tree<out T> {
-    object EmptyTree : Tree<Nothing>() {
+    object EmptyTree : Tree<kotlin.Nothing>() {
         override fun toString() = ""
     }
 

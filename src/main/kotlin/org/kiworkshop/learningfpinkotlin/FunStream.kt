@@ -4,7 +4,7 @@ import org.kiworkshop.learningfpinkotlin.FunStream.Cons
 import org.kiworkshop.learningfpinkotlin.FunStream.Nil
 
 sealed class FunStream<out T> {
-    object Nil : FunStream<Nothing>()
+    object Nil : FunStream<kotlin.Nothing>()
     data class Cons<out T>(val head: () -> T, val tail: () -> FunStream<T>) : FunStream<T>()
 }
 
