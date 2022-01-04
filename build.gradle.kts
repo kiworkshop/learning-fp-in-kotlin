@@ -15,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    implementation(kotlin("stdlib", Libs.Versions.kotlin))
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.6.0")
 
     testImplementation(Libs.Test.kotest)
     testImplementation(Libs.Test.kotestAssertionsCore)

@@ -60,7 +60,7 @@ class Chapter3 : StringSpec({
         fun replicate(n: Int, element: Int): List<Int> = when (n) {
             0 -> throw Error("not defined")
             1 -> listOf(element)
-            else -> listOf(element).plus(replicate(n - 1, element))
+            else -> listOf(element) + (replicate(n - 1, element))
         }
 
         replicate(3, 5) shouldBe listOf(5, 5, 5)
