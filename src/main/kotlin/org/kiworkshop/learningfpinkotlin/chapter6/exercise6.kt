@@ -51,14 +51,18 @@ tailrec fun Tree<Int>.insertTailrec(elem: Int): Tree<Int> = when (this) {
 }
 
 /*
-* 연습문제 6-5
+* 연습문제 6-5 TODO 효율성 높이기
 * */
 fun Tree<Int>.contains(elem: Int): Boolean = when (this) {
     EmptyTree -> false
     is Node -> {
         if (this.value == elem) true
-        else
-            this.left.contains(elem) || this.right.contains(elem)
+        else {
+            if (elem < this.value)
+                this.left.contains(elem)
+            else
+                this.right.contains(elem)
+        }
     }
 }
 

@@ -2,15 +2,26 @@ package org.kiworkshop.learningfpinkotlin.chapter7
 
 import org.kiworkshop.learningfpinkotlin.chapter4.compose
 
-/*
-* 연습문제 7-1
-* */
 interface Functor<out A> {
     fun <B> fmap(f: (A) -> B): Functor<B>
 }
 
+sealed class Maybe<out A> : Functor<A> {
+    abstract override fun toString(): String
+    abstract override fun <B> fmap(f: (A) -> B): Functor<B>
+
+}
+
+object Nothing : Maybe<kotlin.Nothing>() {
+    override fun toString(): String = "Nothing"
+    override fun <B> fmap(f: (kotlin.Nothing) -> B): Maybe<B> = Nothing
+}
+ 
+/*
+* 연습문제 7-1
+* */
 sealed class FunList<out A> : Functor<A> {
-    object Nil : FunList<Nothing>()
+    object Nil : FunList<kotlin.Nothing>()
     data class Cons<out A>(val head: A, val tail: FunList<A>) : FunList<A>()
 
     override fun <B> fmap(f: (A) -> B): FunList<B> = when (this) {
@@ -46,17 +57,17 @@ val g = { b: Int -> b * 2 }
 
 sealed class MaybeCounter<out A> : Functor<A> {
     abstract override fun toString(): String
-    abstract override fun <B> fmap(f: (A) -> B): Functor<B>
+    abstract override fun <B> fmap(f: (A) -> B): MaybeCounter<B>
 }
 
 data class JustCounter<out A>(val value: A, val count: Int) : MaybeCounter<A>() {
     override fun toString(): String = "JustCounter($value, $count)"
-    override fun <B> fmap(f: (A) -> B): Functor<B> = JustCounter(f(value), count + 1)
+    override fun <B> fmap(f: (A) -> B): MaybeCounter<B> = JustCounter(f(value), count + 1)
 }
 
-object NothingCounter : MaybeCounter<Nothing>() {
+object NothingCounter : MaybeCounter<kotlin.Nothing>() {
     override fun toString(): String = "NotingCounter"
-    override fun <B> fmap(f: (Nothing) -> B): Functor<B> = NothingCounter
+    override fun <B> fmap(f: (kotlin.Nothing) -> B): MaybeCounter<B> = NothingCounter
 }
 
 fun main() {
