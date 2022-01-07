@@ -19,6 +19,8 @@ infix fun <A, B> MyNode<(A) -> B>.apply(node: MyNode<A>): MyNode<B> = MyNode(
     node.forest.map { it.fmap(value) } + forest.map { it apply node }
 )
 
+infix fun <A> MyNode<A>.append(node: MyNode<A>): MyNode<A> = MyNode(value, forest + node)
+
 fun main() {
     val tree = MyNode(1, listOf(MyNode(2), MyNode(3)))
     println(tree.fmap { it * 2 })
