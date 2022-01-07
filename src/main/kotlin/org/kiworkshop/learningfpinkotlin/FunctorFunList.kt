@@ -23,3 +23,10 @@ data class Cons<out T>(val head: T, val tail: FunctorFunList<T>) : FunctorFunLis
 
     override fun size(): Int = 1 + tail.size()
 }
+
+fun <T> functorFunListOf(vararg elements: T): FunctorFunList<T> = elements.toFunctorFunList()
+
+fun <T> Array<out T>.toFunctorFunList(): FunctorFunList<T> = when {
+    this.isEmpty() -> Nil
+    else -> Cons(this[0], this.copyOfRange(1, this.size).toFunctorFunList())
+}
