@@ -43,3 +43,8 @@ fun <T> Array<out T>.toApplicativeFunList(): ApplicativeFunList<T> = when {
     this.isEmpty() -> ANil
     else -> ACons(this[0], this.copyOfRange(1, this.size).toApplicativeFunList())
 }
+
+infix fun <A, B> ApplicativeFunList<(A) -> B>.apply(ff: ApplicativeFunList<A>): ApplicativeFunList<B> = when (this) {
+    is ACons -> ff.fmap(head)
+    is ANil -> ANil
+}
