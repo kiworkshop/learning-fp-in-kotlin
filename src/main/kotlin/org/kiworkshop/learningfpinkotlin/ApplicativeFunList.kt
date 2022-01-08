@@ -6,7 +6,7 @@ import kotlin.Nothing
 
 sealed class ApplicativeFunList<out T> : Applicative<T> {
     companion object {
-        fun <V> pure(value : V) : ACons<V> = ACons(0, ANil).pure(value)
+        fun <V> pure(value: V): ACons<V> = ACons(0, ANil).pure(value)
     }
 
     abstract override fun <B> fmap(f: (T) -> B): ApplicativeFunList<B>
@@ -15,7 +15,7 @@ sealed class ApplicativeFunList<out T> : Applicative<T> {
     abstract override fun <B> apply(ff: Applicative<(T) -> B>): ApplicativeFunList<B>
 
     abstract fun first(): T
-    abstract fun size() : Int
+    abstract fun size(): Int
 
     data class ACons<out T>(val head: T, val tail: ApplicativeFunList<T>) : ApplicativeFunList<T>() {
         override fun <B> fmap(f: (T) -> B): ApplicativeFunList<B> = ACons(f(head), tail.fmap(f))
@@ -29,11 +29,11 @@ sealed class ApplicativeFunList<out T> : Applicative<T> {
         override fun size(): Int = 1 + tail.size()
     }
 
-    object ANil: ApplicativeFunList<Nothing>() {
+    object ANil : ApplicativeFunList<Nothing>() {
         override fun <B> fmap(f: (Nothing) -> B): ApplicativeFunList<B> = ANil
         override fun <B> apply(ff: Applicative<(Nothing) -> B>): ApplicativeFunList<B> = ANil
         override fun first(): Nothing = throw NoSuchElementException()
-        override fun size(): Int  = 0
+        override fun size(): Int = 0
     }
 }
 

@@ -26,18 +26,6 @@ class Practice3 : FreeSpec() {
         else -> Cons(this[0], this.copyOfRange(1, this.size).toFunList())
     }
 
-    fun <A> FunList.Companion.pure(value: A): FunList<A> = Cons(value, Nil)
-
-    infix fun <A> FunList<A>.append(other: FunList<A>): FunList<A> = when (this) {
-        is Cons -> Cons(this.head, this.tail append other)
-        is Nil -> other
-    }
-
-    infix fun <A, B> FunList<(A) -> B>.apply(f: FunList<A>): FunList<B> = when (this) {
-        is Cons -> f.fmap(head)
-        is Nil -> Nil
-    }
-
     init {
         "펑터를 상속받은 리스트를 만들고, pure와 apply를 확장 함수로 작성해서 리스트 애플리케이티프 펑터를 만든 후 테스트해 보자."{
             val list = funListOf(1, 2, 3, 4)
@@ -47,4 +35,16 @@ class Practice3 : FreeSpec() {
             funListOf({ a: Int -> a * 2 }) apply list shouldBe funListOf(2, 4, 6, 8)
         }
     }
+}
+
+fun <A> Practice3.FunList.Companion.pure(value: A): Practice3.FunList<A> = Practice3.Cons(value, Practice3.Nil)
+
+infix fun <A> Practice3.FunList<A>.append(other: Practice3.FunList<A>): Practice3.FunList<A> = when (this) {
+    is Practice3.Cons -> Practice3.Cons(this.head, this.tail append other)
+    is Practice3.Nil -> other
+}
+
+infix fun <A, B> Practice3.FunList<(A) -> B>.apply(f: Practice3.FunList<A>): Practice3.FunList<B> = when (this) {
+    is Practice3.Cons -> f.fmap(head)
+    is Practice3.Nil -> Practice3.Nil
 }
