@@ -24,6 +24,15 @@ infix fun <A, B> Maybe<(A) -> B>.apply(f: Maybe<A>): Maybe<B> = when (this) {
     is Nothing -> Nothing
 }
 
+
+fun <T> sequenceA(mayBeList: FunList<Maybe<T>>): Maybe<FunList<T>> = when (mayBeList) {
+    is FunList.Nil -> Just(funListOf())
+    is FunList.Cons -> Maybe.pure(cons<T>().curried()) apply mayBeList.head apply sequenceA(mayBeList.tail)
+}
+
+fun <T> sequenceAByFoldRight(mayBeList: FunList<Maybe<T>>): Maybe<FunList<T>> =
+    mayBeList.foldRight(Maybe.pure(funListOf()), liftA2(cons()))
+
 fun main() {
     println(Just(10).fmap { it + 10 })
     println(Nothing.fmap { a: Int -> a + 10 })
