@@ -12,9 +12,9 @@ class Practice8 : FreeSpec() {
             val listAf1 = funListOf({ x: Int -> x * 2 })
             val listAf2 = funListOf({ x: Int -> x + 3 })
             val listAf3 = funListOf(5)
-            val leftMaybe = FunList.pure(compose<Int, Int, Int>().curried()) apply listAf1 apply listAf2 apply listAf3
-            val rightMaybe = listAf1 apply (listAf2 apply listAf3)
-            leftMaybe.toString() shouldBe rightMaybe.toString()
+            val leftList = FunList.pure(compose<Int, Int, Int>().curried()) apply listAf1 apply listAf2 apply listAf3
+            val rightList = listAf1 apply (listAf2 apply listAf3)
+            leftList.toString() shouldBe rightList.toString()
         }
     }
 }
