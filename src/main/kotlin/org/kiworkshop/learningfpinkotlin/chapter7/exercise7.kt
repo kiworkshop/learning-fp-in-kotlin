@@ -16,33 +16,31 @@ object Nothing : Maybe<kotlin.Nothing>() {
     override fun toString(): String = "Nothing"
     override fun <B> fmap(f: (kotlin.Nothing) -> B): Maybe<B> = Nothing
 }
- 
+
 /*
 * 연습문제 7-1
 * */
 sealed class FunList<out A> : Functor<A> {
-    object Nil : FunList<kotlin.Nothing>()
-    data class Cons<out A>(val head: A, val tail: FunList<A>) : FunList<A>()
 
-    override fun <B> fmap(f: (A) -> B): FunList<B> = when (this) {
-        Nil -> Nil
-        is Cons -> Cons(f(head), tail.fmap(f))
-    }
+    abstract override fun <B> fmap(f: (A) -> B): FunList<B>
+    abstract fun first(): A
+    abstract fun size(): Int
+}
 
-    fun <A> FunList<A>.first(): A = when (this) {
-        Nil -> throw NoSuchElementException()
-        is Cons -> head
-    }
+object Nil : FunList<kotlin.Nothing>() {
+    override fun <B> fmap(f: (kotlin.Nothing) -> B): FunList<B> = Nil
 
-    fun <A> FunList<A>.size(): Int {
-        var count = 0
-        var current = this
-        while (current is Cons<A>) {
-            count += 1
-            current = current.tail
-        }
-        return count
-    }
+    override fun first(): kotlin.Nothing = throw NoSuchElementException()
+
+    override fun size(): Int = 0
+}
+
+data class Cons<A>(val head: A, val tail: FunList<A>) : FunList<A>() {
+    override fun <B> fmap(f: (A) -> B): FunList<B> = Cons(f(head), tail.fmap(f))
+
+    override fun first(): A = head
+
+    override fun size(): Int = 1 + tail.size()
 }
 
 /*
