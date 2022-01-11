@@ -20,12 +20,13 @@ class Practice3 : FreeSpec() {
     }
 
     init {
-        "펑터를 상속받은 리스트를 만들고, pure와 apply를 확장 함수로 작성해서 리스트 애플리케이티프 펑터를 만든 후 테스트해 보자."{
+        "펑터를 상속받은 리스트를 만들고, pure와 apply를 확장 함수로 작성해서 리스트 애플리케이티프 펑터를 만든 후 테스트해 보자." {
             val list = funListOf(1, 2, 3, 4)
 
             FunList.pure(5) shouldBe funListOf(5)
             list append funListOf(3) shouldBe funListOf(1, 2, 3, 4, 3)
             funListOf({ a: Int -> a * 2 }) apply list shouldBe funListOf(2, 4, 6, 8)
+            funListOf({ a: Int -> a * 2 }, { a: Int -> a * a }) apply list shouldBe funListOf(2, 4, 6, 8, 1, 4, 9, 16)
         }
     }
 }
@@ -45,6 +46,6 @@ infix fun <A> Practice3.FunList<A>.append(other: Practice3.FunList<A>): Practice
 }
 
 infix fun <A, B> Practice3.FunList<(A) -> B>.apply(f: Practice3.FunList<A>): Practice3.FunList<B> = when (this) {
-    is Practice3.Cons -> f.fmap(head)
+    is Practice3.Cons -> f.fmap(head) append tail.apply(f)
     is Practice3.Nil -> Practice3.Nil
 }

@@ -17,6 +17,11 @@ class Practice3 : FreeSpec() {
 
     private fun makeStackOverflowError() {
         var tree: Tree<Int> = EmptyTree
+        /*
+        (1..100_000).fold(EmptyTree as Tree<Int>) { acc, i ->
+            acc.insert(i)
+        }
+        */
         for (i in 1..100000 * 10000 step 10000) {
             println(i)
             for (j in 1..i) {
