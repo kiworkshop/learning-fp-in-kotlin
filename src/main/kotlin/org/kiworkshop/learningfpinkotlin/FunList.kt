@@ -15,16 +15,6 @@ sealed class FunList<out T> : Functor<T> {
 
     data class Cons<out T>(val head: T, val tail: FunList<T>) : FunList<T>() {
         override fun <B> fmap(f: (T) -> B): FunList<B> = Cons(f(head), tail.fmap(f))
-
-//  Example 8-3
-//        override fun <V> pure(value: V): FunList<V> = Cons(value, Nil)
-//
-//        override fun <B> apply(ff: Applicative<(T) -> B>): Applicative<B> = when (ff) {
-//            is FunList -> {
-//                ff.fmap { this.fmap(it) }.foldLeft(Nil as FunList<B>) { acc, curr -> acc.append(curr) }
-//            }
-//            else -> Nil
-//        }
     }
 }
 
