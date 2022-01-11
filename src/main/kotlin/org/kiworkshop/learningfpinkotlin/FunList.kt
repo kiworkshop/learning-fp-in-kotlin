@@ -22,7 +22,7 @@ fun <A> FunList.Companion.pure(value: A): FunList<A> = Cons(value, Nil)
 
 infix fun <A, B> FunList<(A) -> B>.apply(ff: FunList<A>): FunList<B> = when (this) {
     is Nil -> Nil
-    is Cons -> this.fmap { ff.fmap(it) }.foldLeft(Nil as FunList<B>) { acc, curr -> acc.append(curr) }
+    is Cons -> ff.fmap(head) append (tail apply ff)
 }
 
 infix fun <A> FunList<A>.append(other: FunList<A>): FunList<A> = when (this) {
@@ -119,4 +119,4 @@ fun <A, B, R> FunList.Companion.liftA2(binaryFunction: (A, B) -> R) =
     { f1: FunList<A>, f2: FunList<B> -> FunList.pure(binaryFunction.curried()) apply f1 apply f2 }
 
 // 8장. cons
-fun <T> cons() = { x: T, xs: FunList<T> -> FunList.Cons(x, xs) }
+fun <T> cons() = { x: T, xs: FunList<T> -> Cons(x, xs) }
