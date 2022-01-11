@@ -30,17 +30,17 @@ sealed class FunList<out T> : Functor<T> {
 
 fun <A> FunList.Companion.pure(value: A): FunList<A> = Cons(value, Nil)
 
-infix fun <A, B> FunList<(A) -> B>.apply(f: FunList<A>): FunList<B> = when (this) {
-    is Cons -> f.fmap(head)
+infix fun <A, B> FunList<(A) -> B>.apply(ff: FunList<A>): FunList<B> = when (this) {
     is Nil -> Nil
+    is Cons -> this.fmap { ff.fmap(it) }.foldLeft(Nil as FunList<B>) { acc, curr -> acc.append(curr) }
 }
 
 infix fun <A> FunList<A>.append(other: FunList<A>): FunList<A> = when (this) {
-    is Cons -> when (other) {
-        is Cons -> this.tail.append(other).addHead(this.head)
-        is Nil -> this
-    }
     is Nil -> other
+    is Cons -> when (other) {
+        is Nil -> this
+        is Cons -> this.tail.append(other).addHead(this.head)
+    }
 }
 
 fun <T> funListOf(vararg elements: T): FunList<T> = elements.toFunList()
@@ -53,23 +53,23 @@ fun <T> Array<out T>.toFunList(): FunList<T> = when {
 fun <T> FunList<T>.addHead(head: T): FunList<T> = Cons(head, this)
 
 tailrec fun <T> FunList<T>.appendTail(value: T, acc: FunList<T> = Nil): FunList<T> = when (this) {
-    is Cons -> tail.appendTail(value, acc.addHead(head))
     is Nil -> Cons(value, acc).reverse()
+    is Cons -> tail.appendTail(value, acc.addHead(head))
 }
 
 tailrec fun <T> FunList<T>.reverse(acc: FunList<T> = Nil): FunList<T> = when (this) {
-    is Cons -> tail.reverse(acc.addHead(head))
     is Nil -> acc
+    is Cons -> tail.reverse(acc.addHead(head))
 }
 
 fun <T> FunList<T>.getTail(): FunList<T> = when (this) {
-    is Cons -> tail
     is Nil -> throw NoSuchElementException()
+    is Cons -> tail
 }
 
 fun <T> FunList<T>.getHead(): T = when (this) {
-    is Cons -> head
     is Nil -> throw NoSuchElementException()
+    is Cons -> head
 }
 
 tailrec fun <T> FunList<T>.filter(acc: FunList<T> = Nil, p: (T) -> Boolean): FunList<T> = when (this) {
@@ -79,8 +79,8 @@ tailrec fun <T> FunList<T>.filter(acc: FunList<T> = Nil, p: (T) -> Boolean): Fun
 }
 
 tailrec fun <T> FunList<T>.drop(n: Int): FunList<T> = when (this) {
-    is Cons -> if (n < 1) this else this.tail.drop(n - 1)
     is Nil -> this
+    is Cons -> if (n < 1) this else this.tail.drop(n - 1)
 }
 
 tailrec fun <T> FunList<T>.dropWhile(p: (T) -> Boolean): FunList<T> = when (this) {
@@ -90,8 +90,8 @@ tailrec fun <T> FunList<T>.dropWhile(p: (T) -> Boolean): FunList<T> = when (this
 }
 
 tailrec fun <T> FunList<T>.take(n: Int, acc: FunList<T> = Nil): FunList<T> = when (this) {
-    is Cons -> if (n < 1) acc.reverse() else this.tail.take(n - 1, acc.addHead(this.head))
     is Nil -> this
+    is Cons -> if (n < 1) acc.reverse() else this.tail.take(n - 1, acc.addHead(this.head))
 }
 
 fun <T> FunList<T>.takeWhile(p: (T) -> Boolean): FunList<T> {
@@ -105,11 +105,28 @@ fun <T> FunList<T>.takeWhile(p: (T) -> Boolean): FunList<T> {
     return if (result == Nil) this else result
 }
 
+tailrec fun <T, R> FunList<T>.foldLeft(acc: R, f: (R, T) -> R): R = when (this) {
+    Nil -> acc
+    is Cons -> tail.foldLeft(f(acc, head), f)
+}
+
+fun <T, R> FunList<T>.foldRight(acc: R, f: (T, R) -> R): R = when (this) {
+    is Nil -> acc
+    is Cons -> f(head, tail.foldRight(acc, f))
+}
+
 // Example 8-6
 infix fun <A, B> FunList<(A) -> B>.zipList(other: FunList<A>): FunList<B> = when (this) {
-    is Cons -> when (other) {
-        is Cons -> Cons(this.head(other.head), this.tail.zipList(other.tail))
-        is Nil -> Nil
-    }
     is Nil -> Nil
+    is Cons -> when (other) {
+        is Nil -> Nil
+        is Cons -> Cons(this.head(other.head), this.tail.zipList(other.tail))
+    }
 }
+
+// Maybe liftA2 와 충돌 -> companion 으로 이동
+fun <A, B, R> FunList.Companion.liftA2(binaryFunction: (A, B) -> R) =
+    { f1: FunList<A>, f2: FunList<B> -> FunList.pure(binaryFunction.curried()) apply f1 apply f2 }
+
+// 8장. cons
+fun <T> cons() = { x: T, xs: FunList<T> -> FunList.Cons(x, xs) }

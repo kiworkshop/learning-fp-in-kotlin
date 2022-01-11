@@ -18,3 +18,11 @@ infix fun <A, B> Node<(A) -> B>.apply(node: Node<A>): Node<B> = Node(
     value(node.value),
     node.forest.map { it.fmap(value) } + forest.map { it.apply(node) }
 )
+
+fun <A, B, R> Tree.Companion.liftA2(binaryFunction: (A, B) -> R) =
+    { f1: Node<A>, f2: Node<B> -> Tree.pure(binaryFunction.curried()) apply f1 apply f2 }
+
+fun <T> Tree.Companion.sequenceA(nodeList: FunList<Node<T>>): Node<FunList<T>> = when (nodeList) {
+    is FunList.Nil -> Node(funListOf())
+    is FunList.Cons -> Tree.pure(cons<T>().curried()) apply nodeList.head apply sequenceA(nodeList.tail)
+}

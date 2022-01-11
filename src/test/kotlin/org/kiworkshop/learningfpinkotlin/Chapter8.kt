@@ -121,6 +121,20 @@ class Chapter8 : StringSpec({
         println(leftMaybe.toString())
     }
 
+    "Code 8-50, 8-51" {
+        val lifted: (Maybe<Int>, Maybe<FunList<Int>>) -> Maybe<FunList.Cons<Int>> =
+            Maybe.liftA2 { x: Int, y: FunList<Int> -> FunList.Cons(x, y) }
+
+        lifted(Just(3), Just(funListOf(10)))
+    }
+
+    "Code 8-55" {
+        when (val result = Maybe.sequenceAByFoldRight(funListOf(Just(10), Just(20)))) {
+            is Nothing -> Nothing
+            is Just -> println(result.value)
+        }
+    }
+
     "Example 8-1" {
         val funList = funListOf(1, 2, 3, 4)
         val partial1: Functor<(Int) -> Int> = funList.fmap { x: Int -> { y: Int -> x * y } }
@@ -172,19 +186,19 @@ class Chapter8 : StringSpec({
             .apply(Node(5, listOf(Node(6), Node(7, listOf(Node(8), Node(9))))))
             .shouldBe(
                 Node(
-                    5,
+                    5 * 1,
                     listOf(
-                        Node(6),
-                        Node(7, listOf(Node(8), Node(9))),
+                        Node(6 * 1),
+                        Node(7 * 1, listOf(Node(8 * 1), Node(9 * 1))),
                         Node(
-                            10,
+                            5 * 2,
                             listOf(
-                                Node(12),
-                                Node(14, listOf(Node(16), Node(18))),
-                                Node(15, listOf(Node(18), Node(21, listOf(Node(24), Node(27)))))
+                                Node(6 * 2),
+                                Node(7 * 2, listOf(Node(8 * 2), Node(9 * 2))),
+                                Node(5 * 3, listOf(Node(6 * 3), Node(7 * 3, listOf(Node(8 * 3), Node(9 * 3)))))
                             )
                         ),
-                        Node(20, listOf(Node(24), Node(28, listOf(Node(32), Node(36)))))
+                        Node(5 * 4, listOf(Node(6 * 4), Node(7 * 4, listOf(Node(8 * 4), Node(9 * 4)))))
                     )
                 )
             )
@@ -240,5 +254,45 @@ class Chapter8 : StringSpec({
         val rightList = listAf.fmap(function)
         leftList.toString() shouldBe rightList.toString()
         println(leftList.toString())
+    }
+
+    "Example 8-12" {
+        val lifted = FunList.liftA2 { x: Int, y: Int -> x + y }
+        val result = lifted(funListOf(1, 2), funListOf(4, 5))
+
+        result shouldBe funListOf(5, 6, 6, 7)
+    }
+
+    "Example 8-13" {
+        val lifted = Tree.liftA2 { x: Int, y: Int -> x + y }
+        val result = lifted(Node(1, listOf(Node(2), Node(3))), Node(5, listOf(Node(6), Node(7))))
+
+        result.toString() shouldBe "6 [7 [], 8 [], 7 [8 [], 9 []], 8 [9 [], 10 []]]"
+    }
+
+    "Example 8-14" {
+        val lifted =
+            Either.liftA2<String, Int, FunList<Int>, FunList<Int>> { x: Int, y: FunList<Int> -> FunList.Cons(x, y) }
+
+        lifted(Either.pure(1), Either.pure(funListOf(2, 3))) shouldBe Either.pure(funListOf(1, 2, 3))
+        lifted(Left("error"), Either.pure(funListOf(2, 3))) shouldBe Left("error")
+    }
+
+    "Example 8-15" {
+        val lifted = Maybe.liftA3 { x: Int, y: Int, z: FunList<Int> -> FunList.Cons(x, FunList.Cons(y, z)) }
+
+        lifted(Just(1), Just(2), Just(funListOf(3))) shouldBe Just(funListOf(1, 2, 3))
+    }
+
+    "Example 8-16" {
+    }
+
+    "Example 8-17" {
+    }
+
+    "Example 8-18" {
+        val result = Either.sequenceA(funListOf(Either.pure(1), Either.pure(2)))
+
+        result shouldBe Either.pure(funListOf(1, 2))
     }
 })
