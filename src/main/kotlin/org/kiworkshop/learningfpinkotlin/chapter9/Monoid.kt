@@ -1,4 +1,7 @@
-package org.kiworkshop.learningfpinkotlin
+package org.kiworkshop.learningfpinkotlin.chapter9
+
+import org.kiworkshop.learningfpinkotlin.FunList
+import org.kiworkshop.learningfpinkotlin.foldRight
 
 interface Monoid<T> {
     /**

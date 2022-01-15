@@ -1,4 +1,8 @@
-package org.kiworkshop.learningfpinkotlin
+package org.kiworkshop.learningfpinkotlin.chapter9
+
+import org.kiworkshop.learningfpinkotlin.Just
+import org.kiworkshop.learningfpinkotlin.Maybe
+import org.kiworkshop.learningfpinkotlin.Nothing
 
 object MaybeMonoid {
     fun <T> monoid(inValue: Monoid<T>) = object : Monoid<Maybe<T>> {

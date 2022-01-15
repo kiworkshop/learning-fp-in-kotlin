@@ -2,7 +2,6 @@ package org.kiworkshop.learningfpinkotlin.chapter9
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import org.kiworkshop.learningfpinkotlin.AnyMonoid
 
 class Practice3 : FreeSpec() {
     init {

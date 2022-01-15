@@ -1,4 +1,8 @@
-package org.kiworkshop.learningfpinkotlin
+package org.kiworkshop.learningfpinkotlin.chapter9
+
+import org.kiworkshop.learningfpinkotlin.FunList
+import org.kiworkshop.learningfpinkotlin.concat
+import org.kiworkshop.learningfpinkotlin.funListOf
 
 class ListMonoid<T> : Monoid<FunList<T>> {
     override fun mempty(): FunList<T> = funListOf()
