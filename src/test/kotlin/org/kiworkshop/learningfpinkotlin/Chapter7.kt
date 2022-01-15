@@ -8,7 +8,7 @@ class Chapter7 : FunSpec({
     context("P.180 연습문제 7-1") {
         test(
             "5장에서 만든 FunList를 Functor의 인스턴스로 만들어보자." +
-                    "FunList에 이미 map 함수등이 존재하지만, fmap, first, size와 같은 기본적인 기능만 제공하는 형태로 다시 작성하라"
+                "FunList에 이미 map 함수등이 존재하지만, fmap, first, size와 같은 기본적인 기능만 제공하는 형태로 다시 작성하라"
         ) {
             val functorList = Cons(1, Cons(2, Cons(3, Cons(4, Nil))))
 
