@@ -15,3 +15,5 @@ data class Node<A>(val value: A, val leftTree: BinaryTree<A> = EmptyTree, val ri
     BinaryTree<A>()
 
 object EmptyTree : BinaryTree<Nothing>()
+
+fun <A> BinaryTree<A>.contains(value: A) = foldMap({ it == value }, AnyMonoid())
