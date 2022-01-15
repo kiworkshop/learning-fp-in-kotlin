@@ -12,7 +12,7 @@ sealed class FunList<out T> : Monad<T> {
         is Cons -> Cons(value, Nil)
     }
 
-    override fun <B> flatMap(f: (T) -> Monad<B>): FunList<B> = when (this) {
+    override infix fun <B> flatMap(f: (T) -> Monad<B>): FunList<B> = when (this) {
         is Cons -> try {
             (f(head) as FunList<B>) mappend tail.flatMap(f)
         } catch (e: ClassCastException) {
