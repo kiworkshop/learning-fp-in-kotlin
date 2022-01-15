@@ -145,3 +145,8 @@ tailrec fun <T> FunList<T>.toString(acc: String): String = when (this) {
 
 fun <T> FunList<T>.toStringByFoldLeft(): String =
     "[${foldLeft("") { acc, curr -> "$acc$DELIMITER$curr" }.drop(DELIMITER.length)}]"
+
+infix fun <T> FunList<T>.concat(other: FunList<T>): FunList<T> = when (this) {
+    is Nil -> other
+    is Cons -> Cons(head, tail concat other)
+}
