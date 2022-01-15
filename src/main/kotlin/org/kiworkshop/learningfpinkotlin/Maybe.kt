@@ -24,7 +24,6 @@ infix fun <A, B> Maybe<(A) -> B>.apply(f: Maybe<A>): Maybe<B> = when (this) {
     is Nothing -> Nothing
 }
 
-
 fun <T> sequenceA(mayBeList: FunList<Maybe<T>>): Maybe<FunList<T>> = when (mayBeList) {
     is FunList.Nil -> Just(funListOf())
     is FunList.Cons -> Maybe.pure(cons<T>().curried()) apply mayBeList.head apply sequenceA(mayBeList.tail)
@@ -45,14 +44,13 @@ fun main() {
 
     println(
         Maybe.pure({ x: Int, y: Int -> x * y }.curried())
-                apply Just(10)
-                apply Just(20)
+            apply Just(10)
+            apply Just(20)
     )
     println(
         Maybe.pure({ x: Int, y: Int, z: Int -> x * y + z }.curried())
-                apply Just(10)
-                apply Just(20)
-                apply Just(30)
+            apply Just(10)
+            apply Just(20)
+            apply Just(30)
     )
-
 }

@@ -200,4 +200,4 @@ tailrec fun <T> MyFunList<T>.toString(acc: String): String = when (this) {
     is Cons -> tail.toString("$acc, $head")
 }
 
-fun <T> MyFunList<T>.toStringByFoldLeft(): String = "[${foldLeft("") {acc, element -> "$acc, $element"}.drop(2)}]"
+fun <T> MyFunList<T>.toStringByFoldLeft(): String = "[${foldLeft("") { acc, element -> "$acc, $element" }.drop(2)}]"

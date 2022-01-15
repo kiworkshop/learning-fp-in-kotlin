@@ -2,6 +2,7 @@ package org.kiworkshop.learningfpinkotlin
 
 sealed class Either<out L, out R> : Functor<R> {
     abstract override fun <R2> fmap(f: (R) -> R2): Either<L, R2>
+
     companion object
 }
 

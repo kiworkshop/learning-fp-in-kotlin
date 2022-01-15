@@ -21,4 +21,3 @@ data class Node<out A>(val value: A, val leftTree: FunctorTree<A>, val rightTree
 
 fun <T> treeOf(value: T, leftTree: FunctorTree<T> = EmptyTree, rightTree: FunctorTree<T> = EmptyTree): FunctorTree<T> =
     Node(value, leftTree, rightTree)
-

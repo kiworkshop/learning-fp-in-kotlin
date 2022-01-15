@@ -1,4 +1,4 @@
-package org.kiworkshop.learningfpinkotlin;
+package org.kiworkshop.learningfpinkotlin
 
 import org.kiworkshop.learningfpinkotlin.ApplicativeFunList.ACons
 import org.kiworkshop.learningfpinkotlin.ApplicativeFunList.ANil

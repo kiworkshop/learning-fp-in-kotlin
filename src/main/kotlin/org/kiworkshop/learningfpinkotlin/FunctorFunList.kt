@@ -4,8 +4,8 @@ import kotlin.Nothing
 
 sealed class FunctorFunList<out T> : Functor<T> {
     abstract override fun <B> fmap(f: (T) -> B): FunctorFunList<B>
-    abstract fun first() : T
-    abstract fun size() : Int
+    abstract fun first(): T
+    abstract fun size(): Int
 }
 
 object Nil : FunctorFunList<Nothing>() {

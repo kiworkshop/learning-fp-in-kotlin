@@ -7,7 +7,7 @@ sealed class MyTree<out A> : Functor<A> {
 }
 
 data class MyNode<out A>(val value: A, val forest: List<MyNode<A>> = emptyList()) : MyTree<A>() {
-    override fun toString(): String = if(forest.isEmpty()) "$value" else "$value $forest"
+    override fun toString(): String = if (forest.isEmpty()) "$value" else "$value $forest"
 
     override fun <B> fmap(f: (A) -> B): MyNode<B> = MyNode(f(value), forest.map { it.fmap(f) })
 }
@@ -28,7 +28,7 @@ fun main() {
 
     println(
         MyTree.pure({ x: Int, y: Int -> x * y }.curried())
-                apply MyNode(1, listOf(MyNode(2), MyNode(3)))
-                apply MyNode(4, listOf(MyNode(5), MyNode(6)))
+            apply MyNode(1, listOf(MyNode(2), MyNode(3)))
+            apply MyNode(4, listOf(MyNode(5), MyNode(6)))
     )
 }

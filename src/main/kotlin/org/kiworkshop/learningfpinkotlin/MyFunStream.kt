@@ -66,7 +66,6 @@ tailrec fun <T> MyFunStream<T>.appendTailWithoutEval(valueFn: () -> T, acc: MyFu
         is Cons -> getTail().appendTailWithoutEval(valueFn, acc.addHeadWithoutEval(head))
     }
 
-
 fun <T> MyFunStream<T>.reverse(acc: MyFunStream<T> = Nil): MyFunStream<T> = when (this) {
     Nil -> acc
     is Cons -> getTail().reverse(acc.addHeadWithoutEval(head))

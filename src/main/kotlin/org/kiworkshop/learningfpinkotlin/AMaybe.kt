@@ -4,7 +4,7 @@ import kotlin.Nothing
 
 sealed class AMaybe<out A> : Applicative<A> {
     companion object {
-        fun <V> pure(value : V) : Applicative<V> = AJust(0).pure(value)
+        fun <V> pure(value: V): Applicative<V> = AJust(0).pure(value)
     }
 
     override fun <V> pure(value: V): Applicative<V> = AJust(value)
@@ -22,7 +22,6 @@ data class AJust<out A>(val value: A) : AMaybe<A>() {
 
     override fun <B> fmap(f: (A) -> B): AMaybe<B> = AJust(f(value))
 }
-
 
 object ANothing : AMaybe<Nothing>() {
     override fun toString(): String = "ANothing"
