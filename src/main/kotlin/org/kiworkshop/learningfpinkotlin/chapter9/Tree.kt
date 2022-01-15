@@ -1,6 +1,7 @@
 package org.kiworkshop.learningfpinkotlin.chapter9
 
 import org.kiworkshop.learningfpinkotlin.FunList
+import org.kiworkshop.learningfpinkotlin.funListOf
 
 sealed interface Tree<out T> : Foldable<T> {
 
@@ -18,3 +19,5 @@ sealed interface Tree<out T> : Foldable<T> {
 }
 
 fun <T> Tree<T>.contains(value: T) = foldMap({ it == value }, AnyMonoid())
+
+fun <T> Tree<T>.toFunList(): FunList<T> = foldMap({ funListOf(it) }, ListMonoid())
