@@ -7,14 +7,15 @@ import org.kiworkshop.learningfpinkotlin.AnyMonoid
 class Practice1 : FreeSpec() {
     init {
         "|| 연산을 Any 모노이드로 만들어 보자." {
-            val anyMonoid = AnyMonoid()
+            AnyMonoid().run {
+                mappend(false, mempty()) shouldBe false
+                mappend(true, mempty()) shouldBe true
 
-            (false || anyMonoid.mempty()) shouldBe false
-            (true || anyMonoid.mempty()) shouldBe true
-            anyMonoid.mappend(m1 = false, m2 = false) shouldBe false
-            anyMonoid.mappend(m1 = true, m2 = false) shouldBe true
-            anyMonoid.mappend(m1 = false, m2 = true) shouldBe true
-            anyMonoid.mappend(m1 = true, m2 = true) shouldBe true
+                mappend(m1 = false, m2 = false) shouldBe false
+                mappend(m1 = true, m2 = false) shouldBe true
+                mappend(m1 = false, m2 = true) shouldBe true
+                mappend(m1 = true, m2 = true) shouldBe true
+            }
         }
     }
 }
