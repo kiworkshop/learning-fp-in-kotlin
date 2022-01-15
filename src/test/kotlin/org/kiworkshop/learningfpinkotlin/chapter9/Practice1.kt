@@ -2,15 +2,9 @@ package org.kiworkshop.learningfpinkotlin.chapter9
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import org.kiworkshop.learningfpinkotlin.Monoid
+import org.kiworkshop.learningfpinkotlin.AnyMonoid
 
 class Practice1 : FreeSpec() {
-    class AnyMonoid : Monoid<Boolean> {
-        override fun mempty(): Boolean = false
-
-        override fun mappend(m1: Boolean, m2: Boolean): Boolean = m1 || m2
-    }
-
     init {
         "|| 연산을 Any 모노이드로 만들어 보자." {
             val anyMonoid = AnyMonoid()
