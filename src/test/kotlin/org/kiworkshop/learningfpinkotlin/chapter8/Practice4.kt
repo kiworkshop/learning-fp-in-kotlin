@@ -1,4 +1,4 @@
-package org.kiworkshop.learningfpinkotlin.chpater8
+package org.kiworkshop.learningfpinkotlin.chapter8
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe

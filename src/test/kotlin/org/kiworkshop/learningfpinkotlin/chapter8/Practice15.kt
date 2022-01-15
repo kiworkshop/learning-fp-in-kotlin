@@ -1,11 +1,8 @@
-package org.kiworkshop.learningfpinkotlin.chpater8
+package org.kiworkshop.learningfpinkotlin.chapter8
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import org.kiworkshop.learningfpinkotlin.Either
 import org.kiworkshop.learningfpinkotlin.Maybe
-import org.kiworkshop.learningfpinkotlin.MyNode
-import org.kiworkshop.learningfpinkotlin.Right
 import org.kiworkshop.learningfpinkotlin.apply
 import org.kiworkshop.learningfpinkotlin.curried
 import org.kiworkshop.learningfpinkotlin.pure

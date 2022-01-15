@@ -1,9 +1,8 @@
-package org.kiworkshop.learningfpinkotlin.chpater8
+package org.kiworkshop.learningfpinkotlin.chapter8
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
-import org.kiworkshop.learningfpinkotlin.chpater8.Practice3.FunList
-import org.kiworkshop.learningfpinkotlin.of
+import org.kiworkshop.learningfpinkotlin.chapter8.Practice3.FunList
 
 class Practice11 : FreeSpec() {
     init {
