@@ -1,6 +1,5 @@
 package org.kiworkshop.learningfpinkotlin
 
-
 sealed class BinaryTree<out T> {
     abstract override fun toString(): String
 }
