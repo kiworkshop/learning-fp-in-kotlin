@@ -68,6 +68,19 @@ fun <T> FunList<FunList<T>>.flatten(): FunList<T> = foldRight(mempty()) { t, r: 
     t mappend r
 }
 
+tailrec fun <T> FunList<T>.contains(element: T): Boolean = when (this) {
+    Nil -> false
+    is Cons -> if (element == head) true else tail.contains(element)
+}
+
+fun <T> FunList<T>.distinct(): FunList<T> =
+    foldLeft(Nil as FunList<T>) { acc, x -> if (acc.contains(x)) acc else Cons(x, acc) }
+
+tailrec fun <T> FunList<T>.reverse(acc: FunList<T> = Nil): FunList<T> = when (this) {
+    Nil -> acc
+    is Cons -> tail.reverse(Cons(head, acc))
+}
+
 fun main() {
     val list1 = funListOf(1, 2, 3)
     val list2 = funListOf(5, 10, 15, 20)
