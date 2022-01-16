@@ -7,15 +7,27 @@ sealed class FunStream<out T> {
 
     data class Cons<out T>(val head: () -> T, val tail: () -> FunStream<T>) : FunStream<T>() {
         override fun toString(): String = "[${foldLeft("") { acc, x -> "$acc, $x" }.drop(2)}]"
+
+        override fun equals(other: Any?): Boolean =
+            if (other is Cons<*>) {
+                if (head() == other.head()) tail() == other.tail()
+                else false
+            } else false
+
+        override fun hashCode(): Int {
+            var result = head.hashCode()
+            result = 31 * result + tail.hashCode()
+            return result
+        }
     }
 }
 
-fun <T> funStreamOf(vararg elements: T): FunList<T> = elements.toFunStream()
+fun <T> funStreamOf(vararg elements: T): FunStream<T> = elements.toFunStream()
 fun <T> emptyFunStream() = funStreamOf<Nothing>()
 
-private fun <T> Array<out T>.toFunStream(): FunList<T> = when {
-    this.isEmpty() -> Nil
-    else -> Cons(this[0], this.copyOfRange(1, this.size).toFunStream())
+private fun <T> Array<out T>.toFunStream(): FunStream<T> = when {
+    this.isEmpty() -> FunStream.Nil
+    else -> FunStream.Cons({ this[0] }, { this.copyOfRange(1, this.size).toFunStream() })
 }
 
 tailrec fun <T, R> FunStream<T>.foldLeft(acc: R, f: (R, T) -> R): R = when (this) {
