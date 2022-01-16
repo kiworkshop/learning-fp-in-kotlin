@@ -73,3 +73,23 @@ infix fun <T, R> FunStream<T>._apply(f: FunStream<(T) -> R>): FunStream<R> = whe
     // tail 부분도 지연 연산 처리할 수는 없나?
     is FunStream.Cons -> f.fmap { it(head()) } mappend (tail() _apply f)
 }
+
+/*
+infix fun <T, R> FunStream<T>.flatMap(f: (T) -> FunStream<R>): FunStream<R> = when (this) {
+    FunStream.Nil -> FunStream.Nil
+    is FunStream.Cons -> f(head()) mappend (tail() flatMap f)
+}
+*/
+
+infix fun <T, R> FunStream<T>.flatMap(f: (T) -> FunStream<R>): FunStream<R> = fmap(f).flatten()
+
+fun <T, R> FunStream<T>.foldRight(acc: R, f: (T, R) -> R): R = when (this) {
+    FunStream.Nil -> acc
+    is FunStream.Cons -> f(head(), tail().foldRight(acc, f))
+}
+
+fun <T> FunStream<FunStream<T>>.flatten(): FunStream<T> = when (this) {
+    FunStream.Nil -> FunStream.Nil
+    // 어떻게 하면 이걸 지연 연산으로 할 수 있지?
+    is FunStream.Cons -> head() mappend tail().flatten()
+}

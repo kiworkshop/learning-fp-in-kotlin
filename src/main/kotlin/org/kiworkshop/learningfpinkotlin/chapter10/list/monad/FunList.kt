@@ -36,6 +36,10 @@ infix fun <T, R> FunList<T>.fmap(f: (T) -> R): FunList<R> = when (this) {
     is Cons -> Cons(f(head), tail fmap f)
 }
 
+/*
+infix fun <T, R> FunList<T>.fmap(f: (T) -> R): FunList<R> = flatMap { Cons(f(it), Nil) }
+*/
+
 fun <T> FunList.Companion.pure(value: T): FunList<T> = Cons(value, Nil)
 
 infix fun <T, R> FunList<(T) -> R>.apply(f: FunList<T>): FunList<R> = when (this) {
@@ -46,6 +50,22 @@ infix fun <T, R> FunList<(T) -> R>.apply(f: FunList<T>): FunList<R> = when (this
 infix fun <T, R> FunList<T>._apply(f: FunList<(T) -> R>): FunList<R> = when (this) {
     Nil -> Nil
     is Cons -> f.fmap { it(head) } mappend (tail _apply f)
+}
+
+infix fun <T, R> FunList<T>.flatMap(f: (T) -> FunList<R>): FunList<R> = when (this) {
+    Nil -> Nil
+    is Cons -> f(head) mappend (tail flatMap f)
+}
+
+// infix fun <T, R> FunList<T>.flatMap(f: (T) -> FunList<R>) : FunList<R> = fmap(f).flatten()
+
+fun <T, R> FunList<T>.foldRight(acc: R, f: (T, R) -> R): R = when (this) {
+    Nil -> acc
+    is Cons -> f(head, tail.foldRight(acc, f))
+}
+
+fun <T> FunList<FunList<T>>.flatten(): FunList<T> = foldRight(mempty()) { t, r: FunList<T> ->
+    t mappend r
 }
 
 fun main() {
