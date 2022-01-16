@@ -34,3 +34,5 @@ tailrec fun <T, R> FunStream<T>.foldLeft(acc: R, f: (R, T) -> R): R = when (this
     FunStream.Nil -> acc
     is FunStream.Cons -> tail().foldLeft(f(acc, head()), f)
 }
+
+fun <T> FunStream<T>.printFunStream() = toString()
