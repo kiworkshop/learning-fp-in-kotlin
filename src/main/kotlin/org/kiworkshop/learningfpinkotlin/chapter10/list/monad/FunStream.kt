@@ -36,3 +36,19 @@ tailrec fun <T, R> FunStream<T>.foldLeft(acc: R, f: (R, T) -> R): R = when (this
 }
 
 fun <T> FunStream<T>.printFunStream() = toString()
+
+fun <T> FunStream<T>.mempty() = FunStream.Nil
+
+/*
+infix fun <T> FunStream<T>.mappend(other: FunStream<T>): FunStream<T> = when(this) {
+    FunStream.Nil -> other
+    is FunStream.Cons -> FunStream.Cons(head) { tail() mappend other }
+}
+*/
+
+infix fun <T> FunStream<T>.mappend(other: FunStream<T>): FunStream<T> = when {
+    this == FunStream.Nil -> other
+    other == FunStream.Nil -> this
+    this is FunStream.Cons -> FunStream.Cons(head) { tail() mappend other }
+    else -> FunStream.Nil
+}

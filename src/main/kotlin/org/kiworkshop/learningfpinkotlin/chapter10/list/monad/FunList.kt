@@ -20,3 +20,10 @@ tailrec fun <T, R> FunList<T>.foldLeft(acc: R, f: (R, T) -> R): R = when (this) 
     Nil -> acc
     is Cons -> tail.foldLeft(f(acc, head), f)
 }
+
+fun <T> FunList<T>.mempty() = Nil
+
+infix fun <T> FunList<T>.mappend(other: FunList<T>): FunList<T> = when (this) {
+    Nil -> other
+    is Cons -> Cons(head, tail mappend other)
+}
