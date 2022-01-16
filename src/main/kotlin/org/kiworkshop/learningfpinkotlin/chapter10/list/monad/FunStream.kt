@@ -1,6 +1,8 @@
 package org.kiworkshop.learningfpinkotlin.chapter10.list.monad
 
 sealed class FunStream<out T> {
+    companion object
+
     object Nil : FunStream<kotlin.Nothing>() {
         override fun toString(): String = "[]"
     }
@@ -56,4 +58,18 @@ infix fun <T> FunStream<T>.mappend(other: FunStream<T>): FunStream<T> = when {
 infix fun <T, R> FunStream<T>.fmap(f: (T) -> R): FunStream<R> = when (this) {
     FunStream.Nil -> FunStream.Nil
     is FunStream.Cons -> FunStream.Cons({ f(head()) }, { tail() fmap f })
+}
+
+fun <T> FunStream<T>.pure(value: T): FunStream<T> = FunStream.Cons({ value }, { FunStream.Nil })
+
+infix fun <T, R> FunStream<(T) -> R>.apply(f: FunStream<T>): FunStream<R> = when (this) {
+    FunStream.Nil -> FunStream.Nil
+    // tail 부분도 지연 연산 처리할 수는 없나?
+    is FunStream.Cons -> f.fmap { head()(it) } mappend (tail() apply f)
+}
+
+infix fun <T, R> FunStream<T>._apply(f: FunStream<(T) -> R>): FunStream<R> = when (this) {
+    FunStream.Nil -> FunStream.Nil
+    // tail 부분도 지연 연산 처리할 수는 없나?
+    is FunStream.Cons -> f.fmap { it(head()) } mappend (tail() _apply f)
 }
