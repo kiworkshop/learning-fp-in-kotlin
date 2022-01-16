@@ -4,12 +4,19 @@ import org.kiworkshop.learningfpinkotlin.c5.FunStream
 import org.kiworkshop.learningfpinkotlin.c5.addHead
 import org.kiworkshop.learningfpinkotlin.c5.foldLeft
 import org.kiworkshop.learningfpinkotlin.c5.funStreamOf
+import org.kiworkshop.learningfpinkotlin.c7.Functor
 
-sealed interface Tree<out T>
+sealed interface Tree<out T> : Functor<T> {
+    override fun <B> fmap(f: (T) -> B): Tree<B>
+}
 
-object EmptyTree : Tree<Nothing>
+object EmptyTree : Tree<Nothing> {
+    override fun <B> fmap(f: (Nothing) -> B): Tree<B> = this
+}
 
 data class Node<T>(val value: T, val left: Tree<T>, val right: Tree<T>) : Tree<T> {
+
+    override fun <B> fmap(f: (T) -> B): Tree<B> = Node(f(value), left.fmap(f), right.fmap(f))
 
     companion object {
         fun <T> leaf(value: T) = Node(value, EmptyTree, EmptyTree)
