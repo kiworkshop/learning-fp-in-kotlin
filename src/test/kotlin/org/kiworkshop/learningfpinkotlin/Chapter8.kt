@@ -147,152 +147,152 @@ class Chapter8 : StringSpec({
     "Example 8-2" {
         AFunList.pure(10) shouldBe ACons(10, ANil)
         AFunList.pure(10).apply(ACons({ x: Int -> x + 2 }, ANil)) shouldBe ACons(12, ANil)
-    }
+        }
 
-    "Example 8-3" {
-        FunList.pure(10) shouldBe funListOf(10)
-        funListOf({ x: Int -> x * x }) apply funListOf(1, 2, 3) shouldBe funListOf(1, 4, 9)
-        funListOf({ x: Int -> x + 1 }) apply funListOf(1, 2, 3) shouldBe funListOf(2, 3, 4)
+        "Example 8-3" {
+            FunList.pure(10) shouldBe funListOf(10)
+            funListOf({ x: Int -> x * x }) apply funListOf(1, 2, 3) shouldBe funListOf(1, 4, 9)
+            funListOf({ x: Int -> x + 1 }) apply funListOf(1, 2, 3) shouldBe funListOf(2, 3, 4)
 
-        funListOf(1, 2) append funListOf(3, 4) shouldBe funListOf(1, 2, 3, 4)
-    }
+            funListOf(1, 2) append funListOf(3, 4) shouldBe funListOf(1, 2, 3, 4)
+        }
 
-    "Example 8-4" {
-        Tree.pure({ x: Int, y: Int -> x * y }.curried())
-            .apply(Node(4, listOf(Node(5), Node(6))))
-            .apply(Node(1, listOf(Node(2), Node(3))))
-            .shouldBe(
-                Node(
-                    4,
-                    listOf(
-                        Node(8),
-                        Node(12),
-                        Node(5, listOf(Node(10), Node(15))),
-                        Node(6, listOf(Node(12), Node(18)))
+        "Example 8-4" {
+            Tree.pure({ x: Int, y: Int -> x * y }.curried())
+                .apply(Node(4, listOf(Node(5), Node(6))))
+                .apply(Node(1, listOf(Node(2), Node(3))))
+                .shouldBe(
+                    Node(
+                        4,
+                        listOf(
+                            Node(8),
+                            Node(12),
+                            Node(5, listOf(Node(10), Node(15))),
+                            Node(6, listOf(Node(12), Node(18)))
+                        )
                     )
                 )
-            )
-    }
+        }
 
-    "Example 8-5" {
-        println(
+        "Example 8-5" {
+            println(
+                Tree.pure({ x: Int, y: Int -> x * y }.curried())
+                    .apply(Node(1, listOf(Node(2, listOf(Node(3))), Node(4))))
+                    .apply(Node(5, listOf(Node(6), Node(7, listOf(Node(8), Node(9))))))
+            )
             Tree.pure({ x: Int, y: Int -> x * y }.curried())
                 .apply(Node(1, listOf(Node(2, listOf(Node(3))), Node(4))))
                 .apply(Node(5, listOf(Node(6), Node(7, listOf(Node(8), Node(9))))))
-        )
-        Tree.pure({ x: Int, y: Int -> x * y }.curried())
-            .apply(Node(1, listOf(Node(2, listOf(Node(3))), Node(4))))
-            .apply(Node(5, listOf(Node(6), Node(7, listOf(Node(8), Node(9))))))
-            .shouldBe(
-                Node(
-                    5 * 1,
-                    listOf(
-                        Node(6 * 1),
-                        Node(7 * 1, listOf(Node(8 * 1), Node(9 * 1))),
-                        Node(
-                            5 * 2,
-                            listOf(
-                                Node(6 * 2),
-                                Node(7 * 2, listOf(Node(8 * 2), Node(9 * 2))),
-                                Node(5 * 3, listOf(Node(6 * 3), Node(7 * 3, listOf(Node(8 * 3), Node(9 * 3)))))
-                            )
-                        ),
-                        Node(5 * 4, listOf(Node(6 * 4), Node(7 * 4, listOf(Node(8 * 4), Node(9 * 4)))))
+                .shouldBe(
+                    Node(
+                        5 * 1,
+                        listOf(
+                            Node(6 * 1),
+                            Node(7 * 1, listOf(Node(8 * 1), Node(9 * 1))),
+                            Node(
+                                5 * 2,
+                                listOf(
+                                    Node(6 * 2),
+                                    Node(7 * 2, listOf(Node(8 * 2), Node(9 * 2))),
+                                    Node(5 * 3, listOf(Node(6 * 3), Node(7 * 3, listOf(Node(8 * 3), Node(9 * 3)))))
+                                )
+                            ),
+                            Node(5 * 4, listOf(Node(6 * 4), Node(7 * 4, listOf(Node(8 * 4), Node(9 * 4)))))
+                        )
                     )
                 )
+        }
+
+        "Example 8-6" {
+            funListOf({ x: Int -> x * 5 }, { x: Int -> x + 10 }) zipList funListOf(10, 20, 30) shouldBe funListOf(
+                10 * 5,
+                20 + 10
             )
-    }
+        }
 
-    "Example 8-6" {
-        funListOf({ x: Int -> x * 5 }, { x: Int -> x + 10 }) zipList funListOf(10, 20, 30) shouldBe funListOf(
-            10 * 5,
-            20 + 10
-        )
-    }
+        "Example 8-7" {
+            val listAf = funListOf(1, 2)
+            val leftList = FunList.pure(identify()) apply listAf
+            leftList.toString() shouldBe listAf.toString()
+        }
 
-    "Example 8-7" {
-        val listAf = funListOf(1, 2)
-        val leftList = FunList.pure(identify()) apply listAf
-        leftList.toString() shouldBe listAf.toString()
-    }
+        "Example 8-8" {
+            val listAf1 = FunList.Cons({ x: Int -> x * 2 }, FunList.Nil)
+            val listAf2 = FunList.Cons({ x: Int -> x + 1 }, FunList.Nil)
+            val listAf3 = FunList.Cons(30, FunList.Nil)
+            val leftList = FunList.pure(compose<Int, Int, Int>().curried()) apply listAf1 apply listAf2 apply listAf3
+            val rightList = listAf1 apply (listAf2 apply listAf3)
+            leftList.toString() shouldBe rightList.toString()
+        }
 
-    "Example 8-8" {
-        val listAf1 = FunList.Cons({ x: Int -> x * 2 }, FunList.Nil)
-        val listAf2 = FunList.Cons({ x: Int -> x + 1 }, FunList.Nil)
-        val listAf3 = FunList.Cons(30, FunList.Nil)
-        val leftList = FunList.pure(compose<Int, Int, Int>().curried()) apply listAf1 apply listAf2 apply listAf3
-        val rightList = listAf1 apply (listAf2 apply listAf3)
-        leftList.toString() shouldBe rightList.toString()
-    }
+        "Example 8-9" {
+            val function = { x: Int -> x * 2 }
+            val x = 10
 
-    "Example 8-9" {
-        val function = { x: Int -> x * 2 }
-        val x = 10
+            val leftList = FunList.pure(function) apply FunList.pure(x)
+            val rightList = FunList.pure(function(x))
+            leftList.toString() shouldBe rightList.toString()
+            println(leftList.toString())
+        }
 
-        val leftList = FunList.pure(function) apply FunList.pure(x)
-        val rightList = FunList.pure(function(x))
-        leftList.toString() shouldBe rightList.toString()
-        println(leftList.toString())
-    }
+        "Example 8-10" {
+            val x = 10
 
-    "Example 8-10" {
-        val x = 10
+            val listAf = FunList.Cons({ a: Int -> a * 2 }, FunList.Nil)
+            val leftList = listAf apply FunList.pure(x)
+            val rightList = FunList.pure(of<Int, Int>(x)) apply listAf
+            leftList.toString() shouldBe rightList.toString()
+            println(leftList.toString())
+        }
 
-        val listAf = FunList.Cons({ a: Int -> a * 2 }, FunList.Nil)
-        val leftList = listAf apply FunList.pure(x)
-        val rightList = FunList.pure(of<Int, Int>(x)) apply listAf
-        leftList.toString() shouldBe rightList.toString()
-        println(leftList.toString())
-    }
+        "Example 8-11" {
+            val function = { x: Int -> x * 2 }
 
-    "Example 8-11" {
-        val function = { x: Int -> x * 2 }
+            val listAf = FunList.Cons(10, FunList.Nil)
+            val leftList = FunList.pure(function) apply listAf
+            val rightList = listAf.fmap(function)
+            leftList.toString() shouldBe rightList.toString()
+            println(leftList.toString())
+        }
 
-        val listAf = FunList.Cons(10, FunList.Nil)
-        val leftList = FunList.pure(function) apply listAf
-        val rightList = listAf.fmap(function)
-        leftList.toString() shouldBe rightList.toString()
-        println(leftList.toString())
-    }
+        "Example 8-12" {
+            val lifted = FunList.liftA2 { x: Int, y: Int -> x + y }
+            val result = lifted(funListOf(1, 2), funListOf(4, 5))
 
-    "Example 8-12" {
-        val lifted = FunList.liftA2 { x: Int, y: Int -> x + y }
-        val result = lifted(funListOf(1, 2), funListOf(4, 5))
+            result shouldBe funListOf(5, 6, 6, 7)
+        }
 
-        result shouldBe funListOf(5, 6, 6, 7)
-    }
+        "Example 8-13" {
+            val lifted = Tree.liftA2 { x: Int, y: Int -> x + y }
+            val result = lifted(Node(1, listOf(Node(2), Node(3))), Node(5, listOf(Node(6), Node(7))))
 
-    "Example 8-13" {
-        val lifted = Tree.liftA2 { x: Int, y: Int -> x + y }
-        val result = lifted(Node(1, listOf(Node(2), Node(3))), Node(5, listOf(Node(6), Node(7))))
+            result.toString() shouldBe "6 [7 [], 8 [], 7 [8 [], 9 []], 8 [9 [], 10 []]]"
+        }
 
-        result.toString() shouldBe "6 [7 [], 8 [], 7 [8 [], 9 []], 8 [9 [], 10 []]]"
-    }
+        "Example 8-14" {
+            val lifted =
+                Either.liftA2<String, Int, FunList<Int>, FunList<Int>> { x: Int, y: FunList<Int> -> FunList.Cons(x, y) }
 
-    "Example 8-14" {
-        val lifted =
-            Either.liftA2<String, Int, FunList<Int>, FunList<Int>> { x: Int, y: FunList<Int> -> FunList.Cons(x, y) }
+            lifted(Either.pure(1), Either.pure(funListOf(2, 3))) shouldBe Either.pure(funListOf(1, 2, 3))
+            lifted(Left("error"), Either.pure(funListOf(2, 3))) shouldBe Left("error")
+        }
 
-        lifted(Either.pure(1), Either.pure(funListOf(2, 3))) shouldBe Either.pure(funListOf(1, 2, 3))
-        lifted(Left("error"), Either.pure(funListOf(2, 3))) shouldBe Left("error")
-    }
+        "Example 8-15" {
+            val lifted = Maybe.liftA3 { x: Int, y: Int, z: FunList<Int> -> FunList.Cons(x, FunList.Cons(y, z)) }
 
-    "Example 8-15" {
-        val lifted = Maybe.liftA3 { x: Int, y: Int, z: FunList<Int> -> FunList.Cons(x, FunList.Cons(y, z)) }
+            lifted(Just(1), Just(2), Just(funListOf(3))) shouldBe Just(funListOf(1, 2, 3))
+        }
 
-        lifted(Just(1), Just(2), Just(funListOf(3))) shouldBe Just(funListOf(1, 2, 3))
-    }
+        "Example 8-16" {
+        }
 
-    "Example 8-16" {
-    }
+        "Example 8-17" {
+        }
 
-    "Example 8-17" {
-    }
+        "Example 8-18" {
+            val result = Either.sequenceA(funListOf(Either.pure(1), Either.pure(2)))
 
-    "Example 8-18" {
-        val result = Either.sequenceA(funListOf(Either.pure(1), Either.pure(2)))
-
-        result shouldBe Either.pure(funListOf(1, 2))
-    }
-})
+            result shouldBe Either.pure(funListOf(1, 2))
+        }
+    })
     
