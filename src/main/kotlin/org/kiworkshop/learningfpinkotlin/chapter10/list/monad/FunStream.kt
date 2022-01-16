@@ -52,3 +52,8 @@ infix fun <T> FunStream<T>.mappend(other: FunStream<T>): FunStream<T> = when {
     this is FunStream.Cons -> FunStream.Cons(head) { tail() mappend other }
     else -> FunStream.Nil
 }
+
+infix fun <T, R> FunStream<T>.fmap(f: (T) -> R): FunStream<R> = when (this) {
+    FunStream.Nil -> FunStream.Nil
+    is FunStream.Cons -> FunStream.Cons({ f(head()) }, { tail() fmap f })
+}

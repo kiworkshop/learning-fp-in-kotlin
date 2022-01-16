@@ -27,3 +27,8 @@ infix fun <T> FunList<T>.mappend(other: FunList<T>): FunList<T> = when (this) {
     Nil -> other
     is Cons -> Cons(head, tail mappend other)
 }
+
+infix fun <T, R> FunList<T>.fmap(f: (T) -> R): FunList<R> = when (this) {
+    Nil -> Nil
+    is Cons -> Cons(f(head), tail fmap f)
+}
