@@ -2,8 +2,9 @@ package org.kiworkshop.learningfpinkotlin
 
 import org.kiworkshop.learningfpinkotlin.FunList.Cons
 import org.kiworkshop.learningfpinkotlin.FunList.Nil
+import kotlin.Nothing
 
-sealed class FunList<out T> : Functor<T> {
+sealed class FunList<out T> : Functor<T>, Foldable<T> {
 
     abstract override fun <B> fmap(f: (T) -> B): FunList<B>
 
@@ -11,10 +12,14 @@ sealed class FunList<out T> : Functor<T> {
 
     object Nil : FunList<kotlin.Nothing>() {
         override fun <B> fmap(f: (kotlin.Nothing) -> B): FunList<B> = Nil
+
+        override fun <B> foldLeft(acc: B, f: (B, Nothing) -> B): B = acc
     }
 
     data class Cons<out T>(val head: T, val tail: FunList<T>) : FunList<T>() {
         override fun <B> fmap(f: (T) -> B): FunList<B> = Cons(f(head), tail.fmap(f))
+
+        override fun <B> foldLeft(acc: B, f: (B, T) -> B): B = tail.foldLeft(f(acc, head), f)
     }
 }
 
@@ -120,3 +125,6 @@ fun <A, B, R> FunList.Companion.liftA2(binaryFunction: (A, B) -> R) =
 
 // 8장. cons
 fun <T> cons() = { x: T, xs: FunList<T> -> Cons(x, xs) }
+
+// 9장.
+fun <A> FunList<A>.contains(value: A) = foldMap({ it == value }, AnyMonoid())

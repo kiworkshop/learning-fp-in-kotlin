@@ -85,4 +85,34 @@ class Chapter9 : StringSpec({
             mconcat(x) shouldBe funListOf(1, 2, 3, 4, 5)
         }
     }
+
+    "Example 9-10" {
+        val x = funListOf(1, 2, 3)
+
+        x.foldLeft(0) { a, b -> a + b } shouldBe 6
+        x.foldMap({ a -> a * 2 }, SumMonoid()) shouldBe 12
+    }
+
+    "Example 9-12" {
+        val x = funListOf(1, 2, 3)
+
+        x.contains(3) shouldBe true
+        x.contains(4) shouldBe false
+    }
+
+    "Code 9-13" {
+        val tree = BinaryTree.Node(
+            1,
+            BinaryTree.Node(2, BinaryTree.Node(3), BinaryTree.Node(4)),
+            BinaryTree.Node(5, BinaryTree.Node(6), BinaryTree.Node(7))
+        )
+
+        println(tree.foldLeft(1) { a: Int, b: Int -> a * b })
+    }
 })
+
+class SumMonoid : Monoid<Int> {
+    override fun mempty(): Int = 0
+
+    override fun mappend(m1: Int, m2: Int): Int = m1 + m2
+}
