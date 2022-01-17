@@ -36,12 +36,16 @@ class Exercise8 : AnnotationSpec() {
             )
         funList2 apply Cons(1, Cons(2, Cons(3, Nil))) shouldBe
                 Cons(
-                    3, Cons(
-                        6, Cons(
+                    3,
+                    Cons(
+                        6,
+                        Cons(
                             9,
                             Cons(
-                                10, Cons(
-                                    20, Cons(
+                                10,
+                                Cons(
+                                    20,
+                                    Cons(
                                         30,
                                         Cons(-1, Cons(0, Cons(1, Nil)))
                                     )
@@ -58,7 +62,8 @@ class Exercise8 : AnnotationSpec() {
             Node(
                 4,
                 listOf(
-                    Node(8), Node(12), Node(
+                    Node(8), Node(12),
+                    Node(
                         5,
                         listOf(Node(10), Node(15))
                     ),
@@ -79,28 +84,34 @@ class Exercise8 : AnnotationSpec() {
     fun `test8-5 트리 애플리케이티브 펑터 테스트2`() {
         val tree: Tree<Int> =
             Node(
-                5, listOf(
+                5,
+                listOf(
                     Node(6),
                     Node(
-                        7, listOf(
+                        7,
+                        listOf(
                             Node(8),
                             Node(9)
                         )
                     ),
                     Node(
-                        10, listOf(
+                        10,
+                        listOf(
                             Node(12),
                             Node(
-                                14, listOf(
+                                14,
+                                listOf(
                                     Node(16),
                                     Node(18)
                                 )
                             ),
                             Node(
-                                15, listOf(
+                                15,
+                                listOf(
                                     Node(18),
                                     Node(
-                                        21, listOf(
+                                        21,
+                                        listOf(
                                             Node(24),
                                             Node(27)
                                         )
@@ -110,10 +121,12 @@ class Exercise8 : AnnotationSpec() {
                         )
                     ),
                     Node(
-                        20, listOf(
+                        20,
+                        listOf(
                             Node(24),
                             Node(
-                                28, listOf(
+                                28,
+                                listOf(
                                     Node(32),
                                     Node(36)
                                 )
@@ -128,6 +141,4 @@ class Exercise8 : AnnotationSpec() {
             listOf(Node(2, listOf(Node(3))), Node(4, listOf()))
         ) apply Node(5, listOf(Node(6), Node(7, listOf(Node(8), Node(9))))) shouldBe tree
     }
-    
-
 }
