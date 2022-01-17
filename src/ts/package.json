@@ -18,6 +18,7 @@
     "babel-jest": "^27.4.6"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "jest-debug-tdd": "node --inspect-brk node_modules/.bin/jest --runInBand  --watch -t --onlyChanged --verbose"
   }
 }
