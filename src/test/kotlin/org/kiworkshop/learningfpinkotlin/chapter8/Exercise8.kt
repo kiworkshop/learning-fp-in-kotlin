@@ -35,25 +35,25 @@ class Exercise8 : AnnotationSpec() {
                 )
             )
         funList2 apply Cons(1, Cons(2, Cons(3, Nil))) shouldBe
+            Cons(
+                3,
                 Cons(
-                    3,
+                    6,
                     Cons(
-                        6,
+                        9,
                         Cons(
-                            9,
+                            10,
                             Cons(
-                                10,
+                                20,
                                 Cons(
-                                    20,
-                                    Cons(
-                                        30,
-                                        Cons(-1, Cons(0, Cons(1, Nil)))
-                                    )
+                                    30,
+                                    Cons(-1, Cons(0, Cons(1, Nil)))
                                 )
                             )
                         )
                     )
                 )
+            )
     }
 
     @Test

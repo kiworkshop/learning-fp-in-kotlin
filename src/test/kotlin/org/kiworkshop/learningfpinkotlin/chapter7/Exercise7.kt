@@ -10,7 +10,7 @@ class Exercise7 : AnnotationSpec() {
         val funList: FunList<Int> = Cons(1, Cons(2, Cons(3, Nil)))
 
         funList.fmap { it * 3 } shouldBe
-                Cons(3, Cons(6, Cons(9, Nil)))
+            Cons(3, Cons(6, Cons(9, Nil)))
         funList.first() shouldBe 1
         funList.size() shouldBe 3
 
