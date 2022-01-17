@@ -25,6 +25,8 @@ sealed class FunList<out A> : Functor<A> {
     abstract override fun <B> fmap(f: (A) -> B): FunList<B>
     abstract fun first(): A
     abstract fun size(): Int
+
+    companion object
 }
 
 object Nil : FunList<kotlin.Nothing>() {
