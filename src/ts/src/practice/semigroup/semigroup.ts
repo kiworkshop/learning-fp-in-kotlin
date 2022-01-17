@@ -1,7 +1,8 @@
 // higher concepts of abstraction
 
 import { getApplySemigroup } from "fp-ts/lib/Apply";
-import { SemigroupAll } from "fp-ts/lib/boolean";
+import { getMonoid } from "fp-ts/lib/Array";
+import { SemigroupAll, SemigroupAny } from "fp-ts/lib/boolean";
 import { getSemigroup } from "fp-ts/lib/function";
 import { Ord, SemigroupProduct, SemigroupSum } from "fp-ts/lib/number";
 import { Apply } from "fp-ts/lib/Option";
@@ -86,6 +87,11 @@ interface Customer {
   hasMadePurchase: boolean;
 }
 
-const semigroupCustomer: Semigroup<Customer> = struct({
-  name: max(contramap((s: string) => s.length)(Ord)),
+// focus on how to merge values into one.
+export const semigroupCustomer: Semigroup<Customer> = struct({
+  name: max(contramap((s: string) => s.length)(Ord)), // save a longer name
+  favouriteThings: getMonoid<string>(), // accumulate things in an array
+  registeredAt: min(Ord),
+  lastUpdatedAt: max(Ord),
+  hasMadePurchase: SemigroupAny, // return boolean value, operator is ||
 });
