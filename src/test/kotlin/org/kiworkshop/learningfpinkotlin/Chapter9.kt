@@ -35,4 +35,16 @@ class Chapter9 : StringSpec({
             mappend(mappend(x, y), z) shouldBe mappend(x, mappend(y, z))
         }
     }
+
+    "연습문제 9-5" {
+        AnyMonoid().mconcat(funListOf(true, true, true)) shouldBe true
+        AnyMonoid().mconcat(funListOf(false, false, false)) shouldBe false
+        AnyMonoid().mconcat(funListOf(true, false, true)) shouldBe true
+    }
+
+    "연습문제 9-6" {
+        AllMonoid().mconcat(funListOf(true, true, true)) shouldBe true
+        AllMonoid().mconcat(funListOf(false, false, false)) shouldBe false
+        AllMonoid().mconcat(funListOf(true, false, true)) shouldBe false
+    }
 })

@@ -24,3 +24,5 @@ class AllMonoid : Monoid<Boolean> {
     override fun mempty(): Boolean = true
     override fun mappend(m1: Boolean, m2: Boolean): Boolean = m1 && m2
 }
+
+fun <T> Monoid<T>.mconcat(list: FunList<T>): T = list.foldRight(mempty(), ::mappend)
