@@ -17,3 +17,6 @@ class ProductMonoid : Monoid<Int> {
     override fun mempty(): Int = 0
     override fun mappend(m1: Int, m2: Int): Int = m1 * m2
 }
+
+// Code 9-7
+fun <T> Monoid<T>.mconcat(list: FunList<T>): T = list.foldRight(mempty(), ::mappend)
