@@ -71,4 +71,21 @@ class Chapter9 : StringSpec({
             mconcat(funListOf(true, false, true)) shouldBe false
         }
     }
+
+    "9-7" {
+        // ListMonoid in Monoid.kt
+    }
+
+    "9-8" {
+        val x = funListOf(1, 2, 3)
+        val y = funListOf(4, 5)
+        val z = funListOf(6, 7, 8, 9)
+
+        ListMonoid.monoid(ProductMonoid()).run {
+            mappend(mempty(), x) shouldBe x
+            mappend(x, mempty()) shouldBe x
+            mappend(mappend(x, y), z) shouldBe mappend(x, mappend(y, z))
+            println(mappend(mappend(x, y), z))
+        }
+    }
 })
