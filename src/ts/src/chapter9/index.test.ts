@@ -1,6 +1,15 @@
+import { foldMap } from "fp-ts/Array";
 import { concatAll } from "fp-ts/lib/Monoid";
 import { none, some } from "fp-ts/lib/Option";
-import { maybeMonoid, Monoid } from ".";
+import {
+  arrayMonoid,
+  Empty,
+  FoldMap2,
+  maybeMonoid,
+  Monoid,
+  Node,
+  Tree,
+} from ".";
 
 describe("chapter 9", function () {
   const MonoidAny: Monoid<boolean> = {
@@ -58,26 +67,85 @@ describe("chapter 9", function () {
     expect(concatAll(MonoidAny)([true, false, true])).toBeTruthy;
   });
 
-  test("7", function () {
-    expect(concatAll(MonoidAll)([true, true, true])).toBeTruthy;
-    expect(concatAll(MonoidAll)([false, false, false])).toBeFalsy;
-    expect(concatAll(MonoidAll)([true, false, true])).toBeTruthy;
+  test("8", function () {
+    const { empty, concat } = arrayMonoid;
+    expect(concat([true], empty)).toMatchObject([true]);
+    expect(concat(empty, [true])).toMatchObject([true]);
+
+    expect(concat([1], concat([2], [3]))).toMatchObject(
+      concat(concat([1], [2]), [3])
+    );
+  });
+
+  test("9", function () {
+    const { empty, concat } = arrayMonoid;
+    expect(concat([1, 2, [3, 4, 5]], empty)).toMatchObject([1, 2, [3, 4, 5]]);
+    expect(concat(empty, [1, 2, [3, 4, 5]])).toMatchObject([1, 2, [3, 4, 5]]);
+    expect(concat([1], concat([1, 2, [3, 4, 5]], [3]))).toMatchObject(
+      concat(concat([1], [1, 2, [3, 4, 5]]), [3])
+    );
+  });
+
+  test("10", function () {
+    expect(
+      concatAll(arrayMonoid)([
+        [1, 2, 3],
+        [4, 5],
+        [5, 4, 5, 2],
+      ])
+    ).toMatchObject([1, 2, 3, 4, 5, 5, 4, 5, 2]);
+    debugger;
+    expect(
+      foldMap(arrayMonoid)((arr: number[]) => arr.map((item) => item + 1))([
+        [1, 2, 3],
+        [4, 5],
+        [5, 4, 5, 2],
+      ])
+    ).toMatchObject([2, 3, 4, 5, 6, 6, 5, 6, 3]);
+  });
+
+  test("11", function () {
+    // 이해를 못했다.
+  });
+
+  test("12", function () {
+    const contains = (target: number) =>
+      foldMap(arrayMonoid)((arr: number[]) => [
+        arr.some((item) => item === target),
+      ]);
+    expect(
+      contains(4)([
+        [1, 2, 3],
+        [4, 5],
+        [5, 4, 5, 2],
+      ])
+    ).toMatchObject([false, true, true]);
+  });
+
+  test("13", function () {
+    // const contains = (value: number, tree: Tree<number>) =>
+    //   FoldMap2(tree, (it: number) => it === value, MonoidAny);
+
+    // const tree = new Node(
+    //   true,
+    //   new Node(true, new Empty(), new Empty()),
+    //   new Empty()
+    // );
+
+    // expect(contains(true, tree));
   });
 
   test("maybeMonoidTest", function () {
-    debugger;
     const result = maybeMonoid(MonoidSum).concat(some(1), some(2));
     expect(result).toMatchObject(some(3));
   });
 
   test("maybeMonoidTest2", function () {
-    debugger;
     const result = maybeMonoid(MonoidSum).concat(none, some(2));
     expect(result).toMatchObject(some(2));
   });
 
   test("maybeMonoidTest3", function () {
-    debugger;
     const result = maybeMonoid(MonoidSum).concat(some(2), none);
     expect(result).toMatchObject(some(2));
   });
