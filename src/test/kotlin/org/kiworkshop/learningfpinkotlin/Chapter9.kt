@@ -88,4 +88,11 @@ class Chapter9 : StringSpec({
             println(mappend(mappend(x, y), z))
         }
     }
+
+    "9-9" {
+        val x = funListOf(funListOf(1, 2), funListOf(3, 4), funListOf(5))
+        ListMonoid.monoid(SumMonoid()).run {
+            mconcat(x) shouldBe funListOf(9, 6)
+        }
+    }
 })
