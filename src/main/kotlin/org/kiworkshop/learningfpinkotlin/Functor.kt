@@ -6,27 +6,27 @@ interface Functor<out A> {
 }
 
 // Code 7-6
-sealed class Maybe<out A> : Functor<A> {
+sealed class MaybeFunctor<out A> : Functor<A> {
 
     abstract override fun toString(): String
 
-    abstract override fun <B> fmap(f: (A) -> B): Maybe<B>
+    abstract override fun <B> fmap(f: (A) -> B): MaybeFunctor<B>
 }
 
 // Code 7-7
-data class Just<out A>(val value: A) : Maybe<A>() {
+data class FJust<out A>(val value: A) : MaybeFunctor<A>() {
 
     override fun toString(): String = "Just($value)"
 
-    override fun <B> fmap(f: (A) -> B): Maybe<B> = Just(f(value))
+    override fun <B> fmap(f: (A) -> B): MaybeFunctor<B> = FJust(f(value))
 }
 
 // Code 7-8
-object Nothing : Maybe<kotlin.Nothing>() {
+object FNothing : MaybeFunctor<kotlin.Nothing>() {
 
     override fun toString(): String = "Nothing"
 
-    override fun <B> fmap(f: (kotlin.Nothing) -> B): Maybe<B> = Nothing
+    override fun <B> fmap(f: (kotlin.Nothing) -> B): MaybeFunctor<B> = FNothing
 }
 
 // Exercise 7-1

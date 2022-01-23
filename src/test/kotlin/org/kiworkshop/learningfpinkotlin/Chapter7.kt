@@ -6,18 +6,18 @@ import io.kotest.matchers.shouldBe
 
 class Chapter7 : StringSpec({
     "UsageOfMaybeFunctor" {
-        println(Just(10).fmap { it + 10 })
-        println(Nothing.fmap { a: Int -> a + 10 })
+        println(FJust(10).fmap { it + 10 })
+        println(FNothing.fmap { a: Int -> a + 10 })
     }
 
     "Maybe 펑터 법칙 검증" {
-        val maybeInt: Maybe<Int> = Just(7)
-        val maybeNothing: Maybe<Int> = Nothing
+        val maybeInt: MaybeFunctor<Int> = FJust(7)
+        val maybeNothing: MaybeFunctor<Int> = FNothing
 
         // 펑터 제1 법칙
         fun <T> identity(x: T): T = x
 
-        maybeInt.fmap { identity(it) } shouldBe identity(Just(7))
+        maybeInt.fmap { identity(it) } shouldBe identity(FJust(7))
         maybeNothing.fmap { identity(it) } shouldBe identity(Nothing)
 
         // 펑터 제2 법칙
