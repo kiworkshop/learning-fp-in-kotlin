@@ -31,4 +31,18 @@ class Chapter10 : StringSpec({
         Cons(10, Cons(11, Nil)).flatMap { Cons(it, Cons(it + 10, Nil)) } shouldBe Cons(10, Cons(20, Cons(11, Cons(21, Nil))))
         Nil.flatMap { x: Int -> Cons(x, Cons(x + 10, Nil)) } shouldBe Nil
     }
+
+    "10-3" {
+        class D4(val value: MaybeMonad<String>)
+        class C4(val d: D4)
+        class B4(val c: MaybeMonad<C4>)
+        class A4(val b: MaybeMonad<B4>)
+
+        fun getValueOfD4(a: A4): MaybeMonad<String> = a.b.flatMap { it.c }.flatMap { it.d.value }
+        fun getValueOfD4_2(a: A4): MaybeMonad<String> = a.b.flatMap { it.c }.fmap { it.d }.flatMap { it.value }
+
+        val a = A4(Just(B4(Just(C4(D4(Just("someValue")))))))
+        getValueOfD4(a) shouldBe Just("someValue")
+        getValueOfD4_2(a) shouldBe Just("someValue")
+    }
 })
