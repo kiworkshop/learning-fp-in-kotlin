@@ -45,4 +45,11 @@ class Chapter10 : StringSpec({
         getValueOfD4(a) shouldBe Just("someValue")
         getValueOfD4_2(a) shouldBe Just("someValue")
     }
+
+    "10-4" {
+        val x = 10
+        val f = { x: Int -> Cons(x * 2, Nil) }
+        val pure = { a: Int -> FunListMonad.pure(a) }
+        pure(x) flatMap f shouldBe f(x)
+    }
 })
