@@ -60,4 +60,12 @@ class Chapter10 : StringSpec({
 
         m flatMap pure shouldBe m
     }
+
+    "10-6" {
+        val f = { a: Int -> Cons(a * 2, Nil) }
+        val g = { a: Int -> Cons(a + 1, Nil) }
+        val m = Cons(10, Nil)
+
+        (m flatMap f) flatMap g shouldBe (m flatMap { a -> f(a) flatMap g })
+    }
 })
