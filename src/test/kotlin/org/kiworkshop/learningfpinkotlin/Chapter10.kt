@@ -50,6 +50,14 @@ class Chapter10 : StringSpec({
         val x = 10
         val f = { x: Int -> Cons(x * 2, Nil) }
         val pure = { a: Int -> FunListMonad.pure(a) }
+
         pure(x) flatMap f shouldBe f(x)
+    }
+
+    "10-5" {
+        val pure = {a: Int -> FunListMonad.pure(a) }
+        val m = Cons(10, Nil)
+
+        m flatMap pure shouldBe m
     }
 })
