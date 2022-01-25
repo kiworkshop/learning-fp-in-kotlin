@@ -68,4 +68,19 @@ class Chapter10 : StringSpec({
 
         (m flatMap f) flatMap g shouldBe (m flatMap { a -> f(a) flatMap g })
     }
+
+    "10-7" {
+        infix fun <F, G, R> ((F) -> Monad<R>).compose(g: (G) -> Monad<F>): (G) -> Monad<R> {
+            return { gInput: G -> g(gInput) flatMap this }
+        }
+
+        val f = { a: Int -> Cons(a * 2, Nil) }
+        val g = { a: Int -> Cons(a + 1, Nil) }
+        val h = { a: Int -> Cons(a * 10, Nil) }
+        val pure = { a: Int -> Cons(a, Nil) }
+
+        (pure compose f)(10) shouldBe f(10)
+        (f compose pure)(10) shouldBe f(10)
+        ((f compose g) compose h)(10) shouldBe (f compose (g compose h))(10)
+    }
 })
