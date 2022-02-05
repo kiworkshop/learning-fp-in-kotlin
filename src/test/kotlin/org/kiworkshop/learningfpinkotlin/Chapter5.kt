@@ -3,8 +3,6 @@ package org.kiworkshop.learningfpinkotlin
 import io.kotest.assertions.throwables.shouldThrowExactly
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.matchers.shouldBe
-import org.kiworkshop.learningfpinkotlin.FunList.Cons
-import org.kiworkshop.learningfpinkotlin.FunList.Nil
 import kotlin.math.max
 
 class Chapter5 : FunSpec({
@@ -55,7 +53,7 @@ class Chapter5 : FunSpec({
     context("P.123 연습문제 5-4") {
         test(
             "주어진 리스트에서 앞의 값이 n개 제외된 리스트를 반환하는 drop 함수를 구현하자" +
-                "이때 원본 리스트가 바뀌지 않아야하고, 새로운 리스트를 반환할 때마다 리스트를 생성하면 안된다."
+                    "이때 원본 리스트가 바뀌지 않아야하고, 새로운 리스트를 반환할 때마다 리스트를 생성하면 안된다."
         ) {
             tailrec fun <T> FunList<T>.drop(n: Int): FunList<T> = when (n) {
                 0 -> this
@@ -72,8 +70,8 @@ class Chapter5 : FunSpec({
     context("P.123 연습문제 5-5") {
         test(
             "다음과 같이 동작하는 dropWhile 함수를 구현하자. 타입 T를 입력받아 Boolean을 반환하는 함수 p를 입력받는다." +
-                "리스트의 앞에서부터 함수 p를 만족하기 전까지 drop을 하고, 나머지 값들의 리스트를 반환한다." +
-                "이때 원본 리스트가 바뀌지 않아야하고, 새로운 리스트를 반환할 때마다 리스트를 생성하면 안된다."
+                    "리스트의 앞에서부터 함수 p를 만족하기 전까지 drop을 하고, 나머지 값들의 리스트를 반환한다." +
+                    "이때 원본 리스트가 바뀌지 않아야하고, 새로운 리스트를 반환할 때마다 리스트를 생성하면 안된다."
         ) {
             tailrec fun <T> FunList<T>.dropWhile(p: (T) -> Boolean): FunList<T> = when (this) {
                 is Nil -> this
@@ -89,7 +87,7 @@ class Chapter5 : FunSpec({
     context("P.123 연습문제 5-6") {
         test(
             "리스트의 앞에서부터 n개의 값을 가진 리스트를 반환하는 take 함수를 구현하자." +
-                "이때 원본 리스트가 바뀌지 않고 새로운 리스트를 반환할 때마다 리스트를 생성하면 안된다."
+                    "이때 원본 리스트가 바뀌지 않고 새로운 리스트를 반환할 때마다 리스트를 생성하면 안된다."
         ) {
             tailrec fun <T> FunList<T>.take(n: Int, acc: FunList<T> = Nil): FunList<T> = when (n) {
                 0 -> acc.reverse()
@@ -105,8 +103,8 @@ class Chapter5 : FunSpec({
     context("P.123 연습문제 5-7") {
         test(
             "다음과 같이 동작하는 takeWhile 함수를 구현하자. 타입 T를 입력받아 Boolean을 반환하는 함수 p를 받는다." +
-                "리스트의 앞에서부터 함수 p를 만족하는 값들의 리스트를 반환한다. (모든 값이 함수 p를 만족하지 않는다면 원본 List를 반환)" +
-                "이때 원본 리스트가 바뀌지 않고 새로운 리스트를 반환할 때 매번 리스트를 생성하지 않아야 한다."
+                    "리스트의 앞에서부터 함수 p를 만족하는 값들의 리스트를 반환한다. (모든 값이 함수 p를 만족하지 않는다면 원본 List를 반환)" +
+                    "이때 원본 리스트가 바뀌지 않고 새로운 리스트를 반환할 때 매번 리스트를 생성하지 않아야 한다."
         ) {
             // TODO: 2022/01/01 어떻게 원본 List를 반환하는지 모르겠다...
             tailrec fun <T> FunList<T>.takeWhile(acc: FunList<T> = Nil, p: (T) -> Boolean): FunList<T> = when (this) {
@@ -126,7 +124,7 @@ class Chapter5 : FunSpec({
             tailrec fun <T, R> FunList<T>.indexedMap(
                 index: Int = 0,
                 acc: FunList<R> = Nil,
-                f: (Int, T) -> R
+                f: (Int, T) -> R,
             ): FunList<R> = when (this) {
                 is Nil -> acc.reverse()
                 is Cons -> tail.indexedMap(index + 1, acc.addHead(f(index, head)), f)
@@ -200,7 +198,7 @@ class Chapter5 : FunSpec({
     context("P.136 연습문제") {
         test(
             "5-14. zip 함수는 리스트와 리스트를 조합해서 리스트를 생성하는 함수다." +
-                "여기서는 리스트의 값을 입력받은 조합 함수에 의해서 연관 자료구조인 맵을 생성하는 associate 함수를 작성해보자."
+                    "여기서는 리스트의 값을 입력받은 조합 함수에 의해서 연관 자료구조인 맵을 생성하는 associate 함수를 작성해보자."
         ) {
             fun <T, R> FunList<T>.associate(f: (T) -> Pair<T, R>): Map<T, R> =
                 this.map(f = f).foldLeft(mapOf()) { acc, element -> acc.plus(element) }

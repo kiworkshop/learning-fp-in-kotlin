@@ -1,14 +1,31 @@
 package org.kiworkshop.learningfpinkotlin
 
-import org.kiworkshop.learningfpinkotlin.FunList.Cons
-import org.kiworkshop.learningfpinkotlin.FunList.Nil
 import kotlin.Nothing
 import kotlin.math.max
 
-sealed class FunList<out T> {
-    object Nil : FunList<Nothing>()
-    data class Cons<out T>(val head: T, val tail: FunList<T>) : FunList<T>()
+sealed class FunList<out T> : Functor<T> {
+    abstract override fun <B> fmap(f: (T) -> B): FunList<B>
+
+    companion object
 }
+
+object Nil : FunList<Nothing>() {
+    override fun <B> fmap(f: (Nothing) -> B): FunList<B> = Nil
+}
+
+data class Cons<T>(val head: T, val tail: FunList<T>) : FunList<T>() {
+    override fun <B> fmap(f: (T) -> B): FunList<B> = Cons(f(head), tail.fmap(f))
+}
+
+fun <A> FunList.Companion.pure(value: A): FunList<A> = TODO()
+
+// tailrec 으로 리펙토링 해보자 (acc 활용)
+infix fun <A> FunList<A>.append(other: FunList<A>): FunList<A> = when (this) {
+    is Nil -> other
+    is Cons -> Cons(head, tail.append(other))
+}
+
+infix fun <A, B> FunList<(A) -> B>.apply(f: FunList<A>): FunList<B> = TODO()
 
 fun <T> funListOf(vararg elements: T): FunList<T> = elements.toFunList()
 
@@ -139,6 +156,7 @@ fun <T, K> FunList<T>.groupBy(f: (T) -> K): Map<K, FunList<T>> =
         .toMap()
 
 private const val DELIMITER = ", "
+
 tailrec fun <T> FunList<T>.toString(acc: String): String = when (this) {
     Nil -> "[${acc.drop(DELIMITER.length)}]"
     is Cons -> this.tail.toString("$acc$DELIMITER${this.head}")
