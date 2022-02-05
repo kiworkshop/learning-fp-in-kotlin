@@ -2,6 +2,7 @@ package org.kiworkshop.learningfpinkotlin
 
 import org.kiworkshop.learningfpinkotlin.FunList.Cons
 import org.kiworkshop.learningfpinkotlin.FunList.Nil
+import kotlin.Nothing
 import kotlin.math.max
 
 sealed class FunList<out T> {

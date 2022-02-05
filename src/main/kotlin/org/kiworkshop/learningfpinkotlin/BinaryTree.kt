@@ -1,5 +1,7 @@
 package org.kiworkshop.learningfpinkotlin
 
+import kotlin.Nothing
+
 sealed class BinaryTree<out T> {
     abstract override fun toString(): String
 }

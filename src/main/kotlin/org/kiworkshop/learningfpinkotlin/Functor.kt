@@ -8,8 +8,8 @@ sealed class FunctorList<out A> : Functor<A> {
     abstract override fun toString(): String
 }
 
-object Nil : FunctorList<Nothing>() {
-    override fun <B> fmap(f: (Nothing) -> B): FunctorList<Nothing> = Nil
+object Nil : FunctorList<kotlin.Nothing>() {
+    override fun <B> fmap(f: (kotlin.Nothing) -> B): FunctorList<kotlin.Nothing> = Nil
 
     override fun toString(): String = "Nil"
 }
