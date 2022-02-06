@@ -11,6 +11,8 @@ sealed interface Maybe<out A> : Functor<A> {
     override fun toString(): String
 
     override fun <B> fmap(f: (A) -> B): Maybe<B>
+
+    companion object
 }
 
 data class Just<out A>(val value: A) : Maybe<A> {

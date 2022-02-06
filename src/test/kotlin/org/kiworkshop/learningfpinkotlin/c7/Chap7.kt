@@ -111,7 +111,8 @@ class Chap7 : StringSpec({
     "Curring" {
         val product: (Int, Int) -> Int = { a, b -> a * b }
         val curriedProduct = product.curried()
+        val maybeProductTen: Maybe<(Int) -> Int> = Just(10).fmap(curriedProduct)
 
-        Just(10).fmap(curriedProduct).fmap { it(2) } shouldBe Just(20)
+        maybeProductTen.fmap { it(2) } shouldBe Just(20)
     }
 })
