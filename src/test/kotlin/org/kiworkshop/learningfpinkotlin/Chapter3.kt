@@ -160,7 +160,7 @@ class Chapter3 : FunSpec({
 
     context("P.76 연습문제 3-11") {
         test("연습문제 3-10에서 작성한 factorial 함수를 함수형 프로그래밍에 적합한 방식으로 개선해보라.") {
-            fun factorial(n: Int, number: Int): Int = when (n) {
+            tailrec fun factorial(n: Int, number: Int): Int = when (n) {
                 0, 1 -> number
                 else -> factorial(n - 1, n * number)
             }

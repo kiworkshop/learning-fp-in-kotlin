@@ -17,15 +17,27 @@ data class Cons<T>(val head: T, val tail: FunList<T>) : FunList<T>() {
     override fun <B> fmap(f: (T) -> B): FunList<B> = Cons(f(head), tail.fmap(f))
 }
 
-fun <A> FunList.Companion.pure(value: A): FunList<A> = TODO()
+fun <A> FunList.Companion.pure(value: A): FunList<A> = Cons(value, Nil)
 
-// tailrec 으로 리펙토링 해보자 (acc 활용)
-infix fun <A> FunList<A>.append(other: FunList<A>): FunList<A> = when (this) {
-    is Nil -> other
-    is Cons -> Cons(head, tail.append(other))
+infix fun <A> FunList<A>.append(other: FunList<A>): FunList<A> {
+    tailrec fun <A> FunList<A>.append(other: FunList<A>): FunList<A> = when (this) {
+        is Nil -> other
+        is Cons -> tail.append(other.addHead(head))
+    }
+    return this.reverse().append(other)
 }
 
-infix fun <A, B> FunList<(A) -> B>.apply(f: FunList<A>): FunList<B> = TODO()
+// FunList<(Int) -> Int>에 원소가 하나만 있는 경우에 대해서만 동작
+infix fun <A, B> FunList<(A) -> B>.applyOnlyOnce(f: FunList<A>): FunList<B> = when (f) {
+    is Nil -> Nil
+    is Cons -> f.fmap(this.getHead())
+}
+
+// FunList<(Int) -> Int>에 원소가 여러개 있는 경우 동작
+infix fun <A, B> FunList<(A) -> B>.apply(f: FunList<A>): FunList<B> = when (f) {
+    is Nil -> Nil
+    is Cons -> this.fmap { f.fmap(it) }.foldLeft(Nil as FunList<B>) { acc, it -> acc.append(it) }
+}
 
 fun <T> funListOf(vararg elements: T): FunList<T> = elements.toFunList()
 
@@ -164,3 +176,11 @@ tailrec fun <T> FunList<T>.toString(acc: String): String = when (this) {
 
 fun <T> FunList<T>.toStringByFoldLeft(): String =
     "[${foldLeft("") { acc, curr -> "$acc$DELIMITER$curr" }.drop(DELIMITER.length)}]"
+
+tailrec fun <A> FunList<A>.toList(acc: MutableList<A> = mutableListOf()): List<A> = when (this) {
+    is Nil -> acc
+    is Cons -> {
+        acc.add(head)
+        tail.toList(acc)
+    }
+}

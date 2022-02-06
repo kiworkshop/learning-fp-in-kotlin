@@ -6,23 +6,23 @@ sealed class BinaryTree<out T> {
     abstract override fun toString(): String
 }
 
-object EmptyNode : BinaryTree<Nothing>() {
+object EmptyBNode : BinaryTree<Nothing>() {
     override fun toString() = "E"
 }
 
-data class Node<out T>(
+data class BNode<out T>(
     val value: T,
-    val leftTree: BinaryTree<T> = EmptyNode,
-    val rightTree: BinaryTree<T> = EmptyNode
+    val leftTree: BinaryTree<T> = EmptyBNode,
+    val rightTree: BinaryTree<T> = EmptyBNode
 ) : BinaryTree<T>() {
     override fun toString(): String = "(N $value $leftTree $rightTree)"
 }
 
 fun BinaryTree<Int>.insert(element: Int): BinaryTree<Int> = when (this) {
-    is EmptyNode -> Node(element)
-    is Node -> when {
-        this.value > element -> Node(this.value, this.leftTree.insert(element), this.rightTree)
-        this.value < element -> Node(this.value, this.leftTree, this.rightTree.insert(element))
+    is EmptyBNode -> BNode(element)
+    is BNode -> when {
+        this.value > element -> BNode(this.value, this.leftTree.insert(element), this.rightTree)
+        this.value < element -> BNode(this.value, this.leftTree, this.rightTree.insert(element))
         else -> this
     }
 }
