@@ -135,3 +135,11 @@ tailrec fun <T> FunList<T>.toString(acc: String): String = when (this) {
     FunList.Nil -> "[${acc.drop(2)}]"
     is FunList.Cons -> tail.toString("$acc, ${head.toString()}")
 }
+
+fun <T> FunList<T>.concat(value: FunList<T>): FunList<T> {
+    tailrec fun concat(list: FunList<T>, other: FunList<T>): FunList<T> = when (list) {
+        FunList.Nil -> other
+        is FunList.Cons -> concat(list.tail, other.addHead(list.head))
+    }
+    return concat(reverse(), value)
+}
